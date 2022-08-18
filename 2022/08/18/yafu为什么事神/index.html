@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="首先是犯下首先之罪的Pollard rho，其次是犯下其次之罪的Dixon，然后是犯下然后之罪的Pollard p-1，后面我忘了，反正yafu是神 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="yafu为什么事神">
+<meta property="og:url" content="http://example.com/2022/08/18/yafu%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8B%E7%A5%9E/index.html">
+<meta property="og:site_name" content="Cata1ysts&#39;blog">
+<meta property="og:description" content="首先是犯下首先之罪的Pollard rho，其次是犯下其次之罪的Dixon，然后是犯下然后之罪的Pollard p-1，后面我忘了，反正yafu是神 。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-18T01:48:30.000Z">
+<meta property="article:modified_time" content="2022-08-18T11:38:34.043Z">
+<meta property="article:author" content="Cata1ysts">
+<meta property="article:tag" content="分解因子">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/08/18/yafu%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8B%E7%A5%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>yafu为什么事神 | Cata1ysts'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cata1ysts'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">祇今尚有清流月，曾照高王万马过</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/18/yafu%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8B%E7%A5%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cata1ysts">
+      <meta itemprop="description" content="努力学习crypto并希望有一个web大手子浇浇的pwn萌新">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cata1ysts'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          yafu为什么事神
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-18 09:48:30 / 修改时间：19:38:34" itemprop="dateCreated datePublished" datetime="2022-08-18T09:48:30+08:00">2022-08-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">首先是犯下首先之罪的Pollard rho，其次是犯下其次之罪的Dixon，然后是犯下然后之罪的Pollard p-1，后面我忘了，反正yafu是神 。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="这篇文章主要是想总结一下三个分解因子算法-向大家推荐一下yafu-。"><a href="#这篇文章主要是想总结一下三个分解因子算法-向大家推荐一下yafu-。" class="headerlink" title="这篇文章主要是想总结一下三个分解因子算法 向大家推荐一下yafu 。"></a>这篇文章主要是想<del>总结一下三个分解因子算法</del> 向大家推荐一下yafu 。</h3><p>下面所有算法都是基于分解 n&#x3D;pq （p,q是素数）这个问题。</p>
+<h3 id="Pollard-p-1-算法"><a href="#Pollard-p-1-算法" class="headerlink" title="Pollard p-1 算法"></a>Pollard p-1 算法</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h4><p>​		很简单啊，就事在自然数里找一个<strong>s</strong>，满足 <strong>s&#x3D;1(mod p)</strong> ，这不就说明<strong>p</strong>是<strong>（s-1）</strong>的一个因子吗，然后计算**gcd(s-1,n)**。<del>好了，讲完了</del></p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>​		虽然原理看上去是个原理，但是问题在于如何寻找这个<strong>s</strong>。在不知道p的情况下，我们很难找到满足上式的<strong>s</strong>，不过伟大的费马给出了他的公式：<br>$$<br>a^{p-1}\equiv1\ mod\ p<br>$$<br><del>所以我们要计算p-1（混乱</del> 虽然直接计算p-1还是很困难，但是我们可以直接修改费马公式啊（<br>$$<br>a^{k}\equiv1\ mod\ p\ \ \ \ if\ \ \ (p-1)|k<br>$$<br>根据这个原理，Pollard给出了他的算法。我们假设<strong>（p-1）</strong>有一个最大因子<strong>B</strong>，那么就一定满足**(p-1)|B!** ，同时我们再令<strong>a&#x3D;2</strong>方便计算。最终我们得出结论，最多计算<strong>B</strong>次模幂运算就可以得到我们想要的<strong>s</strong>（也就是**a<sup>B!</sup>**）。</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Pollard_p_1</span>(<span class="params">n,B</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Pollard_(p-1) start !&#x27;</span>)</span><br><span class="line">    a=<span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,B):</span><br><span class="line">        a=<span class="built_in">pow</span>(a,i,n)</span><br><span class="line">        p=math.gcd(a-<span class="number">1</span>,n)</span><br><span class="line">        <span class="keyword">if</span> p!=<span class="number">1</span> <span class="keyword">and</span> p!=n:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;p=&#x27;</span>,p,<span class="string">&#x27;\nPollard_(p-1) finish !&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span> p</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Pollard_(p-1) failure !&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="评价"><a href="#评价" class="headerlink" title="评价"></a>评价</h4><p>​		该算法实现的要求是B不能太大，否则和试除法无异，所以一般只适合<strong>（p-1）</strong>光滑的情况。</p>
+<h3 id="Pollard-rho算法"><a href="#Pollard-rho算法" class="headerlink" title="Pollard rho算法"></a>Pollard rho算法</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><p>​		这个就更简单了，咱就是说找两个数<strong>x</strong>，<strong>y</strong>,也没什么限制，就随便找。如果运气好找出的两个数满足<strong>x&#x3D;y （mod p）</strong>，那么恭喜，你可以计算<strong>gcd（x-y，n）</strong>来获取<strong>p</strong>。</p>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><p>​		根据上面的原理。很容易看出难点在于如何寻找满足条件的数。<strong>Pollard</strong>给出了一种”随机”算法。首先确定一个函数<strong>f</strong>，一般取<strong>f&#x3D;x<sup>2</sup>+1</strong> ，这个函数在这里相当于随机数生成器。我们先通过一个实例来感受一下为什么这个算法叫做“rho”算法。</p>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p>​				令<strong>n&#x3D;71*101</strong>，起始值为<strong>x<sub>1</sub>&#x3D;1</strong>，<strong>f&#x3D;x<sup>2</sup>+1</strong> ，每次记录<strong>x<sub>i</sub>&#x3D;f(x<sub>i-1</sub>) mod n</strong> ，得到前30个数的序列：</p>
+<p>​				1,2,5,26,677,6557,4105,6347,4903,2218,219,4936,4210,4560,4872,375,4377,4389,2016,5471…</p>
+<p>​				对它们模<strong>71</strong>，</p>
+<p>​				1,2,5,26,38,25|<strong>58,28,4,17,6,37,21,16,44,20,46</strong>|<strong>58,28,4.</strong>..</p>
+<p>​				我们发现第二条序列是一些无规则数字和一群循环数字的组合，很像希腊字母中的$\rho$，该算法由此得名。</p>
+<p>​		那么是不是任何n都可以这么做呢？</p>
+<p>​		首先我们可以保证，在有限域<strong>n</strong>中肯定可以找到两个数<strong>x<sub>i</sub></strong>,<strong>x<sub>j</sub></strong> （比如<strong>1</strong>和<strong>p+1</strong>），满足<strong>x<sub>i</sub>&#x3D;x<sub>j</sub>（mod p）</strong>, 我们设   <strong>j-i&#x3D;l</strong>。由于我们选择的函数是一个多项式函数，满足了<strong>x<sub>i+1</sub>&#x3D;x<sub>j+1</sub>（mod p）</strong><del>（不会证但是应该很显然）</del>，进而有<strong>x<sub>i+s</sub>&#x3D;x<sub>j+s</sub>（mod p）  , 0&lt;s&lt;l**（归纳法），也就证实了从**x<sub>i</sub><strong>开始，所有的数构成一个长度为</strong>l</strong>且不断循环的圈。</p>
+<p>​		这个结论的好处是，只要我取的<strong>x</strong>足够多，最终它们基本都会落在环上，而环的长度是有限的（就是<strong>j-x&#x3D;l</strong>），一旦落在环上的数大于<strong>l</strong>，那么就一定存在两个数满足<strong>x<sub>i</sub>&#x3D;x<sub>j</sub>（mod p）</strong>。这时就只要计算<strong>gcd（x<sub>j</sub>-x<sub>i</sub>，n）</strong>即可完成分解。</p>
+<p>​		接下来的问题是该如何确定这样一个数对。如果我们假定其中一个不变，去寻找它的匹配数，由于我们是不知道数环的具体情况，也就不能判断我们所假设的数是不是在环上，如果我们假定的数不在数环上，那么就一定找不到它的匹配数，所以“一定一动”的方法不太合适。而如果认为两个数都是变化的，就需要对它们的轨迹进行一定的约束，否则完全随机的取数很可能会浪费太多时间。</p>
+<p>​		这时候我们需要学习一下小学数学中非常常见的追及问题。现在假设小明和小红（太对了）要从教学楼出发去操场跑步，其中小明的速度是<strong>1</strong>，小红是<strong>2</strong>。然后问题是小明和小红在一直能不能在操场的某处相遇。（这个模型其实就是把该算法实体化，从教学楼到操场的距离相当于$\rho$的尾巴，两人在操场跑步就是$\rho$的圈）这个问题的答案显然是肯定的，而且和教学楼到操场的距离无关，甚至和他们俩开始所在的位置无关。</p>
+<p>​		pollard给出的算法也类似，两个动点一开始的分别是<strong>x&#x3D;x<sub>0</sub><strong>，</strong>y&#x3D;x<sub>1</sub><strong>。其中第一个点每次映射一次而第二个点映射两次，这么做保证了它们首先不会在$\rho$的尾部相遇。而进入循环后，不管它们相对位置如何，最多再进行</strong>l</strong>次操作必定可以相遇。那么我们要做的就是在每一次映射后计算<strong>gcd（x-y，n）</strong>。</p>
+<p>​		这个算法有个问题，如果你运气很好导致公因子算出来恰好是<strong>n</strong>，那么算法就不能继续，要更换初始值来算。</p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x**<span class="number">2</span>+<span class="number">1</span></span><br><span class="line"><span class="comment">#可能会陷入死循环哦</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Pollard_rho</span>(<span class="params">s,n,f</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Pollard_rho start !&#x27;</span>)</span><br><span class="line">    x=s</span><br><span class="line">    y=f(s)</span><br><span class="line">    g=math.gcd(<span class="built_in">abs</span>(y-x),n)</span><br><span class="line">    <span class="keyword">while</span> g==<span class="number">1</span>:</span><br><span class="line">        x=f(x)</span><br><span class="line">        y=f(f(y))</span><br><span class="line">        g=math.gcd(<span class="built_in">abs</span>(x-y),n)</span><br><span class="line">        <span class="keyword">if</span> g==n:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;failure\nPollard_rho finish !&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">elif</span> g!=<span class="number">1</span> :</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;p=&#x27;</span>,g,<span class="string">&#x27;\nPollard_rho finish !&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span> g</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="评论"><a href="#评论" class="headerlink" title="评论"></a>评论</h4><p>​		不太清楚为什么感觉实际操作起来很慢（？），不过思路确实好玩。</p>
+<h3 id="Dixon随机平方算法"><a href="#Dixon随机平方算法" class="headerlink" title="Dixon随机平方算法"></a>Dixon随机平方算法</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><p>​		这个原理就更更简单了，平方差公式嘛，<del>小学生都会（润</del>主要是用到了公式<br>$$<br>a^2\equiv b^2 \ mod\ p\ &lt;&#x3D;&gt;\ (a-b)(a+b)\equiv\ 0\ mod\ n<br>$$<br>​		在此基础上如果<strong>（a-b）</strong>，<strong>（a+b）</strong>不是<strong>0</strong>或者<strong>n</strong>的倍数，那么<strong>p</strong>，<strong>q</strong>就一定包含在<strong>（a+b）</strong>或者<strong>（a-b）</strong>当中，而且是每一个因子对应一个式子。</p>
+<p>​		这个很好证明，看等式<strong>a<sup>2</sup>-b<sup>2</sup>&#x3D;kpq&#x3D;(a+b)*(a-b)<strong>就可以了。</strong>k</strong>放哪无所谓，<strong>p</strong>，<strong>q</strong>已经是素数不能拆了，所以肯定是整个放在<strong>（a+b）</strong>或者<strong>（a-b）</strong>里面。</p>
+<h4 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h4><p>​		那么问题就只剩下怎么去找两个同余的平方数了。<strong>Dixon</strong>算法给出了一种利用素数基，也就是若干个小素数的集合（比如前5~15个素数）的方法。该算法说我们需要找到一些整数，使得它们的平方模n后是素数基中的元素的乘积。</p>
+<p>​		那么压力来到了如何去寻找符合条件的数。首先我们认识到，素数基中的数的乘积往往不是很大（至少相对于n来说比较小），这就给了我们一个思路，去寻找<strong>kn+$\varepsilon$<strong>的平方根，更确切地说，寻找</strong>kn</strong>的平方根附近的整数。于是我们可以依次求出n,2n…的平方根的近似值，然后去尝试能否分解为素数基中的数，如果成功，我们得到等式<br>$$<br>a^2_j\equiv \prod\ x^k_i\ mod\ n\ \ \ \ x_i是素数基B中的元素,j代表这是第j个符合条件的等式<br>$$<br>​		接下来我们发现，现在等式左边已经是平方的形式了，但是右边不一定，这就是我们为什么要找多个满足条件的数的原因。如果我们对得到的等式中的一部分做乘法，所得结果的左边仍然是平方形式，因此我们只需要关注右边的结果，使之也变成平方形式。</p>
+<p>​		为了使处理更加简洁，我们利用矩阵的方法，在GF(2)上定义一个<em><em>1</em>|B|<strong>的矩阵（</strong>|B|<strong>使素数基中元素的个数），称之为幂矩阵。我们根据上式右边的</strong>x<sub>i</sub><sup>k</sup><strong>完善矩阵</strong>A<sub>j</sub><strong>，即矩阵中第</strong>i</em>*个元素是<strong>k mod 2</strong>。之后我们对一系列幂矩阵进行加减运算（相当于对对等式进行乘法运算），直到其中不含有<strong>1</strong>。这就说明现在右边所有元素的幂都是偶数，换句话说右边是某个数的平方。</p>
+<p>​		再进一步，如果我们已经得到了<strong>s</strong>个这样的等式，我们把<em>*A<sub>j</sub><strong>合并成一个</strong>s*|B|<strong>的矩阵</strong>A</em>*，求解方程<strong>xA&#x3D;0</strong>就是我们需要的组合系数。</p>
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#sage</span></span><br><span class="line"></span><br><span class="line">B = []<span class="comment">#素数基</span></span><br><span class="line">n =</span><br><span class="line"><span class="built_in">max</span>=  <span class="comment">#kn中的k值，影响最终获取的等式数目</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dixon</span>(<span class="params">B, n, <span class="built_in">max</span></span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Dixon start !&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> -<span class="number">1</span> <span class="keyword">not</span> <span class="keyword">in</span> B:</span><br><span class="line">        B.append(-<span class="number">1</span>)</span><br><span class="line">    A = []</span><br><span class="line">    kn = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">max</span> + <span class="number">1</span>):</span><br><span class="line">        temp = [floor((i * n).sqrt()), ceil((i * n).sqrt())]</span><br><span class="line">        <span class="keyword">for</span> a <span class="keyword">in</span> temp:</span><br><span class="line">            a_ = a</span><br><span class="line">            a = a ** <span class="number">2</span> % n</span><br><span class="line">            <span class="keyword">if</span> a &gt; (n / <span class="number">2</span>):</span><br><span class="line">                a -= n</span><br><span class="line">            mat = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(B))]</span><br><span class="line">            f = a.factor()</span><br><span class="line">            q = <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> f:</span><br><span class="line">                <span class="keyword">if</span> x[<span class="number">0</span>] <span class="keyword">not</span> <span class="keyword">in</span> B:</span><br><span class="line">                    q = <span class="number">0</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">if</span> a &lt; <span class="number">0</span>:</span><br><span class="line">                        mat[<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">                    mat[B.index(x[<span class="number">0</span>])] = x[<span class="number">1</span>] % <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> q:</span><br><span class="line">                A.append(mat)</span><br><span class="line">                kn.append((a_, f))</span><br><span class="line">    A = matrix(GF(<span class="number">2</span>), A)</span><br><span class="line">    x = A.left_kernel()</span><br><span class="line">    <span class="keyword">for</span> xi <span class="keyword">in</span> x:</span><br><span class="line">        a2 = <span class="number">1</span></span><br><span class="line">        b2 = <span class="number">1</span></span><br><span class="line">        xi = <span class="built_in">list</span>(xi)</span><br><span class="line">        <span class="keyword">if</span> <span class="number">1</span> <span class="keyword">not</span> <span class="keyword">in</span> xi:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        b=[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(B))]</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(xi)):</span><br><span class="line">            <span class="keyword">if</span> xi[k]==<span class="number">1</span>:</span><br><span class="line">                a2=(a2*kn[k][<span class="number">0</span>])</span><br><span class="line">                <span class="keyword">for</span> t <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(kn[k][<span class="number">1</span>])):</span><br><span class="line">                    b[B.index(kn[k][<span class="number">1</span>][t][<span class="number">0</span>])]+=kn[k][<span class="number">1</span>][t][<span class="number">1</span>]</span><br><span class="line">        b2=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(b)):</span><br><span class="line">            <span class="keyword">assert</span> b[i]%<span class="number">2</span>==<span class="number">0</span></span><br><span class="line">            b2*=B[i]**(b[i]/<span class="number">2</span>)</span><br><span class="line">        p=gcd(a2%n+b2%n,n) </span><br><span class="line">        <span class="keyword">if</span> p!=<span class="number">1</span> <span class="keyword">and</span> p!=n:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Dixon finish !&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> p</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Dixon failure !&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">p=Dixon(B,n,<span class="built_in">max</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="评价-1"><a href="#评价-1" class="headerlink" title="评价"></a>评价</h4><p>​		这个算法看起来很有趣但是代码实现有点困难，首先是没有合理的公式告诉我们素数基B应该取多大，其次是我们不知道需要多少个这样的等式。上面代码是自己理解的，实际操作后最多能快速分解50位左右n。（我的评价是不如yafu）</p>
+<h3 id="好了，那我们现在正式开始这篇文章，这篇文章的内容是-大数分解网站（别老惦记着你那yafu了，在线网址不好吗"><a href="#好了，那我们现在正式开始这篇文章，这篇文章的内容是-大数分解网站（别老惦记着你那yafu了，在线网址不好吗" class="headerlink" title="好了，那我们现在正式开始这篇文章，这篇文章的内容是 大数分解网站（别老惦记着你那yafu了，在线网址不好吗"></a>好了，那我们现在正式开始这篇文章，这篇文章的内容是 <a target="_blank" rel="noopener" href="http://factordb.com/">大数分解网站</a>（别老惦记着你那yafu了，在线网址不好吗</h3>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cata1ysts
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/08/18/yafu%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8B%E7%A5%9E/" title="yafu为什么事神">http://example.com/2022/08/18/yafu为什么事神/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E8%A7%A3%E5%9B%A0%E5%AD%90/" rel="tag"># 分解因子</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/14/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E4%B9%8B%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/" rel="prev" title="古典密码学之词频分析">
+      <i class="fa fa-chevron-left"></i> 古典密码学之词频分析
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%BB%E8%A6%81%E6%98%AF%E6%83%B3%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E4%B8%89%E4%B8%AA%E5%88%86%E8%A7%A3%E5%9B%A0%E5%AD%90%E7%AE%97%E6%B3%95-%E5%90%91%E5%A4%A7%E5%AE%B6%E6%8E%A8%E8%8D%90%E4%B8%80%E4%B8%8Byafu-%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">这篇文章主要是想总结一下三个分解因子算法 向大家推荐一下yafu 。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pollard-p-1-%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">Pollard p-1 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">2.3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BB%B7"><span class="nav-number">2.4.</span> <span class="nav-text">评价</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pollard-rho%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Pollard rho算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-number">3.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">3.2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.2.1.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E8%AE%BA"><span class="nav-number">3.4.</span> <span class="nav-text">评论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dixon%E9%9A%8F%E6%9C%BA%E5%B9%B3%E6%96%B9%E7%AE%97%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">Dixon随机平方算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-number">4.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-2"><span class="nav-number">4.2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-2"><span class="nav-number">4.3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BB%B7-1"><span class="nav-number">4.4.</span> <span class="nav-text">评价</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%BD%E4%BA%86%EF%BC%8C%E9%82%A3%E6%88%91%E4%BB%AC%E7%8E%B0%E5%9C%A8%E6%AD%A3%E5%BC%8F%E5%BC%80%E5%A7%8B%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%EF%BC%8C%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84%E5%86%85%E5%AE%B9%E6%98%AF-%E5%A4%A7%E6%95%B0%E5%88%86%E8%A7%A3%E7%BD%91%E7%AB%99%EF%BC%88%E5%88%AB%E8%80%81%E6%83%A6%E8%AE%B0%E7%9D%80%E4%BD%A0%E9%82%A3yafu%E4%BA%86%EF%BC%8C%E5%9C%A8%E7%BA%BF%E7%BD%91%E5%9D%80%E4%B8%8D%E5%A5%BD%E5%90%97"><span class="nav-number">5.</span> <span class="nav-text">好了，那我们现在正式开始这篇文章，这篇文章的内容是 大数分解网站（别老惦记着你那yafu了，在线网址不好吗</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cata1ysts"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Cata1ysts</p>
+  <div class="site-description" itemprop="description">努力学习crypto并希望有一个web大手子浇浇的pwn萌新</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cata1ysts</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":250},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
