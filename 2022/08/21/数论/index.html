@@ -28,7 +28,7 @@
 <meta property="og:description" content="搬运一下自己的数论🖊寄，没有证明！！">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-21T03:01:47.000Z">
-<meta property="article:modified_time" content="2022-08-24T05:47:36.225Z">
+<meta property="article:modified_time" content="2022-08-24T06:39:42.404Z">
 <meta property="article:author" content="Cata1ysts">
 <meta property="article:tag" content="math">
 <meta property="article:tag" content="number theory">
@@ -193,7 +193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-24 13:47:36" itemprop="dateModified" datetime="2022-08-24T13:47:36+08:00">2022-08-24</time>
+                <time title="修改时间：2022-08-24 14:39:42" itemprop="dateModified" datetime="2022-08-24T14:39:42+08:00">2022-08-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,57 +221,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="整除的性质"><a href="#整除的性质" class="headerlink" title="整除的性质"></a>整除的性质</h4><p>1、$a|b\ &amp; \ b|c\ \Rightarrow\ a|c$	</p>
-<p>2、$a|b\ &amp;\ a|c\ \Rightarrow\ a|bx+cy,\ \forall x,y\in Z$</p>
-<p>3、$a|b\ &amp;\ b|a\ \Rightarrow\ a&#x3D;\pm b$</p>
-<p>4、$if\ b\neq0,\ then\ a|b\ \Rightarrow\ a\le\ b$</p>
+        <h4 id="整除的性质"><a href="#整除的性质" class="headerlink" title="整除的性质"></a>整除的性质</h4><p>1、$a|b\  ,  \ b|c\ \Rightarrow\ a|c$	</p>
+<p>2、$a|b\  , \ a|c\ \Rightarrow\ a|bx+cy,\ \forall x,y\in Z$</p>
+<p>3、$a|b\  , \ b|a\ \Rightarrow\ a&#x3D;\pm b$</p>
+<p>4、若 $b\neq0$ ,则 $a|b\ \Rightarrow\ a\le\ b$</p>
 <h4 id="公约数-和公倍数"><a href="#公约数-和公倍数" class="headerlink" title="公约数()和公倍数[]"></a>公约数()和公倍数[]</h4><p>1、$Fermat\ number\ F_n&#x3D;2^{2^n}$</p>
 <p>2、$(F_m,F_n)&#x3D;1$</p>
-<p>3、$if\ (a,b)&#x3D;1,\ then\ (a,kb)&#x3D;(a,k)$</p>
-<p>4、$if\ (a,b)&#x3D;1,\ then\ (a^m,b^n)&#x3D;1$</p>
-<p>5、$if\ (a,b)&#x3D;1,\ then\ a|kb\ \Rightarrow\ a|k$</p>
+<p>3、若 $ (a,b)&#x3D;1$ ，则 $(a,kb)&#x3D;(a,k)$</p>
+<p>4、若 $(a,b)&#x3D;1$ ，则 $(a^m,b^n)&#x3D;1$</p>
+<p>5、若 $(a,b)&#x3D;1$ ，则 $a|kb\ \Rightarrow\ a|k$</p>
 <p>6、$(a^k,b^k)&#x3D;(a,b)^k$</p>
-<p>7、$if\ (a,b)&#x3D;1\ &amp;\ ab&#x3D;c^k,\ then\ a&#x3D;(a,c)^k,\ b&#x3D;(b,c)^k$</p>
-<p>8、$(a^m-1,a^n-1)&#x3D;a^{(n,m)}-1,\ if\ a\ge2$</p>
+<p>7、若 $(a,b)&#x3D;1$ ， $ab&#x3D;c^k$ ，则 $a&#x3D;(a,c)^k,\ b&#x3D;(b,c)^k$</p>
+<p>8、$(a^m-1,a^n-1)&#x3D;a^{(n,m)}-1,\ 若\ a\ge2$</p>
 <p>9、$(a,[b,c])&#x3D;[(a,b),(a,c)]$</p>
 <p>10、$(a,b)\times[a,b]&#x3D;ab$</p>
 <h4 id="Euclid’s-algorithm"><a href="#Euclid’s-algorithm" class="headerlink" title="$Euclid’s\ algorithm$"></a>$Euclid’s\ algorithm$</h4><p>1、$\exists\ x_0,x_1,…\ s.t.(a,b,…)&#x3D;ax_0+bx_1+…$</p>
 <h4 id="算术基本定理"><a href="#算术基本定理" class="headerlink" title="算术基本定理"></a>算术基本定理</h4><p>1、任何整数都可以拆分成若干素数幂的乘积</p>
-<p>2、$let\ a&#x3D;\prod{p_i^{\alpha_i}},\ b&#x3D;\prod{p_i^{\beta_i}},\ then\ $</p>
+<p>2、$let\ a&#x3D;\prod{p_i^{\alpha_i}},\ b&#x3D;\prod{p_i^{\beta_i}},\ 则\ $</p>
 <p>3、$(a,b)&#x3D;\prod{p_i^{min(\alpha_i,\beta_i)}}$</p>
 <p>4、$[a,b]&#x3D;\prod{p_i^{max(\alpha_i,\beta_i)}}$</p>
-<p>5、$定义除数函数\tau(a)，表示a的正因子个数，则\tau(a)&#x3D;\prod{\tau(p_i^{\alpha_i})}&#x3D;\prod{(\alpha_i+1)}$</p>
-<p>6、$定义符号||\ :a^k||b\ \Leftrightarrow\ a^k|b\ &amp;\ a^{k+1}\nmid b$</p>
+<p>5、定义除数函数 $\tau(a)$ ，表示 $a$ 的正因子个数，则 $\tau(a)&#x3D;\prod{\tau(p_i^{\alpha_i})}&#x3D;\prod{(\alpha_i+1)}$</p>
+<p>6、定义符号 $||\ :a^k||b\ \Leftrightarrow\ a^k|b\  , \ a^{k+1}\nmid b$</p>
 <p>7、$a^\alpha||n!\ \Leftrightarrow\ \alpha&#x3D;\sum_{j&#x3D;1}^{\infty}[\frac{n}{p^j}]$</p>
 <p>8、$n!&#x3D;\prod_{p\le n}p^{\alpha}\ \ \alpha$: {$\alpha\ |\ p^\alpha||n!$}                                                                                                                                                                                                  </p>
-<h4 id="同余"><a href="#同余" class="headerlink" title="同余"></a>同余</h4><p>1、$a\pm b\equiv c\pm d\ mod\ m\ \ if\ c\equiv d\ mod\ m\ &amp;\ a\equiv b\ mod\ m$</p>
-<p>2、$a\times b\equiv c\times d\ mod\ m\ \ if\ c\equiv d\ mod\ m\ &amp;\ a\equiv b\ mod\ m$</p>
+<h4 id="同余"><a href="#同余" class="headerlink" title="同余"></a>同余</h4><p>1、$a\pm b\equiv c\pm d\ mod\ m$ ，若 $c\equiv d\ mod\ m$ ，  $a\equiv b\ mod\ m$</p>
+<p>2、$a\times b\equiv c\times d\ mod\ m$ ，若\ $c\equiv d\ mod\ m$ ， $a\equiv b\ mod\ m$</p>
 <p>3、$a\equiv a\ mod\ m$</p>
-<p>4、$a\equiv b\ mod\ m\ &amp;\ b\equiv c\ mod\ m\ \Rightarrow\ a\equiv c\ mod\ m$</p>
-<p>5、$let\ f(x)&#x3D;\sum_{i&#x3D;0}^{n}a_ix^i\ ,g(x)&#x3D;\sum_{i&#x3D;0}^{n}b_ix^i,\ f(x)\equiv g(x)\ mod\ m\ \Leftrightarrow\ a_i\equiv b_i\ mod\ m\ (0\le i\le n)$</p>
-<p>$if\ f(x)\equiv g(x)\ mod\ m,\ a\equiv b\ mod\ m,\ then\ f(a)\equiv g(b)\ mod\ m$</p>
-<p>6、$if\ d\ge 1\ &amp;\ d|m,\ then\ a\equiv b\ mod\ m\ \Rightarrow a\equiv b\ mod\ d$</p>
+<p>4、$a\equiv b\ mod\ m\  , \ b\equiv c\ mod\ m\ \Rightarrow\ a\equiv c\ mod\ m$</p>
+<p>5、设 $f(x)&#x3D;\sum_{i&#x3D;0}^{n}a_ix^i$ ， $g(x)&#x3D;\sum_{i&#x3D;0}^{n}b_ix^i$，则</p>
+<p>$\ \ \ \ \ f(x)\equiv g(x)\ mod\ m\ \Leftrightarrow\ a_i\equiv b_i\ mod\ m\ (0\le i\le n)$</p>
+<p>$\ \ \ \ \ f(x)\equiv g(x)\ mod\ m,\ a\equiv b\ mod\ m\ \Rightarrow\ f(a)\equiv g(b)\ mod\ m$</p>
+<p>6、若 $d\ge 1$ ， $d|m$ ，则 $a\equiv b\ mod\ m\ \Rightarrow a\equiv b\ mod\ d$</p>
 <p>7、$c\times a\equiv c\times b\ mod\ m\ \Rightarrow a\equiv b\ mod\ (\frac{m}{(m,c)})$</p>
-<p>8、$if\ m\ge 1,\ (a,m)&#x3D;1,\ then\ \exists c,\ s.t.\ a\times c\equiv 1\ mod\ m$</p>
+<p>8、若 $m\ge 1$ ，$(a,m)&#x3D;1$ ，则 $\exists c$ ，使得 $a\times c\equiv 1\ mod\ m$</p>
 <p>9、$a\equiv b\ mod\ m_i\ (i&#x3D;1,2,3….)\ \Leftrightarrow\ a\equiv b\ mod\ ([m_1,m_2,…])$</p>
 <h4 id="Euler’s-Function"><a href="#Euler’s-Function" class="headerlink" title="$Euler’s\ Function$"></a>$Euler’s\ Function$</h4><p>1、$\phi(m)&#x3D;|{1\le i\le m|(i,m)&#x3D;1}|$</p>
 <p>2、$\phi(p^k)&#x3D;p^{k-1}*(p-1)$</p>
 <p>3、$m&#x3D;m_1*m_2\ \Rightarrow \phi(m)&#x3D;\phi(m_1)*\phi(m_2)$</p>
-<p>4、$let\ m&#x3D;\prod_{i&#x3D;1}^{r}p_i^{\alpha_i}，\ then\ phi(m)&#x3D;\prod_{i&#x3D;1}^{r}p_i^{\alpha_i-1}<em>(p_i-1)&#x3D;m</em>\prod_{p|m}(1-\frac{1}{p})$</p>
+<p>4、 设 $m&#x3D;\prod_{i&#x3D;1}^{r}p_i^{\alpha_i}$ ，则 </p>
+<p>$\ \ \ \ \ \ \phi(m)&#x3D;\prod_{i&#x3D;1}^{r}p_i^{\alpha_i-1}*(p_i-1)$</p>
+<p>$\ \ \ \ \ \ \phi(m)&#x3D;m*\prod_{p|m}(1-\frac{1}{p})$</p>
 <p>5、$\sum_{d|n}\phi(d)&#x3D;n$</p>
 <h4 id="Euler’s-theorem"><a href="#Euler’s-theorem" class="headerlink" title="$Euler’s\ theorem$"></a>$Euler’s\ theorem$</h4><p>1、$a^{\phi(n)}\equiv 1\ mod\ n$</p>
 <p>2、$Fermat’s\ little\ theorem:\ a^{P-1}\equiv 1\ mod\ p$</p>
 <p>3、$(-1)^{\phi(n)}\equiv 1\ mod\ n$</p>
 <p>4、$a^{-1}\equiv a^{\phi(n)-1}\ mod\ n$</p>
 <h4 id="剩余系"><a href="#剩余系" class="headerlink" title="剩余系"></a>剩余系</h4><p>1、剩余（同余）类： $\overline{r}:$ {$x|x\equiv r\ mod\ n$}</p>
-<p>​      既约剩余类：满足 $(r,n)&#x3D;1$ 的 $\overline{r}$</p>
+<p>$\ \ \ \ \ $既约剩余类：满足 $(r,n)&#x3D;1$ 的 $\overline{r}$</p>
 <p>2、完全剩余系：从$n$的每个剩余类中各选取一个元素组成的集合</p>
-<p>​      $b\ mod\ n\ \left{\begin{array}{rcl}0\le b&lt;n\ \ 最小非负剩余系\1\le b\le n\ \ 最小正剩余系\\frac{-m}{2}\le b\le \frac{m}{2}\ \ 绝对最小剩余系\end{array}\right.$</p>
 <p>3、既约剩余系： 从$n$的每个剩余类中各选取一个元素组成的集合</p>
-<p>4、若 $m$ 各整数两两模 $m$ 不同余，则它们构成模 $m$ 的一个完全剩余系</p>
-<p>​      若 $\phi(m)$ 各整数两两模 $m$ 不同余，则它们构成模 $m$ 的一个既约剩余系​</p>
+<p>4、若 $m$ 个整数两两模 $m$ 不同余，则它们构成模 $m$ 的一个完全剩余系</p>
+<p>$\ \ \ \ \ $若 $\phi(m)$ 个整数两两模 $m$ 不同余，则它们构成模 $m$ 的一个既约剩余系</p>
 <p>5、$\forall a,b\in Z,\ (a,m)&#x3D;1,\ x$ 是模 $m$ 的完全（既约）剩余系 $\Leftrightarrow ax+b$ 是模 $m$ 的一个完全（既约）剩余系​</p>
-<p>6、$m&#x3D;m_1<em>m_2,\ (m_1,m_2)&#x3D;1,\ x,y$ 分别是模 $m_1$ ,模 $m_2$ 的完全剩余系 $\Rightarrow m_2</em>x+m_1*y$ 是模 $m$ 的完全剩余系</p>
+<p>6、若 $m&#x3D;m_1*m_2$ ，且 $ (m_1,m_2)&#x3D;1$ ，则 </p>
+<p>$\ \ \ \ \ \ x$ ， $y$ 分别是模 $m_1$ ,模 $m_2$ 的完全剩余系 $\Rightarrow$ $m_2x+m_1y$ 是模 $m$ 的完全剩余系</p>
 <h4 id="Wilsom’s-Theorem"><a href="#Wilsom’s-Theorem" class="headerlink" title="$Wilsom’s\ Theorem$"></a>$Wilsom’s\ Theorem$</h4><p>1、$(p-1)!\equiv -1\ mod\ p$</p>
 <p>2、$(m-1)!\equiv 0\ mod\ m,\ m$ 为大于4的合数​</p>
 <p>3、令 ${r_1,r_2,…r_c}$ 为 $p^l$ 的一组既约剩余系, $c&#x3D;\phi(p^l),\ p$ 为不小于3的素数,则</p>
@@ -283,51 +286,51 @@
 <p>5、令 ${r_1,r_2,…r_c}$ 为 $2p^l$ 的一组既约剩余系，$c&#x3D;\phi(2p^l)$ ， $p$ 为不小于3的素数,这则</p>
 <p>$\ \ \ \ \ \ \prod_{i&#x3D;1}^{c}r_i\equiv -1\ mod\ (2p^l)$</p>
 <p>6、$\prod_{i&#x3D;1}^{\frac{p+1}{2}}(2i-1)^2\equiv(-1)^{\frac{p+1}{2}}\ mod\ p$</p>
-<p>7、$if\ p\equiv3\ mod\ 4,\ then\ (\frac{p-1}{2})!\equiv \pm1\ mod\ p$</p>
-<p>8、$if\ 1&lt;k&lt;p,\ then\ (p-k)!*(k-1)!\equiv(-1)^k\ mod\ p$</p>
+<p>7、若 $p\equiv3\ mod\ 4$ ，则 $(\frac{p-1}{2})!\equiv \pm1\ mod\ p$</p>
+<p>8、若 $1&lt;k&lt;p$ ，则 $(p-k)!*(k-1)!\equiv(-1)^k\ mod\ p$</p>
 <h4 id="同余方程"><a href="#同余方程" class="headerlink" title="同余方程"></a>同余方程</h4><p>1、一元高次同余方程（$f(x)&#x3D;\sum_{i&#x3D;0}^n a_ix^i\ &#x3D;0\ mod\ m$）</p>
-<p>​		1.1  费马同余恒等式  $h(x)&#x3D;x^p-p\ &#x3D;0\ mod\ p$</p>
-<p>​		1.2  降幂  $if\ f(x)&#x3D;g(x)*h(x)+r(x),\ then\ f(x)&#x3D;0\ mod\ m\ \Leftrightarrow r(x)&#x3D;0\ mod\ m$</p>
-<p>​		1.3   $if\ (k,m)&#x3D;1,\ then\ f(x)&#x3D;0\ mod\ m\ \Rightarrow kf(x)&#x3D;0\ mod\ m$</p>
+<p>$\ \ \ \ \ \ \ \ 1.1$  费马同余恒等式  $h(x)&#x3D;x^p-p\ &#x3D;0\ mod\ p$</p>
+<p>$\ \ \ \ \ \ \ \ 1.2$  降幂  $若\ f(x)&#x3D;g(x)*h(x)+r(x),\ 则\ f(x)&#x3D;0\ mod\ m\ \Leftrightarrow r(x)&#x3D;0\ mod\ m$</p>
+<p>$\ \ \ \ \ \ \ \ 1.3$   $若\ (k,m)&#x3D;1,\ 则\ f(x)&#x3D;0\ mod\ m\ \Rightarrow kf(x)&#x3D;0\ mod\ m$</p>
 <p>2、一次同余方程（$ax&#x3D;b\ mod\ m$)</p>
-<p>​		2.1  $(a,m)&#x3D;1$，$x&#x3D;a^{-1}b\ mod\ m$		</p>
+<p>$\ \ \ \ \ \ \ \ 2.1$  $(a,m)&#x3D;1$，$x&#x3D;a^{-1}b\ mod\ m$		</p>
 <p>3、一次同余方程组（$x&#x3D;a_i\ mod\ m_i$，其中$m_i$两两互素)</p>
-<p>​		3.1  中国剩余定理   令$M&#x3D;\prod_{i&#x3D;1}^n m_i,\ M_i&#x3D;\frac{M}{m_I}$，则$(M_i,M)&#x3D;1$，再令$u_i&#x3D;M_i\ mod\ m_i$，$x&#x3D;\sum_{i&#x3D;1}^n a_iu_iM_i mod\ M$</p>
+<p>$\ \ \ \ \ \ \ \ 3.1$  中国剩余定理   令$M&#x3D;\prod_{i&#x3D;1}^n m_i,\ M_i&#x3D;\frac{M}{m_I}$，则$(M_i,M)&#x3D;1$，再令$u_i&#x3D;M_i\ mod\ m_i$，$\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x&#x3D;\sum_{i&#x3D;1}^n a_iu_iM_i mod\ M$</p>
 <h4 id="二次剩余"><a href="#二次剩余" class="headerlink" title="二次剩余"></a>二次剩余</h4><p>1、定义  如果方程 $x^2&#x3D;d\ mod\ p$ 有解，则称 $d$ 是模 $p$ 的二次剩余，否则称二次非剩余。</p>
 <p>2、在模$p$ 的既约系中，二次剩余和二次非剩余各占一半。</p>
 <p>3、$Euler$判别法  </p>
-<p>​	  $d$ 是模 $p$ 的二次剩余$\Leftrightarrow d^{\frac{p-1}{2}}&#x3D;1\ mod\ p$</p>
-<p>​	  $d$ 是模 $p$ 的二次非剩余$\Leftrightarrow d^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$</p>
+<p>$\ \ \ \ \ \ d$ 是模 $p$ 的二次剩余$\Leftrightarrow d^{\frac{p-1}{2}}&#x3D;1\ mod\ p$</p>
+<p>$\ \ \ \ \ \ d$ 是模 $p$ 的二次非剩余$\Leftrightarrow d^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$</p>
 <p>4、若 $p&#x3D;1\ mod\ 4$，则 $-1$ 是模 $p$ 的二次剩余</p>
-<p>​	  若 $p&#x3D;3\ mod\ 4$，则 $-1$ 是模 $p$ 的二次非剩余</p>
+<p>$\ \ \ \ \ \ $若 $p&#x3D;3\ mod\ 4$，则 $-1$ 是模 $p$ 的二次非剩余</p>
 <p>5、$Legendre$ 符号</p>
-<p>​	  5.1  记 $(\frac{d}{p})$ 为$Lengendre$ 符号</p>
-<p>​		     $(\frac{d}{p})&#x3D;0\ \ p|d$</p>
-<p>​			  $(\frac{d}{p})&#x3D;1\ \ d是p的二次剩余$</p>
-<p>​			  $(\frac{d}{p})&#x3D;-1\ \ d是p的二次非剩余$</p>
-<p>​	  5.2  引理</p>
-<p>​			  设 $1\le i&lt;p&#x2F;2$ ，$t_i&#x3D;id\ mod\ p$ ，$n$ 表示 $t_i$ 中大于 $p&#x2F;2$ 的数的个数，则$(\frac{d}{p})&#x3D;(-1)^n$</p>
-<p>​	  5.3  性质</p>
-<p>​			  $(\frac{d}{p})&#x3D;d^{\frac{p-1}{2}}\ mod\ p$</p>
-<p>​			  $(\frac{d}{p})&#x3D;(\frac{d+p}{p})$</p>
-<p>​			  $(\frac{dc}{p})&#x3D;(\frac{d}{p})(\frac{c}{p})$</p>
-<p>​		      $(\frac{-1}{p})&#x3D;1，\ p&#x3D;1\ (mod\ 4)$</p>
-<p>​			  $(\frac{-1}{p})&#x3D;-1，\ p&#x3D;3\ (mod\ 4)$</p>
-<p>​			  $(\frac{2}{p})&#x3D;(-1)^{\frac{p^2-1}{8}}$</p>
-<p>​			  素数 $p&gt;2$ ，且 $(d,2p)&#x3D;1$ , $(\frac{d}{p})&#x3D;(-1)^T$ ,其中 $T&#x3D;\sum_{j&#x3D;1}^{(P-1)&#x2F;2} [\frac{jd}{p}]$ </p>
-<p>​		5.4 $Guass$ 二次互反律</p>
-<p>​			  $(\frac{p}{q})(\frac{q}{p})&#x3D;(-1)^{\frac{(p-1)(q-1)}{4}}$</p>
+<p>$\ \ \ \ \ \ 5.1$  记 $(\frac{d}{p})$ 为$Lengendre$ 符号</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{p})&#x3D;0\ \ p|d$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{p})&#x3D;1\ \ d是p的二次剩余$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{p})&#x3D;-1\ \ d是p的二次非剩余$</p>
+<p>$\ \ \ \ \ \ 5.2$  引理</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ $设 $1\le i&lt;p&#x2F;2$ ，$t_i&#x3D;id\ mod\ p$ ，$n$ 表示 $t_i$ 中大于 $p&#x2F;2$ 的数的个数，则$(\frac{d}{p})&#x3D;(-1)^n$</p>
+<p>$\ \ \ \ \ \ 5.3$  性质</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{p})&#x3D;d^{\frac{p-1}{2}}\ mod\ p$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{p})&#x3D;(\frac{d+p}{p})$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{dc}{p})&#x3D;(\frac{d}{p})(\frac{c}{p})$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{-1}{p})&#x3D;1，\ p&#x3D;1\ (mod\ 4)$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{-1}{p})&#x3D;-1，\ p&#x3D;3\ (mod\ 4)$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{2}{p})&#x3D;(-1)^{\frac{p^2-1}{8}}$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ $素数 $p&gt;2$ ，且 $(d,2p)&#x3D;1$ , $(\frac{d}{p})&#x3D;(-1)^T$ ,其中 $T&#x3D;\sum_{j&#x3D;1}^{(P-1)&#x2F;2} [\frac{jd}{p}]$ </p>
+<p>$\ \ \ \ \ \ 5.4$ $Guass$ 二次互反律</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{p}{q})(\frac{q}{p})&#x3D;(-1)^{\frac{(p-1)(q-1)}{4}}$</p>
 <p>6、$Jacobi$ 符号</p>
-<p>​		6.1  记$(\frac{d}{P})&#x3D;(\frac{d}{p_1})(\frac{d}{p_2})…$ 为$Jacobi$ 符号，其中 $P&#x3D;p_1p_2…，p_i是奇素数$</p>
-<p>​		6.2  性质</p>
-<p>​			  $(\frac{1}{P})&#x3D;1$</p>
-<p>​			  $(\frac{d}{P})&#x3D;0，(d,P)\ne 1$</p>
-<p>​			  $(\frac{d}{P})&#x3D;\pm 1,\ (d,P)&#x3D;1$</p>
-<p>​			  $(\frac{d}{P})&#x3D;(\frac{d+P}{P})$</p>
-<p>​			  $(\frac{dc}{P})&#x3D;(\frac{d}{P})(\frac{c}{P})$</p>
-<p>​			   $(\frac{-1}{P})&#x3D;(-1)^{\frac{P-1}{2}}$</p>
-<p>​			   $(\frac{2}{P})&#x3D;(-1)^{\frac{P^2-1}{8}}$</p>
-<p>​			  $(\frac{P}{Q})(\frac{Q}{P})&#x3D;(-1)^{\frac{(P-1)(Q-1)}{4}}，P,Q是奇数$</p>
+<p>$\ \ \ \ \ \ 6.1$  记$(\frac{d}{P})&#x3D;(\frac{d}{p_1})(\frac{d}{p_2})…$ 为$Jacobi$ 符号，其中 $P&#x3D;p_1p_2…，p_i是奇素数$</p>
+<p>$\ \ \ \ \ \ 6.2$  性质</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{1}{P})&#x3D;1$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{P})&#x3D;0，(d,P)\ne 1$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{P})&#x3D;\pm 1,\ (d,P)&#x3D;1$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{d}{P})&#x3D;(\frac{d+P}{P})$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{dc}{P})&#x3D;(\frac{d}{P})(\frac{c}{P})$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{-1}{P})&#x3D;(-1)^{\frac{P-1}{2}}$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{2}{P})&#x3D;(-1)^{\frac{P^2-1}{8}}$</p>
+<p>$\ \ \ \ \ \ \ \ \ \ \ \ \ (\frac{P}{Q})(\frac{Q}{P})&#x3D;(-1)^{\frac{(P-1)(Q-1)}{4}}，P,Q是奇数$</p>
 
     </div>
 
