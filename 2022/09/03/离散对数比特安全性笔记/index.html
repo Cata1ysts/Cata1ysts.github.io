@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="浅谈离散对数的比特安全性以及ElGamal体制安全性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="离散对数比特安全性笔记">
+<meta property="og:url" content="http://example.com/2022/09/03/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E6%AF%94%E7%89%B9%E5%AE%89%E5%85%A8%E6%80%A7%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Cata1yst&#39;s blog">
+<meta property="og:description" content="浅谈离散对数的比特安全性以及ElGamal体制安全性">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-03T07:38:23.000Z">
+<meta property="article:modified_time" content="2022-09-04T12:15:37.019Z">
+<meta property="article:author" content="Cata1ysts">
+<meta property="article:tag" content="离散对数">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/09/03/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E6%AF%94%E7%89%B9%E5%AE%89%E5%85%A8%E6%80%A7%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>离散对数比特安全性笔记 | Cata1yst's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cata1yst's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">祇今尚有清流月，曾照高王万马过</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/03/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E6%AF%94%E7%89%B9%E5%AE%89%E5%85%A8%E6%80%A7%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cata1ysts">
+      <meta itemprop="description" content="努力学习crypto并希望有一个web大手子浇浇的pwn萌新">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cata1yst's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          离散对数比特安全性笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-03 15:38:23" itemprop="dateCreated datePublished" datetime="2022-09-03T15:38:23+08:00">2022-09-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-04 20:15:37" itemprop="dateModified" datetime="2022-09-04T20:15:37+08:00">2022-09-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">浅谈离散对数的比特安全性以及ElGamal体制安全性</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="离散对数第-i-比特问题描述"><a href="#离散对数第-i-比特问题描述" class="headerlink" title="离散对数第 $i$ 比特问题描述"></a>离散对数第 $i$ 比特问题描述</h3><p>​	给定 $(p,\alpha,\beta,i)$ ,其中 $p$ 是素数， $\alpha$ 是模 $p$ 的一个本原元， $\beta$ 满足 $\beta&#x3D;\alpha^a\ mod\ p$ ,求 $log_\alpha\beta$ ( 也就是 $a$ )的第 $i$ 个最低比特。 我们用 $L_i(\beta)$ 来表示这一问题。</p>
+<h3 id="求解最低位"><a href="#求解最低位" class="headerlink" title="求解最低位"></a>求解最低位</h3><p>​		先放结论：$L_1(\beta)$ 是可以被准确求解的。</p>
+<p>​		求解最低比特问题实际上就是求要求 $log_\alpha\beta$ 的奇偶性。</p>
+<p>​		解这个问题，我们需要用到二次剩余的知识，首先我们记模 $p$ 的二次剩余集合为 $QR(p)&#x3D;${ $x^2\ mod\ p\ |x\in\ Z_p^*$ } ，则$|QR(p)|&#x3D;\frac{p-1}{2}$ 。  </p>
+<p>​		由于 $\alpha$ 是本原元，就有$QR(p)&#x3D;${ $\alpha^{2i}\ mod\ p\ |0\le i\le \frac{p-3}{2}$ } 。这个结论是显而易见的，把 $x^2\ mod\ p$ 中的 $x$ 替换成 $\alpha^i$ 即可，同时这 $\frac{p-1}{2}$ 个  $\alpha^i$ 又是各不相同的，故它们构成了 $QR(p)$ 。换句话说， $\alpha$ 的偶数次幂是模 $p$ 的二次剩余，而奇数次幂则不是，我们运用这个特性可以计算  $L_1(\beta)$ 。</p>
+<p>​		现在问题就在于如何判断 $\beta$ 是不是模 $p$ 的二次剩余。这里我们用到了欧拉准则，如果 $\beta^{\frac{p-1}{2}}&#x3D;\ 1\ mod\ p$ ，$\beta$ 是模 $p$ 的二次剩余。</p>
+<p>​		综上所述，<br>$$<br>L_1(\beta)&#x3D;\ \left{ \begin{array}\ 0\ \ \ \ \beta 是模p的二次剩余\1\ \ \ \ \beta 不是模p的二次剩余\end{array}\right.<br>$$</p>
+<h3 id="求解其他位"><a href="#求解其他位" class="headerlink" title="求解其他位"></a>求解其他位</h3><p>​		<del>这个问题属于难但是不完全难的情况</del>  首先，我们基本上不可能完全求出剩下的所有位，但是我们可以求出一部分，至于能求出几位，取决于我们的 $p$ 是什么结构。一般来说，$p$ 可以写成 $p-1&#x3D;2^s*l(l为奇数)$ 的形式，而我们所能够求出的最多位就是 $s$ 。换句话说，问题 $L_i(\beta)\ 1\le i\le s$ 是可以被解决的。</p>
+<p>​		接下来我们细🔒。我们来看一件事，既然 $L_1(\beta)$ 是比较容易求的，那么有没有一种办法可以把 $L_1(\beta)$ 问题转化为 $L_1(\beta)$ 问题。或者说，我们希望能够用归纳法解决这个问题。</p>
+<p>​		再来观察 $\beta$ 的结构， $\beta&#x3D;\alpha^a\ mod\ p$ ，我们现在已知 $a$ 的最后一位了，现在要想办法把它的倒数第二位变成最后一位，这个就很容易想到用 $a&#x2F;2$ 来实现<strong>（二进制下除以二可以类比十进制除以十，直接把最后一位隐去了）</strong>。于是，我们想想到构建 $\alpha^\frac{a}{2}\ mod\ p$ 这样一个式子。</p>
+<p>​		下一个问题是，$a&#x2F;2$ 可能是一个小数，如何避免。这个也很简单，我们根据前面的求解已经得知 $a$ 的奇偶性，对于奇数的 $a$ ，我们只需要减一即可，这样显然不影响倒数第二位比特的值。</p>
+<p>​		然后我们用幂运算实现这些操作<br>$$<br>\pm\beta_1&#x3D;\ \left{ \begin{array}\ \sqrt\beta\ mod\ p\ \ \ \ L_1(\beta)&#x3D;0\\sqrt\frac{\beta}{\alpha}\ mod\ p\ \ \ \ L_1(\beta)&#x3D;1\end{array}\right.<br>$$<br>​		于是，$L_2(\beta)&#x3D;L_1(\beta_1)$。</p>
+<p>​		到此为止，还没有什么迹象表明求解这个问题有什么困难，那么为什么说我们最多只能求出 $s$ 位呢？问题就出现在开方这一步。众所周知，整数的平方根有两个，那么在模 $p$ 下也同理，并且有 $\sqrt\beta+(-\sqrt\beta)&#x3D;0(p)$ 。接下来我们来看一件有趣的事：</p>
+<p>​		假设 $\beta_1&#x3D;\alpha^{a&#x2F;2}\ mod\ p$ ，由于$\alpha^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$ ，所以有 $-\beta_1&#x3D;\alpha^{a&#x2F;2+\frac{p-1}{2}}\ mod\ p$（<strong>这里 $a&#x2F;2$ 是整除的意思</strong>）。而问题 $L_1(\beta_1)$ 和 $L_1(-\beta_1)$ 的解分别代表了 $a&#x2F;2$ 和 $(a&#x2F;2+\frac{p-1}{2})$ 的奇偶性。但是我们不知道 $\beta_1$ 是不是正好对应了指数 $a&#x2F;2$ 而不是  $a&#x2F;2+\frac{p-1}{2}$ ，这就给解决问题带来了麻烦，除非 $a&#x2F;2$ 和 $(a&#x2F;2+\frac{p-1}{2})$ 的奇偶性恰好一致。</p>
+<p>​		现在问题就剩下了什么情况下二者奇偶性是一样的。我们先来复习一下小学数学：奇数+奇数&#x3D;偶数；奇数+偶数&#x3D;奇数；偶数+偶数&#x3D;偶数。可以看出，一个数加减奇数会改变它的奇偶性。因此，我们希望 $\frac{p-1}{2}(&#x3D;l*2^{s-1})$ 是一个偶数，即 $2^{s-1}\ge 2$ 或者说 $s\ge2$。</p>
+<p>​		如果我们想要求解问题 $L_3(\beta)$ ,按照上面的方法，我们需要对 $\beta$ 开四次方，这在模 $p$ 下有四个 $\beta_2$ （<strong>需要注意，$\pm\beta_1$ 虽然看上去有一个负数，但是实际上 $-\beta_1&#x3D;p-\beta_1$ 也是正数，是可以开方的</strong>），它们的分别对应指数 $(a&#x2F;4),(a&#x2F;4+\frac{p-1}{2}),(a&#x2F;4+\frac{p-1}{4}),(a&#x2F;4+\frac{p-1}{4}+\frac{p-1}{2})$ ，同样我们不能期望能够找到它们分别的对应关系，因此我们仍然只能寄希望于这四个指数的奇偶性完全一致。也就是说 $2^{s-2}\ge 2$。很容易看出，我们能够成功求解 $L_i(\beta)$ 的前提是 $2^{s-i}\ge 2$ ，即$i\le s$ 。总而言之，我们最多只能求解 $L_s(\beta)$ 。</p>
+<h3 id="求解更高位"><a href="#求解更高位" class="headerlink" title="求解更高位"></a>求解更高位</h3><p>​		可以证明，求解 $L_i(\beta)\ \ i&gt;s$ 不比解决离散对数问题简单<del>（我不会证）</del> ，我们可以通过一个算法来体会一下。假设存在一个 Oracle，对于给定 $\beta$ ，Oracle会返回 $L_2(\beta)$ （这个差不多等于算出离散对数然后把倒数第二位反馈回来，因为没有什么算法能够直接算出 $L_2$）。前面提到，由于我们无法区分 $\beta$ 开方得到的两个数，导致了如果 $a&#x2F;2$ 和 $(a&#x2F;2+\frac{p-1}{2})$ 的奇偶性不一致，算法就没法继续，但是这里Oracle给我们了 $L_2(\beta)$ ，根据这个数据，我们可以确定出 $\pm\beta_1$ 哪一个对应 $a&#x2F;2$ ，从而规避掉分类讨论的可能性，而对于奇偶性一致的情况，我们直接套用原算法即可。</p>
+<p>​		可以看出，这个算法和原来的其实差不多，唯一区别就是Oracle，或者说，我们能否完整求解 $L_i(\beta)$ 问题取决于能不能找到这样一个Oracle，而找到Oracle的难度不比直接算出离散对数问题简单。</p>
+<h3 id="ElGamal体制的语义安全"><a href="#ElGamal体制的语义安全" class="headerlink" title="ElGamal体制的语义安全"></a>ElGamal体制的语义安全</h3><p>​		首先复习一下简单的Elgamal密码体制:</p>
+<p>​				$pk&#x3D;(p,\alpha,\beta),\beta&#x3D;\alpha^a\ mod\ p$ ，$sk&#x3D;(a)$。</p>
+<p>​				$e_k(x,k)&#x3D;(y_1,y_2)$</p>
+<p>​				$y_1&#x3D;\alpha^k\ mod\ p$</p>
+<p>​				$y_2&#x3D;x*\beta^k\ mod\ p$</p>
+<p>​				$d_k(y_1,y_2)&#x3D;y_2(y_1^a)^-1\ mod\ p$</p>
+<p>​		下面我们来考虑一件事。根据 $\beta&#x3D;\alpha^a\ mod\ p$ 我们可以得到 $a$ 的奇偶性（$L_1(\beta)$）；根据 $y_1&#x3D;\alpha^k\ mod\ p$ 我们可以得到 $k$ 的奇偶性（$L_1(y_1)$）。于是我们就可以得到 $ak$ 的奇偶性，这使得我们可以轻易判断出 $(\frac{\beta^k}{p})$ ，因为 $\beta^k&#x3D;\alpha^{ak}\ mod\ p$ 。同时，$y_2$ 是已知的，那么 $(\frac{y_2}{p})$ 也是很好判断的。另外，我们还截获了两条明文消息 $x_1、x_2$ ，现在我们需要判断哪一条消息的加密是$(y_1,y_2)$ 。如果这两条消息很巧合其中一条比如 $x_1$ 是模 $p$ 的二次剩余 ,那么 $x_1$对应密文 $(y_1,y_2)$ 当且仅当 $(\frac{y_2}{p})&#x3D;(\frac{y_2}{p})&#x3D;\pm 1$。</p>
+<p>​		也就是说，上述ElGamal密码体制在语义上不是绝对安全的。</p>
+<h3 id="整个好玩的"><a href="#整个好玩的" class="headerlink" title="整个好玩的"></a>整个好玩的</h3><p>​		我们利用该算法做一下简单的离散对数问题。$p&#x3D;256*3+1,\alpha&#x3D;112,a&#x3D;72,\beta&#x3D;769$</p>
+<p>​		</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#asge</span></span><br><span class="line">p=<span class="number">256</span>*<span class="number">3</span>+<span class="number">1</span></span><br><span class="line">alpha=<span class="number">112</span></span><br><span class="line">a=<span class="number">72</span></span><br><span class="line">beta=<span class="built_in">pow</span>(alpha,a,p)</span><br><span class="line">bits=<span class="built_in">bin</span>(a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;a_bin=&#x27;</span>,bits)</span><br><span class="line">a=[]</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(bits)-<span class="number">2</span>):</span><br><span class="line">    x=<span class="built_in">pow</span>(beta,(p-<span class="number">1</span>)//<span class="number">2</span>,p)</span><br><span class="line">    <span class="keyword">if</span> x!=<span class="number">1</span>:</span><br><span class="line">        beta=beta*inverse_mod(alpha,p)%p</span><br><span class="line">        a.append(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        a.append(<span class="number">0</span>)</span><br><span class="line">    beta=beta.sqrt()</span><br><span class="line">    x= <span class="built_in">pow</span>(beta, (p - <span class="number">1</span>) // <span class="number">2</span>,p)</span><br><span class="line">a=<span class="built_in">list</span>(<span class="built_in">reversed</span>(a))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;answer=0b&#x27;</span>,end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> a:</span><br><span class="line">    <span class="built_in">print</span>(_,end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">a_bin= 0b1001000</span></span><br><span class="line"><span class="string">answer=0b1001000</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>​		还行吧。如果把 $a$ 改成72127233，结果就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a_bin= 0b100010011001001001100000001</span><br><span class="line">answer=0b111100010100111100100000001</span><br></pre></td></tr></table></figure>
+
+<p>​		看得出来最后七八位还是一样的，但前面不一样了，这也就是这个算法的局限。</p>
+<h3 id="俺寻思能行"><a href="#俺寻思能行" class="headerlink" title="俺寻思能行"></a>俺寻思能行</h3><p>​		我在想能不能利用这个东西出一道离散对数加密但是 $a$ 高位泄露的题。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cata1ysts
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/09/03/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E6%AF%94%E7%89%B9%E5%AE%89%E5%85%A8%E6%80%A7%E7%AC%94%E8%AE%B0/" title="离散对数比特安全性笔记">http://example.com/2022/09/03/离散对数比特安全性笔记/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/" rel="tag"># 离散对数</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/21/%E6%95%B0%E8%AE%BA/" rel="prev" title="数论">
+      <i class="fa fa-chevron-left"></i> 数论
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E7%AC%AC-i-%E6%AF%94%E7%89%B9%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">离散对数第 $i$ 比特问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%82%E8%A7%A3%E6%9C%80%E4%BD%8E%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">求解最低位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%82%E8%A7%A3%E5%85%B6%E4%BB%96%E4%BD%8D"><span class="nav-number">3.</span> <span class="nav-text">求解其他位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%82%E8%A7%A3%E6%9B%B4%E9%AB%98%E4%BD%8D"><span class="nav-number">4.</span> <span class="nav-text">求解更高位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ElGamal%E4%BD%93%E5%88%B6%E7%9A%84%E8%AF%AD%E4%B9%89%E5%AE%89%E5%85%A8"><span class="nav-number">5.</span> <span class="nav-text">ElGamal体制的语义安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">整个好玩的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%BA%E5%AF%BB%E6%80%9D%E8%83%BD%E8%A1%8C"><span class="nav-number">7.</span> <span class="nav-text">俺寻思能行</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cata1ysts"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Cata1ysts</p>
+  <div class="site-description" itemprop="description">努力学习crypto并希望有一个web大手子浇浇的pwn萌新</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cata1ysts</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":250},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
