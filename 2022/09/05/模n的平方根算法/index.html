@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="欢迎光临，这是Cata1ysts的blog主页，ta会不定时更新一些很简单的觅🐎学知识（因为这个大彩笔不会难的东西了，球放过qwq），希望能和各位爷一起进步。">
+  <meta name="description" content="书接上回，我们来聊聊如何计算模n的平方根">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅浅地逝一逝写博客">
-<meta property="og:url" content="http://example.com/2022/08/11/%E6%B5%85%E9%80%9D%E5%86%99%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:title" content="模n的平方根算法">
+<meta property="og:url" content="http://example.com/2022/09/05/%E6%A8%A1n%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="Cata1yst&#39;s blog">
-<meta property="og:description" content="欢迎光临，这是Cata1ysts的blog主页，ta会不定时更新一些很简单的觅🐎学知识（因为这个大彩笔不会难的东西了，球放过qwq），希望能和各位爷一起进步。">
+<meta property="og:description" content="书接上回，我们来聊聊如何计算模n的平方根">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-08-11T07:09:09.006Z">
-<meta property="article:modified_time" content="2022-08-13T05:49:25.563Z">
+<meta property="article:published_time" content="2022-09-05T11:31:01.000Z">
+<meta property="article:modified_time" content="2022-09-07T01:52:02.518Z">
 <meta property="article:author" content="Cata1ysts">
-<meta property="article:tag" content="first blog">
+<meta property="article:tag" content="模n的平方根">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2022/08/11/%E6%B5%85%E9%80%9D%E5%86%99%E5%8D%9A%E5%AE%A2/">
+<link rel="canonical" href="http://example.com/2022/09/05/%E6%A8%A1n%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9%E7%AE%97%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>浅浅地逝一逝写博客 | Cata1yst's blog</title>
+  <title>模n的平方根算法 | Cata1yst's blog</title>
   
 
 
@@ -162,7 +162,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/%E6%B5%85%E9%80%9D%E5%86%99%E5%8D%9A%E5%AE%A2/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/05/%E6%A8%A1n%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -175,7 +175,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          浅浅地逝一逝写博客
+          模n的平方根算法
         </h1>
 
         <div class="post-meta">
@@ -185,14 +185,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-08-11 15:09:09" itemprop="dateCreated datePublished" datetime="2022-08-11T15:09:09+08:00">2022-08-11</time>
+              <time title="创建时间：2022-09-05 19:31:01" itemprop="dateCreated datePublished" datetime="2022-09-05T19:31:01+08:00">2022-09-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-13 13:49:25" itemprop="dateModified" datetime="2022-08-13T13:49:25+08:00">2022-08-13</time>
+                <time title="修改时间：2022-09-07 09:52:02" itemprop="dateModified" datetime="2022-09-07T09:52:02+08:00">2022-09-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -200,12 +200,16 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hello-World/" itemprop="url" rel="index"><span itemprop="name">Hello World</span></a>
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
                 </span>
             </span>
 
           
-            <div class="post-description">欢迎光临，这是Cata1ysts的blog主页，ta会不定时更新一些很简单的觅🐎学知识（因为这个大彩笔不会难的东西了，球放过qwq），希望能和各位爷一起进步。</div>
+            <div class="post-description">书接上回，我们来聊聊如何计算模n的平方根</div>
 
         </div>
       </header>
@@ -216,14 +220,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hello World , &quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h3 id="根存在性与数量"><a href="#根存在性与数量" class="headerlink" title="根存在性与数量"></a>根存在性与数量</h3><p>​		计算模 $n$ 的平方根其实就是求解方程<br>$$<br>x^2&#x3D;y\ mod\ n\ ,\ gcd(y,n)&#x3D;1<br>$$<br>​		那么显然，方程要有解，$y$ 必须是模 $p$ 的二次剩余。</p>
+<p>​		当 $n$ 是素数时，根据欧拉判别法，$y$ 需要满足：<br>$$<br>y^{\frac{p-1}{2}}&#x3D;1\ mod\ p<br>$$<br>​		否则无解。</p>
+<p>​		对于 $n$ 是素数的情况，方程有 0 或 2 个解</p>
+<p>​		对于 $n$ 是奇合数的情况，方程有 0 或 $2^l$ 个解（ $n&#x3D;\sum_{i&#x3D;1}^lp_i^{e_i}$ ）</p>
+<h3 id="p-x3D-3-mod-4"><a href="#p-x3D-3-mod-4" class="headerlink" title="$p&#x3D;3\ mod\ 4$"></a>$p&#x3D;3\ mod\ 4$</h3><p>​		关于这类素数，有一个通用公式<br>$$<br>x&#x3D;\pm y^{\frac{p+1}{4}}\ mod\ p<br>$$<br>​		这个很好理解。<del>其实我不会证明，但是可以用反证法（指反过来证明），计算一下 $x^2$ 发现正好是 $y$ 。</del></p>
+<h3 id="p-x3D-1-mod-p"><a href="#p-x3D-1-mod-p" class="headerlink" title="$p&#x3D;1\ mod\ p$"></a>$p&#x3D;1\ mod\ p$</h3><p>​		这类素数的公式其实也是上面那个，但是问题是当 $p&#x3D;1\ mod\ p$ 时，$\frac{p+1}{4}$ 并不是整数，而我们无法在模 $p$ 的情况下直接计算分数次幂（不然这篇东西就不必要存在了）。</p>
+<p>​			于是我们有了 $Cipolla$ 算法。<del>（下面是魔法）</del></p>
+<p>​			首先我们对方程进行亿些变形<br>$$<br>x&#x3D;\sqrt y&#x3D;(a^2-(a^2-y))^{1&#x2F;2}\ mod\ p<br>$$<br>​				令 $w^2 &#x3D;a^2-y\ mod\ p$ ，并且 $(a^2-y)^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$ ，得到<br>$$<br>x&#x3D;(a^2-w^2)^{1&#x2F;2}&#x3D;((a+w)(a-w))^{1&#x2F;2}\ mod\ p<br>$$<br>​				又有<br>$$<br>\ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w^p&#x3D;w^{p-1}*w&#x3D;(a^2-n)^{\frac{p-1}{2}}*w&#x3D;-w\ mod\ p\a^p&#x3D;a^{p-1}*a&#x3D;a\ mod\ p<br>$$<br>​				所以<br>$$<br>x&#x3D;((a^p+w^p)(a+w))\ mod\ p<br>$$<br>​				还有 $(a+w)^p&#x3D;a^p+w^p\ mod\ p$ ，故<br>$$<br>x&#x3D;(a+w)^{\frac{p+1}{2}}\ mod\ p<br>$$<br>​				现在我们的指数已经变成整数了，但问题是能不能求出这样的 $a$ 、$w$ ？</p>
+<p>​				先来看 $a$ ， $a$ 是由 $(a^2-y)^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$ 决定的，换句话说， $a^2-n$ 是 $p$ 的二次非剩余。这样的 $a$ 是很好找的，因为模 $p$ 的既约剩余系中有一半是它的二次非剩余，我们只要随机找一个 $a$ ，然后带入检验即可，这一步不会花费太久。</p>
+<p>​				然后来看 $w$ ，根据前面提到的， $w$ 是二次非剩余 $a^2-y$ 的平方根，显然 $w$ 不存在。另一方面， $w^2$ 是确确实实存在的。那我们就算不下去了吗？显然不是，我们再回头看看  $x&#x3D;(a+w)^{\frac{p+1}{2}}\ mod\ p$ ，如果我们对其进行展开，会得到 $c+wd\ ,\ c、d\in R$ 这样的一个数（是不是很像复数）。按道理 $w$ 是不存在的，所以 $c+wd$ 也不应该存在，但事实是 $x$ 是存在的（否则相当于方程无解），那么答案只有一个—— $d&#x3D;0$ 。</p>
+<p>​				所以我们得出结论，计算结果与$w$ 无关。</p>
+<p>​				至于结果的计算方法，我们可以对它直接按照二项式定理计算。当然了，还有一种比较有趣的算法。前面说了 $c+dw$ 的形式很像复数，那我们也可以按照复数的计算来做。只不过这样我们需要自定义一个“复数”乘法的规则（毕竟计算机不知道），由于还涉及到了乘方，所以我们还需要定义一下快速幂算法。综合来看两种计算过程应该差不多，后者可以将更多复杂的计算过程交给计算机处理，个人感觉好一点。</p>
+<p>​				下面放上脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#x^2=c mod p</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Cipolla_algorithm</span>(<span class="params">c,p</span>):</span><br><span class="line">    <span class="comment"># 定义模p复数域上的乘法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">multiplication</span>(<span class="params">x1,y1,x2,y2,w,p</span>):</span><br><span class="line">        x=(x1*x2+y1*y2*w)%p</span><br><span class="line">        y=(x1*y2+x2*y1)%p</span><br><span class="line">        <span class="keyword">return</span> x,y</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取w,使得w=-1mod(p),w是复数元的平方</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_w</span>(<span class="params">c,p</span>):</span><br><span class="line">        a=randint(<span class="number">1</span>,p)</span><br><span class="line">        w=<span class="built_in">pow</span>(a, <span class="number">2</span>) - c</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">pow</span>(w,(p - <span class="number">1</span>)//<span class="number">2</span>,p)!=p-<span class="number">1</span>:</span><br><span class="line">            a=randint(<span class="number">1</span>,p)</span><br><span class="line">            w=<span class="built_in">pow</span>(a,<span class="number">2</span>)-c</span><br><span class="line">        <span class="keyword">return</span> w,a</span><br><span class="line">    <span class="comment">#主体部分</span></span><br><span class="line">    w,a=get_w(c,p)</span><br><span class="line">    power=(p+<span class="number">1</span>)//<span class="number">2</span></span><br><span class="line">    x1=a</span><br><span class="line">    y1=<span class="number">1</span></span><br><span class="line">    x=<span class="number">1</span></span><br><span class="line">    y=<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(power!=<span class="number">0</span>):</span><br><span class="line">        <span class="keyword">if</span>(power!=(p+<span class="number">1</span>)//<span class="number">2</span>):</span><br><span class="line">            x1,y1=multiplication(x1,y1,x1,y1,w,p)</span><br><span class="line">        <span class="keyword">if</span>(power &amp; <span class="number">1</span>):</span><br><span class="line">            x,y=multiplication(x,y,x1,y1,w,p)</span><br><span class="line">        power&gt;&gt;=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cout&lt;&lt;<span class="string">&quot;this is Cat1ysts , &quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;nice to meet you .&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>请浇浇我觅🐎学吧</p>
-<p><a target="_blank" rel="noopener" href="https://cata1ysts.github.io/">这个连接会回到主页</a><br>有什么逝的话可以联系我QQ：2669362931</p>
+<h3 id="n-x3D-pq"><a href="#n-x3D-pq" class="headerlink" title="$n&#x3D;pq$"></a>$n&#x3D;pq$</h3><p>​		这里拿它做一个示例，对于多因子整数解法也差不多的。</p>
+<p>​		首先根据中国剩余定理，方程 $x^2&#x3D;y\ mod\ n\ ,\ n&#x3D;pq$ 可以写成下面方程组<br>$$<br>x^2&#x3D;y\ mod\ p\x^2&#x3D;y\ mod\ q<br>$$<br>​		然后分别解出来，我们得到了2组（4个）解(对于有 $l$ <strong>种</strong>因子的 $n$ ，得到 $l$ 组)，按照中国剩余定理的操作，我们需要从每一组解中选出一个，所有最后一共可以得到 $2^l$ 个解。</p>
+<p>​		不难看出，只有中国剩余定理的每个方程都有解，原方程才有解。</p>
 
     </div>
 
@@ -239,7 +255,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2022/08/11/%E6%B5%85%E9%80%9D%E5%86%99%E5%8D%9A%E5%AE%A2/" title="浅浅地逝一逝写博客">http://example.com/2022/08/11/浅逝写博客/</a>
+    <a href="http://example.com/2022/09/05/%E6%A8%A1n%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9%E7%AE%97%E6%B3%95/" title="模n的平方根算法">http://example.com/2022/09/05/模n的平方根算法/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -250,7 +266,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/first-blog/" rel="tag"># first blog</a>
+              <a href="/tags/%E6%A8%A1n%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9/" rel="tag"># 模n的平方根</a>
           </div>
 
         
@@ -258,11 +274,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2022/08/11/%E5%87%BD%E6%95%B0%E5%A4%87%E5%BF%98%E5%BD%95/" rel="next" title="函数备忘录（不定期更新）">
-      函数备忘录（不定期更新） <i class="fa fa-chevron-right"></i>
+    <a href="/2022/09/03/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E6%AF%94%E7%89%B9%E5%AE%89%E5%85%A8%E6%80%A7%E7%AC%94%E8%AE%B0/" rel="prev" title="离散对数比特安全性笔记">
+      <i class="fa fa-chevron-left"></i> 离散对数比特安全性笔记
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -321,6 +337,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E5%AD%98%E5%9C%A8%E6%80%A7%E4%B8%8E%E6%95%B0%E9%87%8F"><span class="nav-number">1.</span> <span class="nav-text">根存在性与数量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p-x3D-3-mod-4"><span class="nav-number">2.</span> <span class="nav-text">$p&#x3D;3\ mod\ 4$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p-x3D-1-mod-p"><span class="nav-number">3.</span> <span class="nav-text">$p&#x3D;1\ mod\ p$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#n-x3D-pq"><span class="nav-number">4.</span> <span class="nav-text">$n&#x3D;pq$</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
