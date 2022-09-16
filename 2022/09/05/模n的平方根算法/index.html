@@ -28,7 +28,7 @@
 <meta property="og:description" content="书接上回，我们来聊聊如何计算模n的平方根">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-05T11:31:01.000Z">
-<meta property="article:modified_time" content="2022-09-07T01:52:02.518Z">
+<meta property="article:modified_time" content="2022-09-07T05:17:01.611Z">
 <meta property="article:author" content="Cata1ysts">
 <meta property="article:tag" content="模n的平方根">
 <meta name="twitter:card" content="summary">
@@ -192,7 +192,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-07 09:52:02" itemprop="dateModified" datetime="2022-09-07T09:52:02+08:00">2022-09-07</time>
+                <time title="修改时间：2022-09-07 13:17:01" itemprop="dateModified" datetime="2022-09-07T13:17:01+08:00">2022-09-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,7 +227,8 @@
 <h3 id="p-x3D-3-mod-4"><a href="#p-x3D-3-mod-4" class="headerlink" title="$p&#x3D;3\ mod\ 4$"></a>$p&#x3D;3\ mod\ 4$</h3><p>​		关于这类素数，有一个通用公式<br>$$<br>x&#x3D;\pm y^{\frac{p+1}{4}}\ mod\ p<br>$$<br>​		这个很好理解。<del>其实我不会证明，但是可以用反证法（指反过来证明），计算一下 $x^2$ 发现正好是 $y$ 。</del></p>
 <h3 id="p-x3D-1-mod-p"><a href="#p-x3D-1-mod-p" class="headerlink" title="$p&#x3D;1\ mod\ p$"></a>$p&#x3D;1\ mod\ p$</h3><p>​		这类素数的公式其实也是上面那个，但是问题是当 $p&#x3D;1\ mod\ p$ 时，$\frac{p+1}{4}$ 并不是整数，而我们无法在模 $p$ 的情况下直接计算分数次幂（不然这篇东西就不必要存在了）。</p>
 <p>​			于是我们有了 $Cipolla$ 算法。<del>（下面是魔法）</del></p>
-<p>​			首先我们对方程进行亿些变形<br>$$<br>x&#x3D;\sqrt y&#x3D;(a^2-(a^2-y))^{1&#x2F;2}\ mod\ p<br>$$<br>​				令 $w^2 &#x3D;a^2-y\ mod\ p$ ，并且 $(a^2-y)^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$ ，得到<br>$$<br>x&#x3D;(a^2-w^2)^{1&#x2F;2}&#x3D;((a+w)(a-w))^{1&#x2F;2}\ mod\ p<br>$$<br>​				又有<br>$$<br>\ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w^p&#x3D;w^{p-1}*w&#x3D;(a^2-n)^{\frac{p-1}{2}}*w&#x3D;-w\ mod\ p\a^p&#x3D;a^{p-1}*a&#x3D;a\ mod\ p<br>$$<br>​				所以<br>$$<br>x&#x3D;((a^p+w^p)(a+w))\ mod\ p<br>$$<br>​				还有 $(a+w)^p&#x3D;a^p+w^p\ mod\ p$ ，故<br>$$<br>x&#x3D;(a+w)^{\frac{p+1}{2}}\ mod\ p<br>$$<br>​				现在我们的指数已经变成整数了，但问题是能不能求出这样的 $a$ 、$w$ ？</p>
+<p>​			首先我们对方程进行亿些变形<br>$$<br>x&#x3D;\sqrt y&#x3D;(a^2-(a^2-y))^{1&#x2F;2}\ mod\ p<br>$$<br>​				令 $w^2 &#x3D;a^2-y\ mod\ p$ ，并且 $(a^2-y)^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$ ，得到<br>$$<br>x&#x3D;(a^2-w^2)^{1&#x2F;2}&#x3D;((a+w)(a-w))^{1&#x2F;2}\ mod\ p<br>$$<br>​				又有<br>$$<br>w^p&#x3D;w^{p-1}*w&#x3D;(a^2-n)^{\frac{p-1}{2}}*w&#x3D;-w\ mod\ p<br>$$<br>$$<br>a^p&#x3D;a^{p-1}*a&#x3D;a\ mod\ p<br>$$</p>
+<p>​				所以<br>$$<br>x&#x3D;((a^p+w^p)(a+w))^{1&#x2F;2}\ mod\ p<br>$$<br>​				还有 $(a+w)^p&#x3D;a^p+w^p\ mod\ p$ ，故<br>$$<br>x&#x3D;(a+w)^{\frac{p+1}{2}}\ mod\ p<br>$$<br>​				现在我们的指数已经变成整数了，但问题是能不能求出这样的 $a$ 、$w$ ？</p>
 <p>​				先来看 $a$ ， $a$ 是由 $(a^2-y)^{\frac{p-1}{2}}&#x3D;-1\ mod\ p$ 决定的，换句话说， $a^2-n$ 是 $p$ 的二次非剩余。这样的 $a$ 是很好找的，因为模 $p$ 的既约剩余系中有一半是它的二次非剩余，我们只要随机找一个 $a$ ，然后带入检验即可，这一步不会花费太久。</p>
 <p>​				然后来看 $w$ ，根据前面提到的， $w$ 是二次非剩余 $a^2-y$ 的平方根，显然 $w$ 不存在。另一方面， $w^2$ 是确确实实存在的。那我们就算不下去了吗？显然不是，我们再回头看看  $x&#x3D;(a+w)^{\frac{p+1}{2}}\ mod\ p$ ，如果我们对其进行展开，会得到 $c+wd\ ,\ c、d\in R$ 这样的一个数（是不是很像复数）。按道理 $w$ 是不存在的，所以 $c+wd$ 也不应该存在，但事实是 $x$ 是存在的（否则相当于方程无解），那么答案只有一个—— $d&#x3D;0$ 。</p>
 <p>​				所以我们得出结论，计算结果与$w$ 无关。</p>
@@ -237,8 +238,10 @@
 
 
 
-<h3 id="n-x3D-pq"><a href="#n-x3D-pq" class="headerlink" title="$n&#x3D;pq$"></a>$n&#x3D;pq$</h3><p>​		这里拿它做一个示例，对于多因子整数解法也差不多的。</p>
-<p>​		首先根据中国剩余定理，方程 $x^2&#x3D;y\ mod\ n\ ,\ n&#x3D;pq$ 可以写成下面方程组<br>$$<br>x^2&#x3D;y\ mod\ p\x^2&#x3D;y\ mod\ q<br>$$<br>​		然后分别解出来，我们得到了2组（4个）解(对于有 $l$ <strong>种</strong>因子的 $n$ ，得到 $l$ 组)，按照中国剩余定理的操作，我们需要从每一组解中选出一个，所有最后一共可以得到 $2^l$ 个解。</p>
+<h3 id="n-x3D-pq"><a href="#n-x3D-pq" class="headerlink" title="$n&#x3D;pq$"></a>$n&#x3D;pq$</h3><p>​		这里拿它做一个示例，对于多因子 $n$ 的解法也差不多的。</p>
+<p>​		首先根据中国剩余定理，方程 $x^2&#x3D;y\ mod\ n\ ,\ n&#x3D;pq$ 可以写成下面方程组<br>$$<br>x^2&#x3D;y\ mod\ p<br>$$</p>
+<p>$$<br>x^2&#x3D;y\ mod\ q<br>$$</p>
+<p>​		然后分别解出来，我们得到了2组（4个）解(对于有 $l$ <strong>种</strong>因子的 $n$ ，得到 $l$ 组)，按照中国剩余定理的操作，我们需要从每一组解中选出一个来进行最后的运算，所有最后一共可以得到 $2^l$ 个解。</p>
 <p>​		不难看出，只有中国剩余定理的每个方程都有解，原方程才有解。</p>
 
     </div>
