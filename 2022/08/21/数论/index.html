@@ -28,7 +28,7 @@
 <meta property="og:description" content="搬运一下自己的数论🖊寄，没有证明！！">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-21T03:01:47.000Z">
-<meta property="article:modified_time" content="2022-09-07T06:58:49.400Z">
+<meta property="article:modified_time" content="2022-09-28T03:16:34.971Z">
 <meta property="article:author" content="Cata1ysts">
 <meta property="article:tag" content="math">
 <meta property="article:tag" content="number theory">
@@ -193,7 +193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-07 14:58:49" itemprop="dateModified" datetime="2022-09-07T14:58:49+08:00">2022-09-07</time>
+                <time title="修改时间：2022-09-28 11:16:34" itemprop="dateModified" datetime="2022-09-28T11:16:34+08:00">2022-09-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,7 +221,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="整除的性质"><a href="#整除的性质" class="headerlink" title="整除的性质"></a>整除的性质</h4><p>1、$a|b\  ,  \ b|c\ \Rightarrow\ a|c$	</p>
+        <head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<h4 id="整除的性质"><a href="#整除的性质" class="headerlink" title="整除的性质"></a>整除的性质</h4><p>1、$a|b\  ,  \ b|c\ \Rightarrow\ a|c$	</p>
 <p>2、$a|b\  , \ a|c\ \Rightarrow\ a|bx+cy,\ \forall x,y\in Z$</p>
 <p>3、$a|b\  , \ b|a\ \Rightarrow\ a&#x3D;\pm b$</p>
 <p>4、若 $b\neq0$ ,则 $a|b\ \Rightarrow\ a\le\ b$</p>
@@ -295,7 +307,7 @@
 <p>2、一次同余方程（$ax&#x3D;b\ mod\ m$)</p>
 <p>$\ \ \ \ \ \ \ \ 2.1$  $(a,m)&#x3D;1$，$x&#x3D;a^{-1}b\ mod\ m$		</p>
 <p>3、一次同余方程组（$x&#x3D;a_i\ mod\ m_i$，其中$m_i$两两互素)</p>
-<p>$\ \ \ \ \ \ \ \ 3.1$  中国剩余定理   令$M&#x3D;\prod_{i&#x3D;1}^n m_i,\ M_i&#x3D;\frac{M}{m_I}$，则$(M_i,M)&#x3D;1$，再令$u_i&#x3D;M_i^{-1}\ mod\ m_i$，$\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x&#x3D;\sum_{i&#x3D;1}^n a_iu_iM_i mod\ M$</p>
+<p>$\ \ \ \ \ \ \ \ 3.1$  中国剩余定理   令$M&#x3D;\prod_{i&#x3D;1}^n m_i,\ M_i&#x3D;\frac{M}{m_i}$，则$(M_i,M)&#x3D;1$，再令$u_i&#x3D;M_i^{-1}\ mod\ m_i$，$\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x&#x3D;\sum_{i&#x3D;1}^n a_iu_iM_i mod\ M$</p>
 <h4 id="二次剩余"><a href="#二次剩余" class="headerlink" title="二次剩余"></a>二次剩余</h4><p>1、定义  如果方程 $x^2&#x3D;d\ mod\ p$ 有解，则称 $d$ 是模 $p$ 的二次剩余，否则称二次非剩余。</p>
 <p>2、在模$p$ 的既约系中，二次剩余和二次非剩余各占一半。</p>
 <p>3、$Euler$判别法  </p>
