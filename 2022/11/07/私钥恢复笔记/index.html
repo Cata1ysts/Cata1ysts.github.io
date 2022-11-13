@@ -22,13 +22,13 @@
 
   <meta name="description" content="记录一下公钥密码体制下各种私钥泄露的攻击手段">
 <meta property="og:type" content="article">
-<meta property="og:title" content="私钥恢复笔记">
+<meta property="og:title" content="key recovery">
 <meta property="og:url" content="http://example.com/2022/11/07/%E7%A7%81%E9%92%A5%E6%81%A2%E5%A4%8D%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Cata1yst&#39;s blog">
 <meta property="og:description" content="记录一下公钥密码体制下各种私钥泄露的攻击手段">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-07T06:03:38.000Z">
-<meta property="article:modified_time" content="2022-11-07T09:06:06.226Z">
+<meta property="article:modified_time" content="2022-11-07T09:20:33.351Z">
 <meta property="article:author" content="Cata1ysts">
 <meta property="article:tag" content="key attack">
 <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>私钥恢复笔记 | Cata1yst's blog</title>
+  <title>key recovery | Cata1yst's blog</title>
   
 
 
@@ -175,7 +175,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          私钥恢复笔记
+          key recovery
         </h1>
 
         <div class="post-meta">
@@ -186,7 +186,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-11-07 14:03:38 / 修改时间：17:06:06" itemprop="dateCreated datePublished" datetime="2022-11-07T14:03:38+08:00">2022-11-07</time>
+              <time title="创建时间：2022-11-07 14:03:38 / 修改时间：17:20:33" itemprop="dateCreated datePublished" datetime="2022-11-07T14:03:38+08:00">2022-11-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,15 +226,16 @@
     </script>
 </head>
 
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><h4 id="本篇的攻击针对于-RSA-、-DAS-、-DH-三种情况，只是自己的理解。内容来自于"><a href="#本篇的攻击针对于-RSA-、-DAS-、-DH-三种情况，只是自己的理解。内容来自于" class="headerlink" title="本篇的攻击针对于 $RSA$ 、 $DAS$  、 $DH$ 三种情况，只是自己的理解。内容来自于"></a>本篇的攻击针对于 $RSA$ 、 $DAS$  、 $DH$ 三种情况，只是自己的理解。内容来自于</h4><h2 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h2><p>​	这里会频繁用到 $coppersmith$ 的攻击，所以需要对格理论具有一定了解。本人对格也是一知半解，只能讲述一下自己的理解和该理论的一些结论。</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>本篇的攻击针对于 $RSA$ 、 $DAS$  、 $DH$ 三种情况，只是自己的理解。内容来自于<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2020/1506.pdf">Recovering cryptographic keys from partialinformation, by example</a></p>
+<h2 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h2><p>​	这里会频繁用到 $coppersmith$ 的攻击，所以需要对格理论具有一定了解。本人对格也是一知半解，只能讲述一下自己的理解和该理论的一些结论。</p>
 <p>​	首先是格，格的抽象定义就是一组在欧氏空间中的线性无关的向量的线性组合，而这组线性无关的向量称为格的一组基。如果只从计算需要来说，格就是一个秩不为0的方阵。</p>
-<p>​	然后是格中最短向量的问题，这里不得不说一下伟大的 $Minkowski$ 边界。我们假设格中最短向量是 $\overline \lambda_1$ 那么它应该满足下面的式子：<br>$$<br>||\overline \lambda_1||&lt;\sqrt(n)*det(L)^\frac{1}{n}\ \ \ \ n是格的维数，L是格的基矩阵<br>$$<br>​	接下来是 $LLL$ 算法，这个算法的具体原理不展开了，结论就是这个算法作用于任何一个格，会返回它的一组约化基 $b_1…b_n$ ，它们满足下面的约束<br>$$<br>||\overline{b_1}|| \le 2^\frac{n-1}{4}*det(L)^\frac{1}{n}<br>$$<br>需要指出，约化基满足的条件不只有这一条，但是我们接下来讨论的问题中最多只用到了这个。</p>
-<p>​	最后来看  $coppersmith$ 给出的攻击。首先我们知道，对于方程 $f(x)&#x3D;0$ 我们是比较容易找到它的解的，无论是求根公式抑或是牛顿法都是计算机能够完成的。那么再来看 $f(x)&#x3D;0\ mod \ n$ ，这实际上是一个二元高次方程，以及是几乎不可能求解了。我们很自然地想到，是否存在一个办法可以实现 $f(x)&#x3D;0\ mod\ n$ 到 $f(x)&#x3D;0$ 的转化，但不改变它的解。<br>$$<br>Howgrave-Graham引理\<br>设h(x)是含有\lambda个单项式的多项式,若\<br>h(x)&#x3D;0\ mod\ n，且其解|x_0|&lt;X\<br>||\overline{h(xX)}||&lt;\frac{n}{\sqrt \lambda},\overline{h(xX)}是多项式h(xX)的系数向量\<br>则x_0是h(x)&#x3D;0的一个解<br>$$<br>​	这个证明比较简单，<br>$$<br>|h(x_0)|&#x3D;\sum_ia_ix_0^i\le\sum_i|c_ix_0^i|\le\sum_i|c_i|X^i\<br>由基本不等式\ \frac{\sum_ix_i}{n}\le\sqrt \frac{\sum_ix_i^2}{n}得，\sum_i|c_i|X^i\le \sqrt{\lambda\sum_i(c_iX^i)^2}&#x3D;\sqrt \lambda||\overline{h(xX)}||&lt;n<br>$$<br>也就是说，$h(x_0)$ 既是 $n$ 的倍数又比它小，那么显然只能是等于0了。</p>
+<p>​	然后是格中最短向量的问题，这里不得不说一下伟大的 $Minkowski$ 边界。我们假设格中最短向量是 $\overrightarrow \lambda_1$ 那么它应该满足下面的式子：<br>$$<br>||\overrightarrow \lambda_1||&lt;\sqrt(n)*det(L)^\frac{1}{n}\ \ \ \ n是格的维数，L是格的基矩阵<br>$$<br>​	接下来是 $LLL$ 算法，这个算法的具体原理不展开了，结论就是这个算法作用于任何一个格，会返回它的一组约化基 $b_1…b_n$ ，它们满足下面的约束<br>$$<br>||\overrightarrow{b_1}|| \le 2^\frac{n-1}{4}*det(L)^\frac{1}{n}<br>$$<br>需要指出，约化基满足的条件不只有这一条，但是我们接下来讨论的问题中最多只用到了这个。</p>
+<p>​	最后来看  $coppersmith$ 给出的攻击。首先我们知道，对于方程 $f(x)&#x3D;0$ 我们是比较容易找到它的解的，无论是求根公式抑或是牛顿法都是计算机能够完成的。那么再来看 $f(x)&#x3D;0\ mod \ n$ ，这实际上是一个二元高次方程，以及是几乎不可能求解了。我们很自然地想到，是否存在一个办法可以实现 $f(x)&#x3D;0\ mod\ n$ 到 $f(x)&#x3D;0$ 的转化，但不改变它的解。<br>$$<br>Howgrave-Graham引理\\<br>设h(x)是含有\lambda个单项式的多项式,若\\<br>h(x)&#x3D;0\ mod\ n，且其解|x_0|&lt;X\\<br>||\overrightarrow{h(xX)}||&lt;\frac{n}{\sqrt \lambda},\overrightarrow{h(xX)}是多项式h(xX)的系数向量\\<br>则x_0是h(x)&#x3D;0的一个解<br>$$<br>​	这个证明比较简单，<br>$$<br>|h(x_0)|&#x3D;\sum_ia_ix_0^i\le\sum_i|c_ix_0^i|\le\sum_i|c_i|X^i\\<br>由基本不等式\ \frac{\sum_ix_i}{n}\le\sqrt \frac{\sum_ix_i^2}{n}得，\sum_i|c_i|X^i\le \sqrt{\lambda\sum_i(c_iX^i)^2}&#x3D;\sqrt \lambda||\overline{h(xX)}||&lt;n<br>$$<br>也就是说，$h(x_0)$ 既是 $n$ 的倍数又比它小，那么显然只能是等于0了。</p>
 <p>至此我们基本上回顾了一遍之后我们需要用到的数学知识</p>
-<h2 id="RSA"><a href="#RSA" class="headerlink" title="$RSA$"></a>$RSA$</h2><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>这里不是说 $RSA$ 的原理。我们知道 $RSA$ 有几个比较重要的参数，$p、q、d、d_p、d_q$ ，以及下面的几个方程<br>$$<br>pq&#x3D;N\<br>ed&#x3D;1\ mod\ (p-1)(q-1)\ \Leftrightarrow\ d&#x3D;1+k(p-1)(q-1),1&lt;k&lt;e\<br>ed_p&#x3D;1\ mod\ (p-1)\ \Leftrightarrow\ ed_p&#x3D;1+k_p(p-1),1&lt;k_p&lt;e\<br>ed_q&#x3D;1\ mod\ (q-1)\ \Leftrightarrow\ ed_q&#x3D;1+k_q(q-1),1&lt;k_q&lt;e\<br>(ed_p-1-k_q)(ed_q-1-k_q)&#x3D;k_pk_qN\ \Leftrightarrow\ (k_p-1)(k_q-1)&#x3D;k_pk_qN\ mod\ e\<br>k&#x3D;-k_pk_q\ mod\ e\<br>p&#x3D;gcd(\frac{ed_p − 1}{k_p} + 1, N)\<br>p &#x3D; gcd(a^{ed_p−1} − 1, N),a\in\ Z_N<br>$$<br>利用这些方程，我们只需要直到上述五个值中的任意一个，就可以计算其他的，从而分解 $N$ 达到攻击目的。而我们的基于部分私钥泄露的攻击也是以此作为基础的。</p>
-<h3 id="Partial-m-laek-with-low-e"><a href="#Partial-m-laek-with-low-e" class="headerlink" title="$Partial\ m\ laek\ with\ low\ e$"></a>$Partial\ m\ laek\ with\ low\ e$</h3><p>当我们已知 $m$ 的一部分 $m_0$ 时，构造方程 $f(x)&#x3D;(m_0+x)^e&#x3D;c\ mod\ N$ ，联系我们之前关于格的知识，我们需要构造一个长度小于 $N$ 的方程。于是我们利用一系列解和 $f(x)$ 相同的方程 $f(Xx)$ 、$Nx^i$ 的系数向量构造一个格（这里取 $e&#x3D;3$ ，$M$ 是 $x$ 的上界 ）<br>$$<br>\left[\begin{matrix}M^3&amp;3m_0M^2&amp;3m_0^2M&amp;m_0^3\<br>0&amp;NM^2&amp;0&amp;0\0&amp;0&amp;NM&amp;0\0&amp;0&amp;0&amp;N<br>\end{matrix}\right]<br>$$<br>我们分析一下此方法成功所需要的对 $m_0$ 的约束。</p>
-<p>对于加密指数为 $e$ 的情况，$det(L)&#x3D;M^{\frac{e(e+1)}{2}}N^e$ ，根据闵可夫斯基边界，约化基的最短向量 $||b_1||\le(2^{\frac{e}{4}}M^{\frac{e(e+1)}{2}}N^e)^{\frac{1}{e+1}}$ 应当小于 $\frac{N}{\sqrt(e+1)}$ 。这里我们做一些近似计算，在 $e$ 不是很大的情况下（一般都是3左右），$||b_1||\le (M^{\frac{e(e+1)}{2}}N^e)^{\frac{1}{e+1}}$ , 由此计算得 $M&lt;N^{\frac{2}{e(e+1)}}(e+1)^\frac{1}{e}$ <strong>（这个结果是自己计算的，没有验证）</strong> 。对于 $e&#x3D;3$ ，大约需要满足 $M&lt;N^\frac{1}{6}$ 。</p>
-<h3 id="Factorization-from-consecutive-bits-of-p"><a href="#Factorization-from-consecutive-bits-of-p" class="headerlink" title="$Factorization\ from\ consecutive\ bits\ of\ p$"></a>$Factorization\ from\ consecutive\ bits\ of\ p$</h3><p>这个问题非常经典，我们一样构造方程 $f(x)&#x3D;0\ mod\ p^b$ ，这里我们通过组合 $h(x)&#x3D;(p_0+x)$ 和 $N$ 来构造一系列满足条件的方程 $N^{b-i}h(Xx)^{i}\ ,0\le i\le b-1$ 以及 $x^{b-i}h(Xx)^b\ 0\le i \le b$ 。这样我们可以得到 $2b+1$ 个解相同的方程，正好组成一个 $2b+1$阶方阵。下面以 $b&#x3D;$ 为例构造格2，$X$ 为 $x$ 的上界<br>$$<br>\left[\begin{matrix}<br>X^4&amp;2p_0X^3&amp;p_0^2X^2&amp;0&amp;0\<br>0&amp;X^3&amp;2p_0X^2&amp;p_0^2X&amp;0\<br>0&amp;0&amp;X^2&amp;2p_0X&amp;p_0^2\<br>0&amp;0&amp;0&amp;NX&amp;p_0N\<br>0&amp;0&amp;0&amp;0&amp;N^2<br>\end{matrix}\right]<br>$$<br>同样，我们讨论该方法可解所需的条件。$det(L)&#x3D;X^{b(2b+1)}N^{\frac{b(b+1)}{2}}$ ，这里取 $p&gt;\sqrt N$  由此得到 $X&lt;\frac{1}{\sqrt 2}N^{\frac{b}{2(2b+1)}}(2b+1)^{\frac{1}{2b}}\approx N^{\frac{b}{2(2b+1)}}$ 。显然我们容易得出一个极限就是 $N^{\frac{1}{4}}$ ，也就是说我们必须知道一半以上的 $p$ 时才可能计算出结果。</p>
+<h2 id="RSA"><a href="#RSA" class="headerlink" title="$RSA$"></a>$RSA$</h2><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>这里不是说 $RSA$ 的原理。我们知道 $RSA$ 有几个比较重要的参数，$p、q、d、d_p、d_q$ ，以及下面的几个方程<br>$$<br>pq&#x3D;N\\<br>ed&#x3D;1\ mod\ (p-1)(q-1)\ \Leftrightarrow\ d&#x3D;1+k(p-1)(q-1),1&lt;k&lt;e\\<br>ed_p&#x3D;1\ mod\ (p-1)\ \Leftrightarrow\ ed_p&#x3D;1+k_p(p-1),1&lt;k_p&lt;e\\<br>ed_q&#x3D;1\ mod\ (q-1)\ \Leftrightarrow\ ed_q&#x3D;1+k_q(q-1),1&lt;k_q&lt;e\\<br>(ed_p-1-k_q)(ed_q-1-k_q)&#x3D;k_pk_qN\ \Leftrightarrow\ (k_p-1)(k_q-1)&#x3D;k_pk_qN\ mod\ e\\<br>k&#x3D;-k_pk_q\ mod\ e\\<br>p&#x3D;gcd(\frac{ed_p − 1}{k_p} + 1, N)\\<br>p &#x3D; gcd(a^{ed_p−1} − 1, N),a\in\ Z_N<br>$$<br>利用这些方程，我们只需要直到上述五个值中的任意一个，就可以计算其他的，从而分解 $N$ 达到攻击目的。而我们的基于部分私钥泄露的攻击也是以此作为基础的。</p>
+<h3 id="Partial-m-laek-with-low-e"><a href="#Partial-m-laek-with-low-e" class="headerlink" title="$Partial\ m\ laek\ with\ low\ e$"></a>$Partial\ m\ laek\ with\ low\ e$</h3><p>当我们已知 $m$ 的一部分 $m_0$ 时，构造方程 $f(x)&#x3D;(m_0+x)^e&#x3D;c\ mod\ N$ ，联系我们之前关于格的知识，我们需要构造一个长度小于 $N$ 的方程。于是我们利用一系列解和 $f(x)$ 相同的方程 $f(Xx)$ 、$Nx^i$ 的系数向量构造一个格（这里取 $e&#x3D;3$ ，$M$ 是 $x$ 的上界 ）<br>$$<br>\left[\begin{matrix}M^3&amp;3m_0M^2&amp;3m_0^2M&amp;m_0^3\\<br>0&amp;NM^2&amp;0&amp;0\\0&amp;0&amp;NM&amp;0\\0&amp;0&amp;0&amp;N<br>\end{matrix}\right]<br>$$<br>我们分析一下此方法成功所需要的对 $m_0$ 的约束。</p>
+<p>对于加密指数为 $e$ 的情况，$det(L)&#x3D;M^{\frac{e(e+1)}{2}}N^e$ ，根据闵可夫斯基边界，约化基的最短向量 $||\overrightarrow b_1||\le(2^{\frac{e}{4}}M^{\frac{e(e+1)}{2}}N^e)^{\frac{1}{e+1}}$ 应当小于 $\frac{N}{\sqrt(e+1)}$ 。这里我们做一些近似计算，在 $e$ 不是很大的情况下（一般都是3左右），$||\overrightarrow b_1||\le (M^{\frac{e(e+1)}{2}}N^e)^{\frac{1}{e+1}}$ , 由此计算得 $M&lt;N^{\frac{2}{e(e+1)}}(e+1)^\frac{1}{e}$ <strong>（这个结果是自己计算的，没有验证）</strong> 。对于 $e&#x3D;3$ ，大约需要满足 $M&lt;N^\frac{1}{6}$ 。</p>
+<h3 id="Factorization-from-consecutive-bits-of-p"><a href="#Factorization-from-consecutive-bits-of-p" class="headerlink" title="$Factorization\ from\ consecutive\ bits\ of\ p$"></a>$Factorization\ from\ consecutive\ bits\ of\ p$</h3><p>这个问题非常经典，我们一样构造方程 $f(x)&#x3D;0\ mod\ p^b$ ，这里我们通过组合 $h(x)&#x3D;(p_0+x)$ 和 $N$ 来构造一系列满足条件的方程 $N^{b-i}h(Xx)^{i}\ ,0\le i\le b-1$ 以及 $x^{b-i}h(Xx)^b\ 0\le i \le b$ 。这样我们可以得到 $2b+1$ 个解相同的方程，正好组成一个 $2b+1$阶方阵。下面以 $b&#x3D;$ 为例构造格2，$X$ 为 $x$ 的上界<br>$$<br>\left[\begin{matrix}<br>X^4&amp;2p_0X^3&amp;p_0^2X^2&amp;0&amp;0\\<br>0&amp;X^3&amp;2p_0X^2&amp;p_0^2X&amp;0\\<br>0&amp;0&amp;X^2&amp;2p_0X&amp;p_0^2\\<br>0&amp;0&amp;0&amp;NX&amp;p_0N\\<br>0&amp;0&amp;0&amp;0&amp;N^2<br>\end{matrix}\right]<br>$$<br>同样，我们讨论该方法可解所需的条件。$det(L)&#x3D;X^{b(2b+1)}N^{\frac{b(b+1)}{2}}$ ，这里取 $p&gt;\sqrt N$  由此得到 $X&lt;\frac{1}{\sqrt 2}N^{\frac{b}{2(2b+1)}}(2b+1)^{\frac{1}{2b}}\approx N^{\frac{b}{2(2b+1)}}$ 。显然我们容易得出一个极限就是 $N^{\frac{1}{4}}$ ，也就是说我们必须知道一半以上的 $p$ 时才可能计算出结果。</p>
 
     </div>
 
@@ -250,7 +251,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2022/11/07/%E7%A7%81%E9%92%A5%E6%81%A2%E5%A4%8D%E7%AC%94%E8%AE%B0/" title="私钥恢复笔记">http://example.com/2022/11/07/私钥恢复笔记/</a>
+    <a href="http://example.com/2022/11/07/%E7%A7%81%E9%92%A5%E6%81%A2%E5%A4%8D%E7%AC%94%E8%AE%B0/" title="key recovery">http://example.com/2022/11/07/私钥恢复笔记/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -270,8 +271,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/09/15/MT19937%E7%AC%94%E8%AE%B0/" rel="prev" title="MT19937笔记">
-      <i class="fa fa-chevron-left"></i> MT19937笔记
+    <a href="/2022/09/15/New%F0%9F%91%B4CTF%20wp/" rel="prev" title="New👴CTF Crypto wp">
+      <i class="fa fa-chevron-left"></i> New👴CTF Crypto wp
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -332,7 +333,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E7%AF%87%E7%9A%84%E6%94%BB%E5%87%BB%E9%92%88%E5%AF%B9%E4%BA%8E-RSA-%E3%80%81-DAS-%E3%80%81-DH-%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%8C%E5%8F%AA%E6%98%AF%E8%87%AA%E5%B7%B1%E7%9A%84%E7%90%86%E8%A7%A3%E3%80%82%E5%86%85%E5%AE%B9%E6%9D%A5%E8%87%AA%E4%BA%8E"><span class="nav-number">1.0.1.</span> <span class="nav-text">本篇的攻击针对于 $RSA$ 、 $DAS$  、 $DH$ 三种情况，只是自己的理解。内容来自于</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">数学基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA"><span class="nav-number">3.</span> <span class="nav-text">$RSA$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Partial-m-laek-with-low-e"><span class="nav-number">3.2.</span> <span class="nav-text">$Partial\ m\ laek\ with\ low\ e$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Factorization-from-consecutive-bits-of-p"><span class="nav-number">3.3.</span> <span class="nav-text">$Factorization\ from\ consecutive\ bits\ of\ p$</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">数学基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA"><span class="nav-number">3.</span> <span class="nav-text">$RSA$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Partial-m-laek-with-low-e"><span class="nav-number">3.2.</span> <span class="nav-text">$Partial\ m\ laek\ with\ low\ e$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Factorization-from-consecutive-bits-of-p"><span class="nav-number">3.3.</span> <span class="nav-text">$Factorization\ from\ consecutive\ bits\ of\ p$</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
