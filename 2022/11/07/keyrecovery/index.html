@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="记录一下公钥密码体制下各种私钥泄露的攻击手段">
+<meta property="og:type" content="article">
+<meta property="og:title" content="key recovery for RSA DAS and DH with partial key leaked">
+<meta property="og:url" content="http://example.com/2022/11/07/keyrecovery/index.html">
+<meta property="og:site_name" content="Cata1yst&#39;s blog">
+<meta property="og:description" content="记录一下公钥密码体制下各种私钥泄露的攻击手段">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-07T06:03:38.000Z">
+<meta property="article:modified_time" content="2023-01-09T01:58:09.652Z">
+<meta property="article:author" content="Cata1ysts">
+<meta property="article:tag" content="key attack">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/11/07/keyrecovery/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>key recovery for RSA DAS and DH with partial key leaked | Cata1yst's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cata1yst's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">祇今尚有清流月，曾照高王万马过</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/07/keyrecovery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cata1ysts">
+      <meta itemprop="description" content="努力学习crypto并希望有一个web大手子浇浇的pwn萌新">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cata1yst's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          key recovery for RSA DAS and DH with partial key leaked
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-07 14:03:38" itemprop="dateCreated datePublished" datetime="2022-11-07T14:03:38+08:00">2022-11-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-09 09:58:09" itemprop="dateModified" datetime="2023-01-09T09:58:09+08:00">2023-01-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">记录一下公钥密码体制下各种私钥泄露的攻击手段</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>本篇的攻击针对于 $RSA$ 、 $DAS$  、 $DH$ 三种情况，只是自己的理解。内容来自于<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2020/1506.pdf">Recovering cryptographic keys from partial information, by example</a></p>
+<h2 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h2><p>​	这里会频繁用到 $coppersmith$ 的攻击，所以需要对格理论具有一定了解。本人对格也是一知半解，只能讲述一下自己的理解和该理论的一些结论。</p>
+<h3 id="一元-coppersmith-攻击"><a href="#一元-coppersmith-攻击" class="headerlink" title="一元 $coppersmith$ 攻击"></a>一元 $coppersmith$ 攻击</h3><p>​	首先是格，格的抽象定义就是一组在欧氏空间中的线性无关的向量的线性组合，而这组线性无关的向量称为格的一组基。如果只从计算需要来说，格就是一个秩不为0的方阵。</p>
+<p>​	然后是格中最短向量的问题，这里不得不说一下伟大的 $Minkowski$ 边界。我们假设格中最短向量是 $\overrightarrow \lambda_1$ 那么它应该满足下面的式子：<br>$$<br>||\overrightarrow \lambda_1||&lt;\sqrt(n)*det(L)^\frac{1}{n}\ \ \ \ n是格的维数，L是格的基矩阵<br>$$<br>​	接下来是 $LLL$ 算法，这个算法的具体原理不展开了，结论就是这个算法作用于任何一个格，会返回它的一组约化基 $b_1…b_n$ ，它们满足下面的约束<br>$$<br>||\overrightarrow{b_1}|| \le 2^\frac{n-1}{4}*det(L)^\frac{1}{n}<br>$$<br>需要指出，约化基满足的条件不只有这一条，但是我们接下来讨论的问题中多数时候只用到了这个。</p>
+<p>​	最后来看  $coppersmith$ 给出的攻击模式。首先我们知道，对于方程 $f(x)&#x3D;0$ 我们是比较容易找到它的解的，无论是求根公式抑或是牛顿法都是计算机能够完成的。那么再来看 $f(x)&#x3D;0\ mod \ n$ ，这实际上是一个二元高次方程，以及是几乎不可能求解了。我们很自然地想到，是否存在一个办法可以实现 $f(x)&#x3D;0\ mod\ n$ 到 $f(x)&#x3D;0$ 的转化，但不改变它的解。<br>$$<br>Howgrave-Graham引理\\<br>设h(x)是含有\lambda个单项式的多项式,若\\<br>h(x)&#x3D;0\ mod\ n，且其解|x_0|&lt;X\\<br>||\overrightarrow{h(xX)}||&lt;\frac{n}{\sqrt \lambda},\overrightarrow{h(xX)}是多项式h(xX)的系数向量\\<br>则x_0是h(x)&#x3D;0的一个解<br>$$<br>​	这个证明比较简单，<br>$$<br>|h(x_0)|&#x3D;\sum_ia_ix_0^i\le\sum_i|c_ix_0^i|\le\sum_i|c_i|X^i\\<br>由基本不等式\ \frac{\sum_ix_i}{n}\le\sqrt \frac{\sum_ix_i^2}{n}得，\sum_i|c_i|X^i\le \sqrt{\lambda\sum_i(c_iX^i)^2}&#x3D;\sqrt \lambda||\overline{h(xX)}||&lt;n<br>$$<br>也就是说，$h(x_0)$ 既是 $n$ 的倍数又比它小，那么显然只能是等于0了。</p>
+<h3 id="延申知识——多元-coppersmith-攻击"><a href="#延申知识——多元-coppersmith-攻击" class="headerlink" title="延申知识——多元 $coppersmith$ 攻击"></a>延申知识——多元 $coppersmith$ 攻击</h3><p>多元 $coppersmith$ 攻击的本质和一元是一样的，只不过这里我们求解的是 $n$ 元高次方程。</p>
+<p>首先利用 $coppersmith$ 方法，我们得到一组从小到大的向量。之前我们只采用了第一个向量构造多项式，现在为了求解这 $n$ 个未知数，我们至少需要 $n$ 个方程才行，于是我们需要采用约化基的 $n$ 个向量。</p>
+<p>多元 $coppersmith$ 的第一个困难在于，没有已知的定理告诉我们约化基其他向量的大小（第一个向量有闵可夫斯基定理约束）我们需要验证所选向量是否满足 $||v_i||&lt; N$ 。而随着未知数地增多，这个条件会很难满足。</p>
+<p>不论如何，假设我们已经通过上述方法成功构造了一系列争整数域的方程，如何求解多元高次方程依旧是一个难题。这里我们使用魔法——结式 （$resultant$）。</p>
+<p>原理不太好懂，这里给出个人理解。首先是结式原本只作用于一元多项式，比如我们有两个多项式 $f(x)、g(x)$ ，我们把它们的系数按照一定的规则构成一个行列式，这个行列式有一个专属名词—— $Sylvester$ 行列式。然后有定理告诉我们当多项式 $f、g$ 互素的时候，该行列式的值为0。</p>
+<p>以二元多项式为例，我们把其中一个元 $y$ 看作是系数的一部分放进行列式，那么行列式的值应该是 $y$ 的一个多项式 $h(y)$ 。如果我们已知这两个二元多项式互素，则 $h(y)&#x3D;0$ 。</p>
+<p>如果觉得上面的描述不太清楚，也可以单纯地理解为二元方程消元（你可以控制消哪个元）。不论怎么说，运用结式我们得到了一个整数域的一元方程，完全可解，然后把解带入回原方程求解另一个未知数即可。</p>
+<p>那么显然，如果之前选取的向量所构成的多项式中有两个是不互素的，我们需要重新选取向量构造。这使得对于 $n$ 元 $copper$ ，我们往往需要选取多于 $n$ 个向量才能够求解，导致了 $||v_i||&lt; N$ 这一个条件更难被满足。</p>
+<p>至此我们基本上回顾了一遍之后我们需要用到的数学知识。</p>
+<h1 id="RSA"><a href="#RSA" class="headerlink" title="$RSA$"></a>$RSA$</h1><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>这里不是说 $RSA$ 的原理。我们知道 $RSA$ 有几个比较重要的参数，$p、q、d、d_p、d_q$ ，以及下面的几个方程<br>$$<br>\begin{align}<br>&amp;pq&#x3D;N\tag{1}\\<br>&amp;ed&#x3D;1\ mod\ (p-1)(q-1)\ \Leftrightarrow\ ed&#x3D;1+k(p-1)(q-1),1&lt;k&lt;e\tag{2}\\<br>&amp;ed_p&#x3D;1\ mod\ (p-1)\ \Leftrightarrow\ ed_p&#x3D;1+k_p(p-1),1&lt;k_p&lt;e\tag{3}\\<br>&amp;ed_q&#x3D;1\ mod\ (q-1)\ \Leftrightarrow\ ed_q&#x3D;1+k_q(q-1),1&lt;k_q&lt;e\tag{4}\\<br>&amp;(ed_p-1-k_q)(ed_q-1-k_q)&#x3D;k_pk_qN\ \Leftrightarrow\ (k_p-1)(k_q-1)&#x3D;k_pk_qN\ mod\ e\tag{5}\\<br>&amp;k&#x3D;-k_pk_q\ mod\ e\tag{6}\\<br>&amp;p&#x3D;gcd(\frac{ed_p − 1}{k_p} + 1, N)\tag{7}\\<br>&amp;p &#x3D; gcd(a^{ed_p−1} − 1, N),a\in\ Z_N\tag{8}<br>\end{align}<br>$$<br>利用这些方程，我们只需要直到上述五个值中的任意一个，就可以计算其他的，从而分解 $N$ 达到攻击目的。而我们的基于部分私钥泄露的攻击也是以此作为基础的。</p>
+<h3 id="p-的高（低）位泄露"><a href="#p-的高（低）位泄露" class="headerlink" title="$p$ 的高（低）位泄露"></a><strong>$p$ 的高（低）位泄露</strong></h3><p>这个问题非常经典，我们一样构造方程 $f(x)&#x3D;0\ mod\ p^b$ ，这里我们通过组合 $h(x)&#x3D;(p_0+x)$ 和 $N$ 来构造一系列满足条件的方程 $N^{b-i}h(Xx)^{i}\ ,0\le i\le b-1$ 以及 $x^{b-i}h(Xx)^b\ 0\le i \le b$ 。这样我们可以得到 $2b+1$ 个解相同的方程，正好组成一个 $2b+1$阶方阵。下面以 $b&#x3D;2$ 为例构造格，$X$ 为 $x$ 的上界<br>$$<br>\left[\begin{matrix}<br>X^4&amp;2p_0X^3&amp;p_0^2X^2&amp;0&amp;0\\<br>0&amp;X^3&amp;2p_0X^2&amp;p_0^2X&amp;0\\<br>0&amp;0&amp;X^2&amp;2p_0X&amp;p_0^2\\<br>0&amp;0&amp;0&amp;NX&amp;p_0N\\<br>0&amp;0&amp;0&amp;0&amp;N^2<br>\end{matrix}\right]<br>$$<br>同样，我们讨论该方法可解所需的条件。$det(L)&#x3D;X^{b(2b+1)}N^{\frac{b(b+1)}{2}}$ ，这里取 $p&gt;\sqrt N$  由此得到 $X&lt;\frac{1}{\sqrt 2}N^{\frac{b}{2(2b+1)}}(2b+1)^{\frac{1}{2b}}\approx N^{\frac{b}{2(2b+1)}}$ 。显然我们容易得出一个极限就是 $N^{\frac{1}{4}}$ ，也就是说我们必须知道一半以上的 $p$ 时才可能计算出结果。</p>
+<p>上面讨论的都是 $p$ 的高位泄露，如果换成低位泄露，思路也是一样的，就不再赘述了（脚本改一下就行）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#p高位泄露攻击</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_least_significant_bits_of_p</span>(<span class="params">n,p0,bits</span>):</span><br><span class="line">    PR.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">    f=p0+x</span><br><span class="line">    f=f.monic()</span><br><span class="line">    roots=f.small_roots(X=<span class="number">1</span>&lt;&lt;bits,beta=<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">if</span>(roots):</span><br><span class="line">        X=roots[<span class="number">0</span>]</span><br><span class="line">        p=ZZ(p0+X)</span><br><span class="line">        <span class="keyword">assert</span> n%p==<span class="number">0</span>,n%p</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;p=<span class="subst">&#123;p&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> p</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;not found&quot;</span>)</span><br><span class="line"><span class="comment">#p低位泄露攻击</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_least_significant_bits_of_p</span>(<span class="params">n,p0,bits</span>):</span><br><span class="line">    k=<span class="number">1</span>&lt;&lt;p0.bit_length()</span><br><span class="line">    PR.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">    f=p0+k*x</span><br><span class="line">    f=f.monic()</span><br><span class="line">    roots=f.small_roots(X=<span class="number">1</span>&lt;&lt;bits,beta=<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">if</span>(roots):</span><br><span class="line">        X=roots[<span class="number">0</span>]</span><br><span class="line">        p=ZZ(p0+k*X)</span><br><span class="line">        <span class="keyword">assert</span> n%p==<span class="number">0</span>,n%p</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;p=<span class="subst">&#123;p&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> p</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;not found&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="p-的连续中间比特泄露"><a href="#p-的连续中间比特泄露" class="headerlink" title="$p$ 的连续中间比特泄露"></a><strong>$p$ 的连续中间比特泄露</strong></h3><p>二元 $coppersmith$ 。</p>
+<p>首先是方程 $f(x,y)&#x3D;x+a+2^ty\ mod\ p$ ，设 $X,Y$ 分别是 $x,y$ 的上界。为了尽可能使得约化基中各个向量的范数小于 $p$ ，我们可以稍微使格大一些。比如我们使用$f^3、f^2y、fy^2、y^3N、f^2、fy、y^2N、f、yN、N$ 这一系列模 $p$ 的方程，把它们的系数放进格子里。<br>$$<br>\left[\begin{matrix}<br>X^3&amp;3\cdot2^tX^2Y&amp;3\cdot2^{2t}XY^2&amp;2^{3t}Y^3&amp;3aX^2&amp;6\cdot2^taXY&amp;3\cdot2^{2t}a\cdot Y^2&amp;3\cdot a^2X&amp;3\cdot 2^t\cdot a^2Y&amp;a^3\\<br>0&amp;X^2Y&amp;2\cdot2^tX^2Y&amp;2^{2t}XY^2&amp;0&amp;2aXY&amp;2\cdot2^taY^2&amp;0&amp;a^2Y&amp;0\\<br>0&amp;0&amp;X^2Y&amp;2^tY^3&amp;0&amp;0&amp;aY^2&amp;0&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;Y^3N&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;X^2&amp;2\cdot2^tXY&amp;2^{2t}Y^2&amp;2aX&amp;2^{2t}aY&amp;a^2<br>\end{matrix}\right]<br>$$<br>剩下的几行摸了（明白就彳亍</p>
+<p>然后我们拿出约化基中的两个基向量作为方程系数，利用结式求解即可。需要注意，一般来说我们是直接拿第一二行用，但有时候可能得到的两个多项式不互素，这时候只能拿更大的向量来构造多项式了。</p>
+<p>稍微描述一下这个方法的缺陷困难性，即保证 $||v_i||\le p$ 。首先就是我们需要多个约化基向量，而 $copper$ 只能保证第一个约化向量的范围。然后就是最终构造的整数域方程的互素问题，这可能导致我们被迫选取更大的约化向量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#根据给定系数和自变量列表构造多元多项式</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gen_function</span>(<span class="params">coe_list,var_list</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">len</span>(coe_list)==<span class="built_in">len</span>(var_list)</span><br><span class="line">    f=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(coe_list)):</span><br><span class="line">        f+=coe_list[i]*var_list[i]</span><br><span class="line">    <span class="keyword">return</span> f</span><br><span class="line"><span class="comment">#根据多项式、自变量上界、自变量列表构造格</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gen_matrix</span>(<span class="params">f_list,upper_list,var_list</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">len</span>(f_list)==<span class="built_in">len</span>(var_list)==<span class="built_in">len</span>(upper_list)</span><br><span class="line">    s=gen_function([<span class="number">1</span>]*<span class="built_in">len</span>(var_list),var_list)</span><br><span class="line">    L=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(f_list)):</span><br><span class="line">        cc=(f_list[i]+s).coefficients()</span><br><span class="line">        coe=[(cc[_]-<span class="number">1</span>)*upper_list[_] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(cc))]</span><br><span class="line">        L.append(coe)</span><br><span class="line">    <span class="keyword">return</span> matrix(L)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_middle_bits_of_p</span>(<span class="params">X,Y,N,p0,bits</span>):</span><br><span class="line">    PRxy.&lt;x,y&gt; = PolynomialRing(ZZ)</span><br><span class="line">    f=x+(<span class="number">2</span>^bits)*y+p0</span><br><span class="line">    variable=[x^<span class="number">3</span>,x^<span class="number">2</span>*y,x*y^<span class="number">2</span>,y^<span class="number">3</span>,x^<span class="number">2</span>,x*y,y^<span class="number">2</span>,x,y,<span class="number">1</span>]</span><br><span class="line">    f_list=[f^<span class="number">3</span>,f^<span class="number">2</span>*y,f*y^<span class="number">2</span>,y^<span class="number">3</span>*N,f^<span class="number">2</span>,f*y,y^<span class="number">2</span>*N,f,N*y,N]</span><br><span class="line">    upper_list=[X^<span class="number">3</span>,X^<span class="number">2</span>*Y,X*Y^<span class="number">2</span>,Y^<span class="number">3</span>,X^<span class="number">2</span>,X*Y,Y^<span class="number">2</span>,X,Y,<span class="number">1</span>]</span><br><span class="line">    <span class="comment">#格构造及规约</span></span><br><span class="line">    L=gen_matrix(f_list,upper_list,variable)</span><br><span class="line">    LLL=L.LLL()</span><br><span class="line">    Coefficient=[]</span><br><span class="line">    <span class="comment">#将约化基还原成系数矩阵</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(f_list)):</span><br><span class="line">        Coefficient.append([<span class="built_in">int</span>(LLL[i][j])//upper_list[j] <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(<span class="built_in">list</span>(LLL[i])))])</span><br><span class="line">      <span class="comment">#取出两组系数矩阵构造二元方程组，其范数小于p</span></span><br><span class="line">    h=gen_function(Coefficient[<span class="number">1</span>],variable)</span><br><span class="line">    g=gen_function(Coefficient[<span class="number">2</span>],variable)</span><br><span class="line">    <span class="comment">#取结式消元</span></span><br><span class="line">    q=h.resultant(g)</span><br><span class="line">    <span class="keyword">assert</span> q!=<span class="number">0</span>,<span class="string">&quot;两个方程不互素,请重新选择向量&quot;</span></span><br><span class="line">    q=q.univariate_polynomial()</span><br><span class="line">    PRx.&lt;xn&gt;=PolynomialRing(ZZ)</span><br><span class="line">    q=q.change_ring(PRx).subs(y=xn)</span><br><span class="line">    q=q.monic()</span><br><span class="line">    <span class="comment">#求取结式的根即为y</span></span><br><span class="line">    roots=q.roots()</span><br><span class="line">    <span class="keyword">assert</span> roots,<span class="string">&quot;No roots found&quot;</span></span><br><span class="line">    res_y=<span class="built_in">int</span>(roots[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line">    <span class="comment">#将Y回代入上述方程之一，再解一元方程即得x</span></span><br><span class="line">    g=<span class="built_in">eval</span>(<span class="built_in">str</span>(g).replace(<span class="string">&#x27;y&#x27;</span>,<span class="string">&#x27;res_y&#x27;</span>).replace(<span class="string">&#x27;^&#x27;</span>,<span class="string">&#x27;**&#x27;</span>))</span><br><span class="line">    g=g.change_ring(PRx).subs(x=xn)</span><br><span class="line">    res_x=g.roots()[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    p=<span class="built_in">int</span>(f(res_x,res_y))</span><br><span class="line">    q=N//p</span><br><span class="line">    <span class="keyword">assert</span> p*q==N,<span class="string">&quot;error&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;\nq=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(p,q))</span><br><span class="line">    <span class="keyword">return</span> p,q</span><br><span class="line">p,q=RSA_middle_bits_of_p(X,Y,N,p0,bits)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="啸砣斩"><a href="#啸砣斩" class="headerlink" title="啸砣斩"></a>啸砣斩</h3><p>有了上面几种关于 $p$ 泄露的情形，我们不禁思考如果 $p$ 泄露了不连续的多段比特，是否还可以恢复。其实这就是一个多元 $copper$ 问题，显然随着未知元的增多，我们需要更多的约化向量来构造我们的方程，那么在保证各个向量的范数小于 $p$ 这件事上的困难就更大了。</p>
+<p>当然如果可解，方法还是和二元的差不多的。</p>
+<h3 id="低加密指数下明文部分泄露"><a href="#低加密指数下明文部分泄露" class="headerlink" title="低加密指数下明文部分泄露"></a>低加密指数下明文部分泄露</h3><p>当我们已知 $m$ 的一部分 $m_0$ 时，构造方程 $f(x)&#x3D;(m_0+x)^e&#x3D;c\ mod\ N$ ，联系我们之前关于格的知识，我们需要构造一个长度小于 $N$ 的方程。于是我们利用一系列解和 $f(x)$ 相同的方程 $f(Xx)$ 、$Nx^i$ 的系数向量构造一个格（这里取 $e&#x3D;3$ ，$M$ 是 $x$ 的上界 ）<br>$$<br>\left[\begin{matrix}M^3&amp;3m_0M^2&amp;3m_0^2M&amp;m_0^3\\<br>0&amp;NM^2&amp;0&amp;0\\0&amp;0&amp;NM&amp;0\\0&amp;0&amp;0&amp;N<br>\end{matrix}\right]<br>$$<br>我们分析一下此方法成功所需要的对 $m_0$ 的约束。</p>
+<p>对于加密指数为 $e$ 的情况，$det(L)&#x3D;M^{\frac{e(e+1)}{2}}N^e$ ，根据闵可夫斯基边界，约化基的最短向量 $||\overrightarrow b_1||\le(2^{\frac{e}{4}}M^{\frac{e(e+1)}{2}}N^e)^{\frac{1}{e+1}}$ 应当小于 $\frac{N}{\sqrt(e+1)}$ 。这里我们做一些近似计算，在 $e$ 不是很大的情况下（一般都是3左右），$||\overrightarrow b_1||\le (M^{\frac{e(e+1)}{2}}N^e)^{\frac{1}{e+1}}$ , 由此计算得 $M&lt;N^{\frac{2}{e(e+1)}}(e+1)^\frac{1}{e}$ <strong>（这个结果是自己计算的，没有验证）</strong> 。对于 $e&#x3D;3$ ，大约需要满足 $M&lt;N^\frac{1}{6}$ 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_most_significant_bits_of_m</span>(<span class="params">n,e,bits,c,m0</span>):</span><br><span class="line">	P.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">	f=(m0+x)^e-c</span><br><span class="line">	f=f.monic()</span><br><span class="line">	roots=f.small_roots(X=<span class="number">2</span>^(bits+<span class="number">1</span>),beta=<span class="number">0.5</span>)</span><br><span class="line">	<span class="keyword">assert</span> roots,<span class="string">&quot;no roots found&quot;</span></span><br><span class="line">	<span class="built_in">print</span>(long_to_bytes(m0+<span class="built_in">int</span>(roots[<span class="number">0</span>])))</span><br><span class="line">RSA_most_significant_bits_of_m(n,e,bits,c,m0)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_least_significant_bits_of_m</span>(<span class="params">n,e,bits,c,m0</span>):</span><br><span class="line">    k=<span class="number">1</span>&lt;&lt;m0.bit_length()</span><br><span class="line">	P.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">	f=(m0+k*x)^e-c</span><br><span class="line">	f=f.monic()</span><br><span class="line">	roots=f.small_roots(X=<span class="number">2</span>^(bits+<span class="number">1</span>),beta=<span class="number">0.5</span>)</span><br><span class="line">	<span class="keyword">assert</span> roots,<span class="string">&quot;no roots found&quot;</span></span><br><span class="line">	<span class="built_in">print</span>(long_to_bytes(m0+k*<span class="built_in">int</span>(roots[<span class="number">0</span>])))</span><br><span class="line">RSA_most_significant_bits_of_m(n,e,bits,c,m0)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果泄露的是高位，原理也是一致的，仿照 $p$ 的情况修改一下 ；中段泄露或者是不连续泄露也可以按照 $p$ 的方法做，不过可能性不大，因为这里原多项式就是三次，构造的格那恐怕要上10了，能不能规约都是问题。</p>
+<h3 id="d-p-高位泄露"><a href="#d-p-高位泄露" class="headerlink" title="$d_p$ 高位泄露"></a>$d_p$ 高位泄露</h3><p>有了上面的经验，这里就非常好处理了。构造方程 $f(x)&#x3D;e(a+x)-1+k_p\ mod\ p$ 。这里 $ed_p-1&#x3D;k_p(p-1)$。现在方程里的未知数还有一个 $k_p$ ，好在我们知道 $1\le k_p&lt;e$ ，一般来说 $e&#x3D;56637$ 已经是最大了，所以爆破也不难。</p>
+<p>那我们稍微修改一下方程 $f(x)&#x3D;A+x\ mod\ p$ ，其中 $A&#x3D;a+e^{-1}(k_p-1)$ 。题目完全回到了之前 $p$ 泄露的情况。不过还是有一点小区别的，虽然同为模 $p$ 的方程，在 $p$ 泄露的情形中，$(p_0+x)$ 算出来直接就是 $p$ 的值；而在此处只是 $p$ 的倍数，还需要将计算结果和 $N$ 取公约数才是 $p$ 。</p>
+<p>同样地，这里我们最大也只能求解 $X&lt;p^{\frac{1}{2}}$ 的情况。</p>
+<p>其实也可以考虑不爆破直接当二元问题求解。（后续补充：自己试了一下，貌似不行，等待好心人解释</p>
+<p>顺带一提，这里如果 $e$ 还是一般的65537的话，要花很多时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#高位泄露</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_most_significant_bits_of_dp</span>(<span class="params">d0,n,e,bits</span>):</span><br><span class="line">    P.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,e):</span><br><span class="line">        f=e*(d0+x)+k-<span class="number">1</span></span><br><span class="line">        f=f.monic()</span><br><span class="line">        roots=f.small_roots(X=<span class="number">2</span>^bits,beta=<span class="number">0.4</span>)</span><br><span class="line">        <span class="keyword">if</span> roots:</span><br><span class="line">            np=<span class="built_in">int</span>(f(<span class="built_in">int</span>(roots[<span class="number">0</span>])))</span><br><span class="line">            p=gcd(np,n)</span><br><span class="line">            q=n//p</span><br><span class="line">            <span class="keyword">assert</span> p*q==n</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;\nq=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(p,q))</span><br><span class="line">            <span class="keyword">return</span> p,q</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;not found&quot;</span>)</span><br><span class="line">p,q=RSA_most_significant_bits_of_dp(n,e,d0,bits)</span><br><span class="line"><span class="comment">#低位泄露</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_least_significant_bits_of_dp</span>(<span class="params">n,e,d0,bits</span>):</span><br><span class="line">    d0bits=d0.bit_length()</span><br><span class="line">    P.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,e):</span><br><span class="line">        f=e*(d0+(<span class="number">2</span>^d0bits)*x)+k-<span class="number">1</span></span><br><span class="line">        f=f.monic()</span><br><span class="line">        roots=f.small_roots(X=<span class="number">2</span>^bits,beta=<span class="number">0.4</span>)</span><br><span class="line">        <span class="keyword">if</span> roots:</span><br><span class="line">            np=<span class="built_in">int</span>(f(<span class="built_in">int</span>(roots[<span class="number">0</span>])))</span><br><span class="line">            p=gcd(np,n)</span><br><span class="line">            q=n//p</span><br><span class="line">            <span class="keyword">assert</span> p*q==n</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;\nq=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(p,q))</span><br><span class="line">            <span class="keyword">return</span> p,q</span><br><span class="line">p,q=RSA_least_significant_bits_of_dp(n,e,d0,bits)</span><br></pre></td></tr></table></figure>
+
+<h3 id="d-低位泄露"><a href="#d-低位泄露" class="headerlink" title="$d$ 低位泄露"></a>$d$ 低位泄露</h3><p>$$<br>\begin{align}<br>&amp;e(d_0+2^kx)&#x3D;1\ mod\ \phi(N)\\<br>\Leftrightarrow&amp;ep(d_0+2^kx)&#x3D;p+k(Np-p^2-N+p)\\<br>\Rightarrow&amp;ed_0&#x3D;p+k(Np-p^2-N+p)\ mod\ 2^k<br>\end{align}<br>$$</p>
+<p>此时未知数还有 $p、k$ ，仿照前面 $d$ 泄露的处理，我们还是爆破 $k$ ，就可以得到关于 $p$ 的一元二次同余方程，虽然还是很难求解，但是 $sage$ 上有一个 $solve_mod$ 函数可以用。于是我们得到 $p$ 在模 $2^k$ 下的解 $p_0$ ，问题就变成了熟悉的 $p$ 低位泄露了。</p>
+<p>关于 $solve_mod$ 的运行时间，貌似每次都要跑很久，对数值比较敏感。（小看了一眼源码，貌似是爆破，<del>以源定真，鉴定为慢</del>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">partial_p</span>(<span class="params">p0,kbits,n</span>):</span><br><span class="line">    PR.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">    nbits=n.nbits()</span><br><span class="line">    f=<span class="number">2</span>^kbits*x+p0</span><br><span class="line">    f=f.monic()</span><br><span class="line">    roots=f.small_roots(X=<span class="number">2</span>^(nbits//<span class="number">2</span>-kbits), beta=<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">if</span> roots:</span><br><span class="line">        x0=roots[<span class="number">0</span>]</span><br><span class="line">        p=f(x)</span><br><span class="line">        <span class="keyword">return</span> ZZ(p)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_p</span>(<span class="params">d0,kbits,e,n</span>):</span><br><span class="line">    X=var(<span class="string">&#x27;X&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,e+<span class="number">1</span>):</span><br><span class="line">        results=solve_mod([e*d0*X-k*X*(n-X+<span class="number">1</span>)+k*n==X],<span class="number">2</span>^kbits)</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> results:</span><br><span class="line">            p0=ZZ(x[<span class="number">0</span>])</span><br><span class="line">            p=partial_p(p0, kbits, n)</span><br><span class="line">            <span class="keyword">if</span> p <span class="keyword">and</span> p!=<span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> p</span><br><span class="line">n=</span><br><span class="line">e=</span><br><span class="line">d0=</span><br><span class="line">kbits=d0.bit_length()</span><br><span class="line">p=find_p(d0,kbits,e,n)</span><br><span class="line">q=n//p</span><br><span class="line"><span class="keyword">assert</span> p*q==n</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;p=<span class="subst">&#123;p&#125;</span>\nq=<span class="subst">&#123;q&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p> 顺带一提， $d$ 泄露没有高位的情况，高位没有模 $2^k$ 这样的操作，只有纯纯的三元。</p>
+<h3 id="p、q-随机比特泄露"><a href="#p、q-随机比特泄露" class="headerlink" title="$p、q$ 随机比特泄露"></a>$p、q$ 随机比特泄露</h3><p> $p、q$ 随机位上的一些比特泄露，显然不可能用 $x$ 元 $coppersmith$ （未知数太多了）。</p>
+<p>这个时候不妨采用笨办法——爆破。没错，摁爆。</p>
+<p>摁爆也是有寄巧的，我们回忆一下十进制整数的乘法<br>$$<br>\begin{array}<br>\ \ \ \ \ 123\<br>\times\ 123\<br>\hline<br>\ \ \ \ 369\<br>\ \ 246\<br>123\<br>\hline<br>15129\<br>\end{array}<br>$$<br>不难发现，结果的个位完全由乘数的个位决定，十位由乘数的个位和十位共同决定。换成数学语言，<br>$$<br>(a\ mod\ 10^i)\times(a\ mod\ 10^i)\equiv c\ mod\ 10^i<br>$$<br>再变得简洁一点<br>$$<br>a\times b\equiv c\ mod\ 10^i<br>$$<br><del>是不是发现这是一个显然的命题？</del></p>
+<p>那么我们以此为原理进行爆破，从 $p、q$  的最后一位开始，如果它们对应位已知，则直接拿来用，否则取遍0、1。之后相乘，根据 $p\times q\equiv n\ mod\ 2^i$ 判断所选取的值是否正确。</p>
+<p>我们来分析一下这个方法的可行性,首先如果 $p、q$ 该位均未知，则我们取00、01、10、11四个可能的组合，其中也许会有多个组合满足上式，不论如何，我们暂且将所有满足等式的值记录；如果其中之一的该位泄露或者两个均泄露，我们可以根据泄露值来反推之前保留的那些数是否正确。</p>
+<p>这和二叉树有点像，从根节点 $p&#x3D;0、q&#x3D;0$ 开始，每次记录的可能值为一层，不过我们在过程中不断否定其中的一些值，最后保留下来的只会有一个。</p>
+<p>然后想想最后保留的真的只有一个吗？</p>
+<p>如果我们从最低位一直操作到 $pbits(qbits)$ 位，此时的 $p、q$ 满足 $p\times q\equiv n\ mod\ 2^{pbits}$ 。假如有两组 $p、q$ 满足条件，那么一定有 $p_1q\equiv _1p_2q_2\ mod\ 2^{pbits}$ ，这应该不难实现<strong>（比如$7<em>2\equiv5</em>6\ mod\ 8$ 而 $2、7、6$ 都是三位二进制数）</strong>。也就是说，只取到 $pbits(qbits)$ 位可能会有多解。好消息是，显然我们需要的 $p、q$ 在这些可能解中，而从这些有限解中找出一组特定的实在不难。于是，该算法是可行的。</p>
+<p>然后就是泄露位数问题，这个比较困难。在可接受时间内运行算法，一般要求泄露位数在一半左右（最好以上）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">import random</span></span><br><span class="line"><span class="string">def hide(p,q,mask):</span></span><br><span class="line"><span class="string">    p = list(bin(p)[2:])</span></span><br><span class="line"><span class="string">    q = list(bin(q)[2:])</span></span><br><span class="line"><span class="string">    while(p.count(&#x27;*&#x27;)&lt;mask*(len(p))):</span></span><br><span class="line"><span class="string">        p[random.randint(1,len(p)-1)]=&#x27;*&#x27;</span></span><br><span class="line"><span class="string">    while (q.count(&#x27;*&#x27;) &lt;mask*(len(q))):</span></span><br><span class="line"><span class="string">        q[random.randint(1, len(q)-1)] = &#x27;*&#x27;</span></span><br><span class="line"><span class="string">    return &quot;&quot;.join(p).zfill(k + 1),&quot;&quot;.join(q).zfill(k + 1)</span></span><br><span class="line"><span class="string">#p的比特长度</span></span><br><span class="line"><span class="string">k = 1024</span></span><br><span class="line"><span class="string">#掩蔽因子（大约kd位被隐藏）</span></span><br><span class="line"><span class="string">d = 0.45</span></span><br><span class="line"><span class="string">#情景生成</span></span><br><span class="line"><span class="string">p = getPrime(k)</span></span><br><span class="line"><span class="string">q = getPrime(k)</span></span><br><span class="line"><span class="string"># print(p)</span></span><br><span class="line"><span class="string"># print(q)</span></span><br><span class="line"><span class="string">n = p * q</span></span><br><span class="line"><span class="string">#泄露的p、q，未知位用*表示</span></span><br><span class="line"><span class="string">p,q=hide(p,q,d)</span></span><br><span class="line"><span class="string">print(f&quot;p=&#123;p&#125;\nq=&#123;q&#125;&quot;)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#开始算法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_random_bits_of_pq</span>(<span class="params">p,q,n</span>):</span><br><span class="line">    P = <span class="number">0</span></span><br><span class="line">    Q = <span class="number">0</span></span><br><span class="line">    res = [(P, Q)]</span><br><span class="line">    <span class="keyword">for</span> bits <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, k + <span class="number">2</span>):</span><br><span class="line">        <span class="comment"># print(f&quot;bits=&#123;bits&#125;&quot;)</span></span><br><span class="line">        new_res = []</span><br><span class="line">        moulde = <span class="number">1</span> &lt;&lt; (bits)</span><br><span class="line">        <span class="comment"># 计算p、q在bits位上可能的值</span></span><br><span class="line">        qbits = pbits = (<span class="number">0</span>, <span class="number">1</span> &lt;&lt; (bits - <span class="number">1</span>))</span><br><span class="line">        <span class="keyword">if</span> (p[-bits] != <span class="string">&quot;*&quot;</span>):</span><br><span class="line">            pbits = [<span class="built_in">int</span>(p[-bits]) &lt;&lt; (bits - <span class="number">1</span>)]</span><br><span class="line">        <span class="keyword">if</span> (q[-bits] != <span class="string">&quot;*&quot;</span>):</span><br><span class="line">            qbits = [<span class="built_in">int</span>(q[-bits]) &lt;&lt; (bits - <span class="number">1</span>)]</span><br><span class="line">        <span class="comment"># 对之前记录的p、q，在加上bits位后验证是否仍然满足条件</span></span><br><span class="line">        <span class="keyword">for</span> p_, q_ <span class="keyword">in</span> res:</span><br><span class="line">            <span class="keyword">for</span> pbit <span class="keyword">in</span> pbits:</span><br><span class="line">                <span class="keyword">for</span> qbit <span class="keyword">in</span> qbits:</span><br><span class="line">                    tmp_p = p_ + pbit</span><br><span class="line">                    tmp_q = q_ + qbit</span><br><span class="line">                    <span class="comment"># 将满足条件的p、q记录</span></span><br><span class="line">                    <span class="keyword">if</span> (((tmp_p * tmp_q) % moulde == n % moulde) <span class="keyword">and</span> (tmp_p, tmp_q) <span class="keyword">not</span> <span class="keyword">in</span> new_res):</span><br><span class="line">                        new_res.append((tmp_p, tmp_q))</span><br><span class="line">        res = new_res</span><br><span class="line">    <span class="keyword">for</span> p, q <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">if</span> (p * q == n):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;p=<span class="subst">&#123;p&#125;</span>\nq=<span class="subst">&#123;q&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> p, q</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;not found&#x27;</span>)</span><br><span class="line">p,q=RSA_random_bits_of_pq(p,q,n)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Xor-RSA"><a href="#Xor-RSA" class="headerlink" title="$Xor\ RSA$"></a>$Xor\ RSA$</h3><p>这种情况和随机比特泄露类似，我们已知 $h&#x3D;p\bigoplus q$ ，那么假定 $p$ 的一位，则 $q$ 的对应位可以根据 $h$ 推算出来</p>
+<p>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#情景生成</span></span><br><span class="line"><span class="string">k = 100</span></span><br><span class="line"><span class="string">p = getPrime(k)</span></span><br><span class="line"><span class="string">q = getPrime(k)</span></span><br><span class="line"><span class="string">n = p * q</span></span><br><span class="line"><span class="string">h = p ^ q</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#算法主体</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">XorRSA</span>(<span class="params">h,n</span>):</span><br><span class="line">    P = <span class="number">0</span></span><br><span class="line">    Q = <span class="number">0</span></span><br><span class="line">    res = [(P, Q)]</span><br><span class="line">    <span class="keyword">for</span> bits <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, k + <span class="number">2</span>):</span><br><span class="line">        new_res = []</span><br><span class="line">        moulde = <span class="number">1</span> &lt;&lt; (bits + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> pbit <span class="keyword">in</span> (<span class="number">0</span>, <span class="number">1</span> &lt;&lt; bits):</span><br><span class="line">            hbit = (h &gt;&gt; bits) % <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> (hbit == <span class="number">1</span>):</span><br><span class="line">                qbit = (moulde &gt;&gt; <span class="number">1</span>) - pbit</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                qbit = pbit</span><br><span class="line">            <span class="keyword">for</span> p_, q_ <span class="keyword">in</span> res:</span><br><span class="line">                p_tmp = p_ + pbit</span><br><span class="line">                q_tmp = q_ + qbit</span><br><span class="line">                <span class="keyword">if</span> ((p_tmp * q_tmp) % moulde == n % moulde):</span><br><span class="line">                    new_res.append((p_tmp, q_tmp))</span><br><span class="line">        res = new_res</span><br><span class="line">    <span class="keyword">for</span> P, Q <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">if</span> (P * Q == n):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">F&quot;p=<span class="subst">&#123;P&#125;</span>\nq=<span class="subst">&#123;Q&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> P,Q</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;not found&quot;</span>)</span><br><span class="line">p,q=XorRSA(h,n)</span><br></pre></td></tr></table></figure>
+
+<h3 id="d、d-p、d-q-随机比特泄露"><a href="#d、d-p、d-q-随机比特泄露" class="headerlink" title="$d、d_p、d_q$ 随机比特泄露"></a>$d、d_p、d_q$ 随机比特泄露</h3><p>算法其实还是爆破，通过确定 $p、q、d、d_p、d_q$ 在特定位上的关系，可以帮助我们判断之前爆破的结果中哪些是错误的。</p>
+<p>第一步，我们还是爆破 $k、k_p、k_q$ ，范围都是 $(1,e)$ 。得到 $k$ 以后，我们干一件事，观察$ ed-1&#x3D;k(p-1)(q-1)$ ，定义一个函数$ \tau(x)&#x3D;{y:2^y|x\ and\ 2^{y+1}\nmid\ x}$  ,那么我们可以得到方程$ d&#x3D;e^{-1}\ mod\ 2^{\tau(k)}$ 。就是一旦我们爆破了 $k$ ，我们就知道了 $d$ 的某些连续低位。</p>
+<p>之后再观察 $ed&#x3D;k(N-p-q)+1$ ，如果等式右边的 $p$ 的第 $i$ 位发生变化，即 $kp$ 项发生变化。$kp$ 可以写成<br>$$<br>\begin{cases}<br>&amp;k&#x3D;k_0<em>2^{\tau(k)}\\<br>&amp;p&#x3D;p_i</em>2^i+p_0\\<br>&amp;(k_0<em>2^{\tau(k)})(p_i</em>2^i+p_0)\\<br>\end{cases}\\<br>\begin{align}<br>\Leftrightarrow&amp;ed-1&#x3D;(k_0p_i<em>2^{\tau(k)+i})+C\tag{1}<br>\end{align}<br>$$<br>而所谓 $p$ 的第 $i$ 位变化其实就是</em>*(1)<strong>中 $p_i$ 的最低位变化，那么我们可以看出，这一变化会使得 $k_0p_i$ 的最低位变化；换算到整个式子，就是右边运算结果的第 $\tau(k)+i$ 位变化。这一变化反应到左边来，对应着 $e、d$ 的第 $\tau(k)+i$ 位</strong>（可以类比 $n$ 的第 $i$ 位和 $p、q$ 的关系）**。而 $e$ 是确定的，因此得出结论，  $p、q$ 的第 $i$ 位决定了 $d$ 的第 $i+\tau(k)$  位。</p>
+<p>该结论对于 $d_p、d_q$ 同样适用。</p>
+<p><del>当然了，也可以完全不按照上述算法，照搬之前的方法全部模 $2^i$ 。</del></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">import random</span></span><br><span class="line"><span class="string">def hide(p,q,d,mask):</span></span><br><span class="line"><span class="string">    p = list(bin(p)[2:])</span></span><br><span class="line"><span class="string">    q = list(bin(q)[2:])</span></span><br><span class="line"><span class="string">    d = list(bin(d)[2:])</span></span><br><span class="line"><span class="string">    while(p.count(&#x27;*&#x27;)&lt;mask*(len(p))):</span></span><br><span class="line"><span class="string">        p[random.randint(1,len(p)-1)]=&#x27;*&#x27;</span></span><br><span class="line"><span class="string">    while (q.count(&#x27;*&#x27;) &lt;mask*(len(q))):</span></span><br><span class="line"><span class="string">        q[random.randint(1, len(q)-1)] = &#x27;*&#x27;</span></span><br><span class="line"><span class="string">    while (d.count(&#x27;*&#x27;) &lt; mask*len(d)):</span></span><br><span class="line"><span class="string">        d[random.randint(1, len(d)-1)] = &#x27;*&#x27;</span></span><br><span class="line"><span class="string">    return &#x27;&#x27;.join(p),&#x27;&#x27;.join(q),&#x27;&#x27;.join(d)</span></span><br><span class="line"><span class="string">#p、q的比特长度</span></span><br><span class="line"><span class="string">lb=1000</span></span><br><span class="line"><span class="string">#隐蔽因子</span></span><br><span class="line"><span class="string">mask=0.6</span></span><br><span class="line"><span class="string">p,q=[getPrime(lb) for _ in range(2)]</span></span><br><span class="line"><span class="string">n=p*q</span></span><br><span class="line"><span class="string">print(f&quot;p=&#123;p&#125;\nq=&#123;q&#125;&quot;)</span></span><br><span class="line"><span class="string">e=getPrime(10)</span></span><br><span class="line"><span class="string">d=inverse(e,(p-1)*(q-1))</span></span><br><span class="line"><span class="string">p,q,d=hide(p,q,d,mask)</span></span><br><span class="line"><span class="string">print(f&quot;p:&#123;p.count(&#x27;*&#x27;)/len(p)&#125;\nq:&#123;q.count(&#x27;*&#x27;)/len(q)&#125;\nd:&#123;d.count(&#x27;*&#x27;)/len(d)&#125;&quot;)</span></span><br><span class="line"><span class="string">#泄露的p、q，未知位用*表示</span></span><br><span class="line"><span class="string">p = &quot;&quot;.join(p).zfill(lb + 1)</span></span><br><span class="line"><span class="string">q = &quot;&quot;.join(q).zfill(lb + 1)</span></span><br><span class="line"><span class="string">d = &quot;&quot;.join(d).zfill(lb + 1)</span></span><br><span class="line"><span class="string">print(f&quot;p=&#123;p&#125;\nq=&#123;q&#125;\nd=&#123;d&#125;&quot;)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#定义tau函数，含义同前文</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tau</span>(<span class="params">k</span>):</span><br><span class="line">    bit=<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(k%(<span class="number">1</span>&lt;&lt;bit)==<span class="number">0</span>):</span><br><span class="line">        bit+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> bit-<span class="number">1</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RSA_random_bit_of_pqd</span>(<span class="params">p,q,d,n</span>):</span><br><span class="line">    <span class="comment"># 爆破k</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, e):</span><br><span class="line">        <span class="comment"># print(f&quot;k=&#123;k&#125;&quot;)</span></span><br><span class="line">        t = tau(k)</span><br><span class="line">        d = d.zfill(t + lb + <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 计算d的低tau(k)位</span></span><br><span class="line">        _d = inverse(e, (<span class="number">1</span> &lt;&lt; t))</span><br><span class="line">        <span class="comment"># 初始化结果</span></span><br><span class="line">        res = [(<span class="number">0</span>, <span class="number">0</span>, _d)]</span><br><span class="line">        <span class="keyword">for</span> bits <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, lb + <span class="number">1</span>):</span><br><span class="line">            new_res = []</span><br><span class="line">            moulde = <span class="number">1</span> &lt;&lt; (bits)</span><br><span class="line">            mod = <span class="number">1</span> &lt;&lt; (bits + t)</span><br><span class="line">            <span class="comment"># 寻找p、q的第bits位以及d的bits+tau(k)位的可能值</span></span><br><span class="line">            qbits = pbits = (<span class="number">0</span>, <span class="number">1</span> &lt;&lt; (bits - <span class="number">1</span>))</span><br><span class="line">            dbits = (<span class="number">0</span>, <span class="number">1</span> &lt;&lt; (bits + t - <span class="number">1</span>))</span><br><span class="line">            <span class="keyword">if</span> (p[-bits] != <span class="string">&quot;*&quot;</span>):</span><br><span class="line">                pbits = [<span class="built_in">int</span>(p[-bits]) &lt;&lt; (bits - <span class="number">1</span>)]</span><br><span class="line">            <span class="keyword">if</span> (q[-bits] != <span class="string">&quot;*&quot;</span>):</span><br><span class="line">                qbits = [<span class="built_in">int</span>(q[-bits]) &lt;&lt; (bits - <span class="number">1</span>)]</span><br><span class="line">            <span class="keyword">if</span> (d[-(bits + t)] != <span class="string">&quot;*&quot;</span>):</span><br><span class="line">                dbits = [<span class="built_in">int</span>(d[-(bits + t)]) &lt;&lt; (bits + t - <span class="number">1</span>)]</span><br><span class="line">            <span class="comment"># 遍历所有可能</span></span><br><span class="line">            <span class="keyword">for</span> p_, q_, d_ <span class="keyword">in</span> res:</span><br><span class="line">                <span class="keyword">for</span> pbit <span class="keyword">in</span> pbits:</span><br><span class="line">                    <span class="keyword">for</span> qbit <span class="keyword">in</span> qbits:</span><br><span class="line">                        <span class="keyword">for</span> dbit <span class="keyword">in</span> dbits:</span><br><span class="line">                            tmp_p = p_ + pbit</span><br><span class="line">                            tmp_q = q_ + qbit</span><br><span class="line">                            tmp_d = d_ + dbit</span><br><span class="line">                            <span class="comment"># 将满足条件的p、q记录</span></span><br><span class="line">                            <span class="keyword">if</span> (((tmp_p * tmp_q) % moulde == n % moulde) <span class="keyword">and</span> (</span><br><span class="line">                                    (e * tmp_d) % mod == (<span class="number">1</span> + k * (n - tmp_p - tmp_q + <span class="number">1</span>)) % mod)):</span><br><span class="line">                                new_res.append((tmp_p, tmp_q, tmp_d))</span><br><span class="line">            res = new_res</span><br><span class="line">        <span class="keyword">for</span> P, Q, D <span class="keyword">in</span> res:</span><br><span class="line">            <span class="keyword">if</span> (Q * P == n):</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;p=<span class="subst">&#123;P&#125;</span>\nq=<span class="subst">&#123;Q&#125;</span>\nd=<span class="subst">&#123;D&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="keyword">return</span> P,Q,D</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;not found&quot;</span>)</span><br><span class="line">p,q,d=RSA_random_bit_of_pqd(p,q,d,n)</span><br></pre></td></tr></table></figure>
+
+<h1 id="DSA"><a href="#DSA" class="headerlink" title="$DSA$"></a>$DSA$</h1><h3 id="基本原理-1"><a href="#基本原理-1" class="headerlink" title="基本原理"></a>基本原理</h3><p>稍微提一下 $DSA$ 的原理罢。 $p$ 是一个大素数（一般是1024位）； $q$ 是 $p-1$ 的一个因子（一般是160位左右）； $g$ 满足 $g^q&#x3D;1\ mod\ p$；$d$ 是一个随机数，$y&#x3D;g^d\ mod\ p$ 。</p>
+<p>签名过程如下<br>$$<br>\begin{align}<br>&amp;r&#x3D;(g^k\ mod\ p)\ mod\ q，k\in[1,p-1]\tag{1}\\<br>&amp;s&#x3D;k^{-1}<em>(h+d</em>r)\ mod\ p，h是消息的哈希值\tag{2}<br>\end{align}<br>$$<br>验证过程如下<br>$$<br>\begin{align}<br>&amp;e_1&#x3D;h<em>s^{-1}\ mod\ q\tag{1}\\<br>&amp;e_2&#x3D;r</em>s^{-1}\ mod\ q\tag{2}\\<br>&amp;ver(key,sign)&#x3D;true\Leftrightarrow (g^{e_1}y^{e_2}\ mod\ p)\ mod\ q&#x3D;s\tag{3}<br>\end{align}<br>$$<br>下面是一些私钥恢复过程中常见的恒等式<br>$$<br>d&#x3D;r^{-1}(ks-h)\ mod\ q<br>$$</p>
+<h3 id="随机数-k-过小"><a href="#随机数-k-过小" class="headerlink" title="随机数 $k$ 过小"></a>随机数 $k$ 过小</h3><p>这种情况我们需要知道至少两组签名，然后利用 $SVP$ 问题的解法可以解决。<br>$$<br>\begin{align}<br>&amp;r_1&#x3D;(g^{k_1}\ mod\ p)\ mod\ q\tag{1}\\<br>&amp;s_1&#x3D;k_1^{-1}<em>(h_1+d</em>r_1)\ mod\ p\tag{2}\\<br>&amp;r_2&#x3D;(g^{k_2}\ mod\ p)\ mod\ q\tag{3}\\<br>&amp;s_2&#x3D;k_2^{-1}<em>(h_2+d</em>r_2)\ mod\ p\tag{4}\\<br>\end{align}<br>$$<br>利用第一组签名**(1)、(2)<strong>算出 $d$ 的表达式后带入第二组</strong>(3)、(4)**<br>$$<br>\begin{align}<br>&amp;k_1−s^{−1}_1s_2r_1r^{−1}_2k_2 + s^{−1}_1r_1h_2r^{−1}_2−s^{−1}_1h_1\equiv0\ mod\ q\\<br>\Leftrightarrow<br>&amp;k_1+tk_2+u\equiv 0\ mod\ q\tag{1}\\<br>&amp;\begin{cases}<br>&amp;t&#x3D;−s^{−1}_1s_2r_1r^{−1}_2\\<br>&amp;u&#x3D;s^{−1}_1r_1h_2r^{−1}_2−s^{−1}_1h_1<br>\end{cases}<br>\end{align}<br>$$<br>这样我们得到了一个关于 $k_1、k_2$ 的线性方程，然后构造格<br>$$<br>B&#x3D;\left[\begin{matrix}<br>q&amp;0&amp;0\\<br>t&amp;1&amp;0\\<br>u&amp;0&amp;K<br>\end{matrix}\right]\\<br>K是随机数k_1,k_2的上界<br>$$<br>显然我们有<br>$$<br>\left[\begin{matrix}<br>n&amp;k_2&amp;1<br>\end{matrix}\right]*B&#x3D;<br>\left[\begin{matrix}<br>-k_1&amp;k_2&amp;K<br>\end{matrix}\right]&#x3D;v\\<br>其中，k_1+tk_2+u&#x3D;nq<br>$$<br>所以 $v$ 就是格 $B$ 中的一个向量，由于 $K$ 比较小，所以这个向量很可能是格中最短向量，我们利用 $LLL$ 算法即可计算出 $k_1、k_2$ ，然后恢复出私钥 $d$ 。</p>
+<p>我们来看一下 $K$ 大致的范围。$LLL$ 算法求解的最短向量满足之前说过的 $||v_1||\le 2^{\frac{n-1}{2}}det(B)^{\frac{1}{n}}$ 。故该解法可行，必须满足<br>$$<br>\begin{align}<br>&amp;||v||\le \sqrt 3K\le||v_1||\le2\sqrt2(qK)^{\frac{1}{3}}\tag{1}\\<br>\Leftrightarrow&amp;3\sqrt3K^3\le8qK\tag{2}\\<br>\Leftrightarrow&amp;K^2\le\frac{8}{3\sqrt3}q\tag{3}\\<br>\Leftrightarrow&amp;K\approx\sqrt q\tag{4}\\<br>\end{align}<br>$$<br>最后附上解题代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">DAS_with_small_k</span>(<span class="params">q,r1,s1,r2,s2,h1,h2,bits</span>):</span><br><span class="line">    t=-inverse_mod(s1,q)*r1*s2*inverse_mod(r2,q)</span><br><span class="line">    u=inverse_mod(s1,q)*r1*h2*inverse_mod(r2,q)-inverse_mod(s1,q)*h1</span><br><span class="line">    L=matrix(ZZ,[[q,<span class="number">0</span>,<span class="number">0</span>],[t,<span class="number">1</span>,<span class="number">0</span>],[u,<span class="number">0</span>,<span class="number">1</span>&lt;&lt;bits]])</span><br><span class="line">    L=L.LLL()</span><br><span class="line">    k1,k2=-<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">0</span>]),<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">1</span>])</span><br><span class="line">    d=<span class="built_in">int</span>((inverse_mod(r1,q)*(k1*s1-h1))%q)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;k1=<span class="subst">&#123;k1&#125;</span>\nk2=<span class="subst">&#123;k2&#125;</span>\nd=<span class="subst">&#123;d&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> k1,k2,d</span><br></pre></td></tr></table></figure>
+
+<p>顺带一提，上述方法还有扩展，如果知道更多组签名，就可以进一步扩大 $K$ 的范围。方法是用其中一组计算 $d$ 的表达式后依次带入前面几组得到多元不定方程组然后利用 $SVP$ 问题解答。</p>
+<h3 id="已知-k-高位"><a href="#已知-k-高位" class="headerlink" title="已知 $k$ 高位"></a>已知 $k$ 高位</h3><p>这个问题其实是前面的延申。</p>
+<p>我们令 $k_i&#x3D;a_i+x_i$ , $|x_i|&lt;X$ ，利用上一个问题的等式得到<br>$$<br>\begin{align}<br>&amp;(a_1+x_1)+t(a_2+x_2)+u\equiv 0\ mod\ q\Leftrightarrow\tag{1}\\<br>&amp;x_1+tx_2+(a_1+ta_2+u)\equiv 0\ mod\ q\Leftrightarrow\tag{2}\\<br>&amp;x_1+tx_2+u’\equiv 0\ mod\ q\tag{3}<br>\end{align}<br>$$<br>之后就照搬前面。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">DSA_most_significant_bits_of_k</span>(<span class="params">bits,q,h1,h2,r1,s1,r2,s2,a1,a2</span>):</span><br><span class="line">    t=-<span class="number">1</span>*inverse(s1,q)*s2*r1*inverse(r2,q)</span><br><span class="line">    u=inverse(s1,q)*r1*h2*inverse(r2,q)-inverse(s1,q)*h1+a1+t*a2</span><br><span class="line">    L=matrix(ZZ,[[q,<span class="number">0</span>,<span class="number">0</span>],[t,<span class="number">1</span>,<span class="number">0</span>],[u,<span class="number">0</span>,<span class="number">1</span>&lt;&lt;bits]]).LLL()</span><br><span class="line">    K1=<span class="built_in">int</span>(-L[<span class="number">0</span>][<span class="number">0</span>])+a1</span><br><span class="line">    K2=<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">1</span>]+a2)</span><br><span class="line">    d=<span class="built_in">int</span>((<span class="built_in">int</span>(inverse(r1,q))*(K1*s1-h1))%q)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;k1=<span class="subst">&#123;K1&#125;</span>\nk2=<span class="subst">&#123;K2&#125;</span>\nd=<span class="subst">&#123;d&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> k1,k2,d</span><br><span class="line">k1,k2,d=DSA_most_significant_bits_of_k(bits,q,h1,h2,r1,s1,r2,s2,a1,a2)</span><br></pre></td></tr></table></figure>
+
+<p>既然和前面一模一样，那么 $X$ 的上界也应当小于 $\sqrt q$ ，以及可以利用多组前面扩大 $X$ 的上界。</p>
+<h3 id="已知-k-低位"><a href="#已知-k-低位" class="headerlink" title="已知 $k$ 低位"></a>已知 $k$ 低位</h3><p>啊这个就，完全和低位泄露一模一样吧，直接上脚本了就。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">DSA_least_significant_bits_of_k</span>(<span class="params">bits,q,r1,s1,r2,s2,h1,h2,a1,a2</span>):</span><br><span class="line">    shift=<span class="built_in">min</span>(a1.bit_length(),a2.bit_length())</span><br><span class="line">    s1_inv=inverse(s1,q)</span><br><span class="line">    r2_inv=inverse(r2,q)</span><br><span class="line">    t=-<span class="number">1</span>*s1_inv*s2*r1*r2_inv</span><br><span class="line">    u=(s1_inv*r1*h2*r2_inv-s1_inv*h1+a1+t*a2)*inverse(<span class="number">2</span>^shift,q)</span><br><span class="line">    L=matrix(ZZ,[[q,<span class="number">0</span>,<span class="number">0</span>],[t,<span class="number">1</span>,<span class="number">0</span>],[u,<span class="number">0</span>,<span class="number">1</span>&lt;&lt;hbits]]).LLL()</span><br><span class="line">    K1=(<span class="built_in">int</span>(-L[<span class="number">0</span>][<span class="number">0</span>])&lt;&lt;shift)+a1</span><br><span class="line">    K2=(<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">1</span>])&lt;&lt;shift)+a2</span><br><span class="line">    d=<span class="built_in">int</span>((<span class="built_in">int</span>(inverse(r1,q))*(K1*s1-h1))%q)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;k1=<span class="subst">&#123;K1&#125;</span>\nk2=<span class="subst">&#123;K2&#125;</span>\nd=<span class="subst">&#123;d&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> K1,K2,d</span><br><span class="line">DSA_least_significant_bits_of_k(bits,q,r1,s1,r2,s2,h1,h2,a1,a2)</span><br></pre></td></tr></table></figure>
+
+<p>边界分析方法同上。</p>
+<h3 id="k-中段泄露"><a href="#k-中段泄露" class="headerlink" title="$k$ 中段泄露"></a>$k$ 中段泄露</h3><p>这种情况稍微复杂一点，首先我们令 $k_i&#x3D;2^lx_i+a_i+y_i$ ，利用恒等变换得到<br>$$<br>y_1+2^lx_1+ty_2+t2^lx_2+(u+a_1+ta_2)\equiv0\ mod\ q<br>$$<br>这是一个四元一次同余方程，需要用 $coppersmith$ 方法转化成整数域方程组，故构造格<br>$$<br>B&#x3D;\left[\begin{matrix}<br>K&amp;2^lK&amp;tK&amp;2^ltK&amp;u’\\<br>0&amp;Kq&amp;0&amp;0&amp;0\\<br>0&amp;0&amp;Kq&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;Kq&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;q<br>\end{matrix}\right]<br>\\K\ge max{x_1,y_1,x_2,y_2}<br>\\u’&#x3D;u+a_1+ta_2<br>$$<br>规约后取前四个向量构造方程组求解出四个未知数即可。</p>
+<p>边界分析。<br>$$<br>\begin{align}<br>&amp;\begin{cases}<br>&amp;det(B)&#x3D;K^4q^4\\<br>&amp;||v_1||\le(K^4q^4)^{\frac{1}{5}}\le q\\<br>\end{cases}\\<br>\Leftrightarrow&amp;K\le n^{\frac{1}{4}}<br>\end{align}<br>$$<br>这只是一个必要条件，因为不知道后三组向量的具体范围。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">DSA_middle_bits_of_k</span>(<span class="params">bits,q,r1,s1,r2,s2,h1,h2,a1,a2</span>):</span><br><span class="line">    K,<span class="number">1</span>&lt;&lt;bits</span><br><span class="line">    shift=<span class="number">1</span>&lt;&lt;<span class="built_in">min</span>(<span class="built_in">len</span>(<span class="built_in">bin</span>(a1)[<span class="number">2</span>:]),<span class="built_in">len</span>(<span class="built_in">bin</span>(a2)[<span class="number">2</span>:]))</span><br><span class="line">    s1_inv=inverse(s1,q)</span><br><span class="line">    r2_inv=inverse(r2,q)</span><br><span class="line">    t=-<span class="number">1</span>*s1_inv*s2*r1*r2_inv</span><br><span class="line">    u=s1_inv*r1*h2*r2_inv-s1_inv*h1+a1+t*a2</span><br><span class="line">    L=[[K,K*shift,K*t,K*t*shift,u],[<span class="number">0</span>,K*q,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>,K*q,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,K*q,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,q]]</span><br><span class="line">    L=matrix(L).LLL()</span><br><span class="line">    A=[]</span><br><span class="line">    b=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        A.append([_/K <span class="keyword">for</span> _ <span class="keyword">in</span> L[i][:-<span class="number">1</span>]])</span><br><span class="line">        b.append(<span class="built_in">int</span>(-L[i][-<span class="number">1</span>]))</span><br><span class="line">    A=matrix(A).transpose()</span><br><span class="line">    b=vector(b)</span><br><span class="line">    x=A.solve_left(b)</span><br><span class="line">    K1=shift*x[<span class="number">1</span>][<span class="number">0</span>]+a1+x[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    K2=shift*x[<span class="number">3</span>][<span class="number">0</span>]+a2+x[<span class="number">2</span>][<span class="number">0</span>]</span><br><span class="line">    d=<span class="built_in">int</span>((<span class="built_in">int</span>(inverse(r1,q))*(K1*s1-h1))%q)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;k1=<span class="subst">&#123;K1&#125;</span>\nk2=<span class="subst">&#123;K2&#125;</span>\nd=<span class="subst">&#123;d&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> K1,K2,d</span><br><span class="line">DSA_middle_bits_of_k(bits,q,r1,s1,r2,s2,h1,h2,a1,a2)</span><br></pre></td></tr></table></figure>
+
+<h1 id="DH-ECDH"><a href="#DH-ECDH" class="headerlink" title="$DH(ECDH)$"></a>$DH(ECDH)$</h1><h3 id="基本原理-2"><a href="#基本原理-2" class="headerlink" title="基本原理"></a>基本原理</h3><p>$DH$ 其实还是离散对数问题的一种。给定一组素数 $p、q&#x3D;2q-1$ ， $g$ 是 $p$ 中阶数为 $q$ 的元素。交换双方分别再选取一个随机数 $a、b$ ，发送 $A&#x3D;g^a、B&#x3D;g^b$ 给对方。最终确定密钥为 $s&#x3D;g^{ab}$ 。</p>
+<h3 id="s-高-低-位泄露"><a href="#s-高-低-位泄露" class="headerlink" title="$s$ 高(低)位泄露"></a>$s$ 高(低)位泄露</h3><p>想要以此获取 $s$ 的要求有点复杂。首先我们要获得某个参与者(B) 和另外两个参与者(A、C)之间的交换信息，同时还要知道 A、C两人私钥差值 $d&#x3D;a-c$ 。</p>
+<p>不论怎么说，假使我们已经得到了相关信息，约定相关变量如下<br>$$<br>\begin{align}<br>&amp;A&#x3D;g^a\ mod\ p\tag{1}\\<br>&amp;B&#x3D;g^b\ mod\ p\tag{2}\\<br>&amp;C&#x3D;g^c\ mod\ p\tag{3}\\<br>&amp;s_{ab}&#x3D;A^b&#x3D;B^a&#x3D;r_1+x_1\ mod\ p\tag{4}\\<br>&amp;s_{bc}&#x3D;C^b&#x3D;B^c&#x3D;r_2+x_2\ mod\ p\tag{5}\\<br>&amp;d&#x3D;c-a\tag{6}\\<br>&amp;t&#x3D;B^d\ mod\ p\tag{7}\\<br>\end{align}<br>$$<br>现在我们已知 $A、B、C、r_1、r_2、X、d$ ，其中 $X$ 是未知数 $x_i$ 的上界。接下来我们做一些变换<br>$$<br>\begin{align}<br>&amp;s_{bc}&#x3D;B^c&#x3D;B^{a+d}&#x3D;B^a*B^d&#x3D;s_{ab}*t&#x3D;r_2+x_2\ mod\ p\tag{8}\\<br>&amp;s_{ab}&#x3D;t^{-1}(r_2+x_2)\ mod\ p\tag{9}<br>\end{align}<br>$$</p>
+<p>把(9)带入(4)<br>$$<br>\begin{align}<br>&amp;t^{-1}(r_2+x_2)&#x3D;r_1+x_1\ mod\ p\Leftrightarrow\\<br>&amp;x_1-t^{−1}x_2+r1−t^{−1}r2 ≡ 0\ mod\ p\tag{10}<br>\end{align}<br>$$<br>那么我们可以构造格<br>$$<br>\left[\begin{matrix}<br>u&amp;x_2&amp;1<br>\end{matrix}\right]\times<br>\left[\begin{matrix}<br>p&amp;0&amp;0\\<br>t^{-1}&amp;1&amp;0\\<br>t^{-1}r_2-r_1&amp;0&amp;X<br>\end{matrix}\right]&#x3D;<br>\begin{matrix}<br>[x_1&amp;x_2&amp;X]<br>\end{matrix}<br>$$<br>这就是一个标准的 $SVP$ 。同样的，我们分析算法成立的必要条件。<br>$$<br>\begin{align}<br>&amp;||v_1||\le\sqrt3X\le\sqrt 2*(pX)^{\frac{1}{3}}\Leftrightarrow\\<br>&amp;X\le\sqrt{\frac{2\sqrt2}{3\sqrt3}p}\approx\sqrt p<br>\end{align}<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#most significant bits leak</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">DH_most_significant_bits_of_s</span>(<span class="params">d,p,g,B,r1,r2,bits</span>):</span><br><span class="line">    X=<span class="number">1</span>&lt;&lt;bits</span><br><span class="line">    t=<span class="built_in">int</span>(inverse(ZZ(<span class="built_in">pow</span>(B,d,p)),p))</span><br><span class="line">    L=matrix(ZZ,[[p,<span class="number">0</span>,<span class="number">0</span>],[t,<span class="number">1</span>,<span class="number">0</span>],[(t*r2-r1),<span class="number">0</span>,X]]).LLL()</span><br><span class="line">    x1,x2=<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">0</span>]),<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">1</span>])</span><br><span class="line">    Sab=(x1+r1)</span><br><span class="line">    Sbc=(x2+r2)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;sab=<span class="subst">&#123;Sab&#125;</span>\nsbc=<span class="subst">&#123;Sbc&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> Sab,Sbc</span><br><span class="line">DH_most_significant_bits_of_s(d,p,g,B,r1,r2,bits)</span><br></pre></td></tr></table></figure>
+
+<p>对于低位泄露，我们修改方程为<br>$$<br>\begin{cases}<br>s_{ab}&#x3D;r_1+kx_1\ mod\ p\\<br>s_{ac}<em>t&#x3D;r_2+kx_2\ mod\ p\\<br>k&#x3D;1&lt;&lt;bits，bits是s泄露的位数<br>\end{cases}\\<br>\begin{align}<br>\Leftrightarrow bits</em>x_1-t^{−1}<em>bits</em>x_2+r1−t^{−1}r2 ≡ 0\ mod\ p\tag{11}<br>\end{align}<br>$$<br>对应格<br>$$<br>\left[\begin{matrix}<br>p&amp;0&amp;0\\<br>t^{-1}&amp;1&amp;0\\<br>k^{-1}(t^{-1}r_2-r_1)&amp;0&amp;X<br>\end{matrix}\right]<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#least significant bits leak</span></span><br><span class="line"><span class="comment">#please make sure that c&gt;a</span></span><br><span class="line"><span class="comment">#bitLength(r1)==bitLength(r2)</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">DH_least_significant_bits_of_s</span>(<span class="params">d,p,g,B,r1,r2,bits</span>):</span><br><span class="line">    X=<span class="number">1</span>&lt;&lt;bits</span><br><span class="line">    shift=<span class="built_in">min</span>(r1.bit_length(),r2.bit_length())</span><br><span class="line">    k=<span class="built_in">int</span>(inverse(<span class="number">1</span>&lt;&lt;shift,p))</span><br><span class="line">    t=<span class="built_in">int</span>(inverse(ZZ(<span class="built_in">pow</span>(B,d,p)),p))</span><br><span class="line">    L=matrix(ZZ,[[p,<span class="number">0</span>,<span class="number">0</span>],[t,<span class="number">1</span>,<span class="number">0</span>],[k*(t*r2-r1),<span class="number">0</span>,X]]).LLL()</span><br><span class="line">    x1,x2=<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">0</span>]),<span class="built_in">int</span>(L[<span class="number">0</span>][<span class="number">1</span>])</span><br><span class="line">    Sab=((x1&lt;&lt;shift)+r1)</span><br><span class="line">    Sbc=((x2&lt;&lt;shift)+r2)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;sab=<span class="subst">&#123;Sab&#125;</span>\nsbc=<span class="subst">&#123;Sbc&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> Sab,Sbc</span><br><span class="line">DH_least_significant_bits_of_s(d,p,g,B,r1,r2,bits)</span><br></pre></td></tr></table></figure>
+
+<p>当然情况还可以更复杂，比如泄露位数不同或者是中间泄露，但是原理是一样的。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cata1ysts
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/11/07/keyrecovery/" title="key recovery for RSA DAS and DH with partial key leaked">http://example.com/2022/11/07/keyrecovery/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/key-attack/" rel="tag"># key attack</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/15/New%F0%9F%91%B4CTF%20wp/" rel="prev" title="New👴CTF Crypto wp">
+      <i class="fa fa-chevron-left"></i> New👴CTF Crypto wp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">数学基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%85%83-coppersmith-%E6%94%BB%E5%87%BB"><span class="nav-number">2.1.</span> <span class="nav-text">一元 $coppersmith$ 攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E7%94%B3%E7%9F%A5%E8%AF%86%E2%80%94%E2%80%94%E5%A4%9A%E5%85%83-coppersmith-%E6%94%BB%E5%87%BB"><span class="nav-number">2.2.</span> <span class="nav-text">延申知识——多元 $coppersmith$ 攻击</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA"><span class="nav-number"></span> <span class="nav-text">$RSA$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">0.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p-%E7%9A%84%E9%AB%98%EF%BC%88%E4%BD%8E%EF%BC%89%E4%BD%8D%E6%B3%84%E9%9C%B2"><span class="nav-number">0.2.</span> <span class="nav-text">$p$ 的高（低）位泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p-%E7%9A%84%E8%BF%9E%E7%BB%AD%E4%B8%AD%E9%97%B4%E6%AF%94%E7%89%B9%E6%B3%84%E9%9C%B2"><span class="nav-number">0.3.</span> <span class="nav-text">$p$ 的连续中间比特泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%B8%E7%A0%A3%E6%96%A9"><span class="nav-number">0.4.</span> <span class="nav-text">啸砣斩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8E%E5%8A%A0%E5%AF%86%E6%8C%87%E6%95%B0%E4%B8%8B%E6%98%8E%E6%96%87%E9%83%A8%E5%88%86%E6%B3%84%E9%9C%B2"><span class="nav-number">0.5.</span> <span class="nav-text">低加密指数下明文部分泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-p-%E9%AB%98%E4%BD%8D%E6%B3%84%E9%9C%B2"><span class="nav-number">0.6.</span> <span class="nav-text">$d_p$ 高位泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-%E4%BD%8E%E4%BD%8D%E6%B3%84%E9%9C%B2"><span class="nav-number">0.7.</span> <span class="nav-text">$d$ 低位泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p%E3%80%81q-%E9%9A%8F%E6%9C%BA%E6%AF%94%E7%89%B9%E6%B3%84%E9%9C%B2"><span class="nav-number">0.8.</span> <span class="nav-text">$p、q$ 随机比特泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xor-RSA"><span class="nav-number">0.9.</span> <span class="nav-text">$Xor\ RSA$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d%E3%80%81d-p%E3%80%81d-q-%E9%9A%8F%E6%9C%BA%E6%AF%94%E7%89%B9%E6%B3%84%E9%9C%B2"><span class="nav-number">0.10.</span> <span class="nav-text">$d、d_p、d_q$ 随机比特泄露</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DSA"><span class="nav-number"></span> <span class="nav-text">$DSA$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86-1"><span class="nav-number">0.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0-k-%E8%BF%87%E5%B0%8F"><span class="nav-number">0.2.</span> <span class="nav-text">随机数 $k$ 过小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5-k-%E9%AB%98%E4%BD%8D"><span class="nav-number">0.3.</span> <span class="nav-text">已知 $k$ 高位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5-k-%E4%BD%8E%E4%BD%8D"><span class="nav-number">0.4.</span> <span class="nav-text">已知 $k$ 低位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-%E4%B8%AD%E6%AE%B5%E6%B3%84%E9%9C%B2"><span class="nav-number">0.5.</span> <span class="nav-text">$k$ 中段泄露</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DH-ECDH"><span class="nav-number"></span> <span class="nav-text">$DH(ECDH)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86-2"><span class="nav-number">0.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#s-%E9%AB%98-%E4%BD%8E-%E4%BD%8D%E6%B3%84%E9%9C%B2"><span class="nav-number">0.2.</span> <span class="nav-text">$s$ 高(低)位泄露</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cata1ysts"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Cata1ysts</p>
+  <div class="site-description" itemprop="description">努力学习crypto并希望有一个web大手子浇浇的pwn萌新</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cata1ysts</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":250},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
