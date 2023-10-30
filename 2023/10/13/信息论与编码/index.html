@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="信息论与编码期末🏃‍!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信息论与编码">
+<meta property="og:url" content="http://example.com/2023/10/13/%E4%BF%A1%E6%81%AF%E8%AE%BA%E4%B8%8E%E7%BC%96%E7%A0%81/index.html">
+<meta property="og:site_name" content="Cata1yst&#39;s blog">
+<meta property="og:description" content="信息论与编码期末🏃‍!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-13T06:03:38.000Z">
+<meta property="article:modified_time" content="2023-10-30T03:01:53.054Z">
+<meta property="article:author" content="Cata1ysts">
+<meta property="article:tag" content="信息论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/10/13/%E4%BF%A1%E6%81%AF%E8%AE%BA%E4%B8%8E%E7%BC%96%E7%A0%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>信息论与编码 | Cata1yst's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cata1yst's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">祇今尚有清流月，曾照高王万马过</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/13/%E4%BF%A1%E6%81%AF%E8%AE%BA%E4%B8%8E%E7%BC%96%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cata1ysts">
+      <meta itemprop="description" content="努力学习crypto并希望有一个web大手子浇浇的pwn萌新">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cata1yst's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          信息论与编码
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-10-13 14:03:38" itemprop="dateCreated datePublished" datetime="2023-10-13T14:03:38+08:00">2023-10-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-30 11:01:53" itemprop="dateModified" datetime="2023-10-30T11:01:53+08:00">2023-10-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/%E4%BF%A1%E6%81%AF%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">信息论</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">信息论与编码期末🏃‍!</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<h3 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h3><h3 id="信源与信息熵"><a href="#信源与信息熵" class="headerlink" title="信源与信息熵"></a>信源与信息熵</h3><h4 id="马尔可夫信源"><a href="#马尔可夫信源" class="headerlink" title="马尔可夫信源"></a>马尔可夫信源</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>当信源记忆长度为 $m+1$ ，即当前符号与前 $m$ 个符号相关时，称其为 <strong>$m$ 阶马尔可夫链</strong>。<br>$$<br>\begin{array}\<br>p(x_1,x_2,…,x_{L})&amp;\\<br>&#x3D;p(x_L|x_1,x_2,…,x_{L-1})*p(x_1,x_2,…,x_{L-1})&amp;\\<br>&#x3D;p(x_L|x_{L-m},…,x_{L-1})*p(x_1,x_2,…,x_{L-1})&amp;\\<br>\end{array}<br>$$<br>如果一个马尔科夫链的上述概率与时间无关，则称其为<strong>齐次马尔科夫链</strong>。</p>
+<h5 id="转移概率"><a href="#转移概率" class="headerlink" title="转移概率"></a>转移概率</h5><p>对于 $m$ 阶马尔科夫链，将某一时刻前出现的 $m$ 个符号组成的序列定义为一个状态，即 $s_i&#x3D;(x_{i_1},…,x_{i_m})$ 。</p>
+<p>那么下一时刻，符号 $x_j$ 出现的概论只与 $s_i$ 有关，表示为 $p(x_j|s_i)$ 。 同时接收到新符号后，状态变为了 $s_j$ ，因此也可以用 $p(s_j|s_i)$  表示。</p>
+<p>更一般地，若时刻 $m$ 系统处于状态 $S_m&#x3D;s_i$ ，经过 $n-m$ 步后的状态 $S_n&#x3D;s_j$ ,则用可以用<strong>转移概率</strong>$p_{ij}(m,n)&#x3D;{S_n&#x3D;s_j|S_m&#x3D;s_i}$ 表示。对于 $n&#x3D;m+1$ 的情况，可以简写成 $p_{ij}(m)$，而我们主要讨论的就是这种单步转移。</p>
+<p>显然转移概率有以下两个性质</p>
+<p>(1)</p>
+<p>​	$p_{ij}(m,n)\ge 0$</p>
+<p>(2)</p>
+<p>​	$\Sigma_{j\in S}p_{ij}(m,n)&#x3D;1$</p>
+<p>更进一步，对于齐次马尔科夫链，其状态与时间无关，因此再简化成 $p_{ij}$ 。</p>
+<p><strong>需要注意 $p_{ij}&#x3D;P(s_j|s_i)$。</strong></p>
+<p>我们用转移概率矩阵表示齐次马尔科夫链的概率分布。<br>$$<br>P&#x3D;\begin{bmatrix}<br>p_{11}&amp;p_{12}&amp;…&amp;p_{1n}\\<br>p_{21}&amp;p_{22}&amp;…&amp;P{2n}\\<br>\vdots&amp;\vdots&amp;…&amp;\vdots\\<br>p_{n1}&amp;p_{n2}&amp;…&amp;p_{nn}<br>\end{bmatrix}<br>$$</p>
+<h5 id="平稳马尔科夫链"><a href="#平稳马尔科夫链" class="headerlink" title="平稳马尔科夫链"></a>平稳马尔科夫链</h5><p>平稳马尔科夫链是齐次马尔科夫链的稳态形式，其不但转移概率不随时间改变，各个状态的分布也不随时间变化。</p>
+<p>一般来说，<strong>平稳包含齐次，齐次不一定包含平稳</strong>。</p>
+<p><strong>平稳马尔科夫链的稳态概率</strong>满足 $\sum_iW_ip_{ij}&#x3D;W_j$ ，因此可以通过概率分布矩阵构造方程组求解，即$WP&#x3D;W$ 。</p>
+<h4 id="自信息量与信息熵的计算"><a href="#自信息量与信息熵的计算" class="headerlink" title="自信息量与信息熵的计算"></a>自信息量与信息熵的计算</h4><h5 id="自信息量"><a href="#自信息量" class="headerlink" title="自信息量"></a>自信息量</h5><p>对于有 $m$ 个码元的系统而言，传输一个概率为 $p$ 的符号$x$ 需要 $I(x)$ 个码元，且满足，$m^{I(x)}*p&#x3D;1$，因此我们定义自信息量$I(x)&#x3D;-\log_m(p)$ 。</p>
+<p>通常使用的底数有2，$e$ ，10，其对应的单位为 $bit$ 、$net$ 、$det$。</p>
+<p>根据定义，自信息量满足以下规律，</p>
+<ol>
+<li><p>$p(x)&#x3D;1,I(x)&#x3D;0$</p>
+</li>
+<li><p>$p(x)&#x3D;0,I(x)&#x3D;\infty$</p>
+</li>
+<li><p>非负性</p>
+<p>$I(x)\ge0$</p>
+</li>
+<li><p>单调递减</p>
+<p>若 $p(x_1)&lt;p(x_2)$ ，则 $I(x_1)&gt;I(x_2)$</p>
+</li>
+<li><p>可加性</p>
+<p>当符号 $x$、$y$ 独立时， $I(x,y)&#x3D;I(x)+I(y)$</p>
+<p>当两个符号不独立时， $I(x,y)&#x3D;I(x|y)+I(y)&#x3D;I(y|x)+I(x)$</p>
+</li>
+</ol>
+<h5 id="信源熵"><a href="#信源熵" class="headerlink" title="信源熵"></a>信源熵</h5><p>信源熵是信源中各符号自信息量的期望，即 $H(X)&#x3D;E(I(X))&#x3D;\sum_iI(x_i)$，熵即是不确定性，</p>
+<p>它有以下特性</p>
+<ol>
+<li>非负性</li>
+<li>确定性信源熵为0</li>
+</ol>
+<h5 id="二元信源熵"><a href="#二元信源熵" class="headerlink" title="二元信源熵"></a>二元信源熵</h5><p>$H(X)&#x3D;H(p)&#x3D;-p\log_2p-(1-p)\log_2(1-p)$</p>
+<h5 id="条件熵"><a href="#条件熵" class="headerlink" title="条件熵"></a>条件熵</h5><h6 id="单变量条件熵"><a href="#单变量条件熵" class="headerlink" title="单变量条件熵"></a>单变量条件熵</h6><p>$H(y|X)&#x3D;\sum_ip(y|x_i)\ log_2\ p(y|x_i)$</p>
+<p>$H(Y|x)&#x3D;-\sum_jp(y_j|x)\ \log_2\ p(y_j|x)$</p>
+<h6 id="双变量条件熵"><a href="#双变量条件熵" class="headerlink" title="双变量条件熵"></a>双变量条件熵</h6><p>$H(Y|X)&#x3D;-\sum_{ij}p(y_i,x_j)\ \log_2\ p(y_i|x_j)$</p>
+<h5 id="联合熵"><a href="#联合熵" class="headerlink" title="联合熵"></a>联合熵</h5><h6 id="联合熵的计算公式"><a href="#联合熵的计算公式" class="headerlink" title="联合熵的计算公式"></a>联合熵的计算公式</h6><p>$H(X,Y)&#x3D;-\sum_{ij}p(x_i,y_j)\ \log_2\ p(x_i,y_j)$</p>
+<h6 id="联合熵与条件熵的关系"><a href="#联合熵与条件熵的关系" class="headerlink" title="联合熵与条件熵的关系"></a>联合熵与条件熵的关系</h6><p>$H(X,Y)&#x3D;H(X)+H(Y|X)&#x3D;H(Y)+H(X|Y)$ </p>
+<h5 id="互信息"><a href="#互信息" class="headerlink" title="互信息"></a>互信息</h5><h6 id="互信息量计算公式"><a href="#互信息量计算公式" class="headerlink" title="互信息量计算公式"></a>互信息量计算公式</h6><p>$I(x;y)$是指符号 $y$ 中包含的关于符号 $x$ 的信息量，即$I(x)-I(y|x)&#x3D;\log_2\frac{p(y|x)}{p(x)}$</p>
+<p>$I(X;Y)&#x3D;\sum_{i,j}p(x_i,y_j)\ \log_2\ \frac{p(x_i|y_j)}{p(y_j)}$</p>
+<p>$0\le I(X;Y)\le H(X)$</p>
+<h6 id="互信息量和熵的关系"><a href="#互信息量和熵的关系" class="headerlink" title="互信息量和熵的关系"></a>互信息量和熵的关系</h6><p>$I(X;Y)&#x3D;I(Y;X)&#x3D;H(X)-H(X|Y)&#x3D;H(Y)-H(Y|X)$</p>
+<p>$I(X;Y)&#x3D;H(X)+H(Y)-H(X,Y)$</p>
+<h5 id="条件互信息量"><a href="#条件互信息量" class="headerlink" title="条件互信息量"></a>条件互信息量</h5><p>在三变量的情况下，</p>
+<p>符号 $x$ 与符号对$(y,z)$ 之间的信息量 $I(x;y,z)&#x3D;\log_2\frac{p(x|y,z)}{px}$。</p>
+<p>给定符号$z$ 时，$x$ 、$y$ 之间的互信息量可以表示成 $I(x;y|z)$。</p>
+<p>$I(x;y|z)&#x3D;I(x|z)-I(x|y;z)&#x3D;\log_2\frac{p(x|y,z)}{p(x|z)}$</p>
+<p>$I(X;Y|Z)&#x3D;\sum_{x,y,z}\frac{p(x|y,z)}{p(x|z)}$</p>
+<p>$I(X;Y|Z)&#x3D;H(X|Z)-H(X|Y,Z)&#x3D;H(Y|Z)-H(Y|X,Z)$</p>
+<h5 id="信息不增原理"><a href="#信息不增原理" class="headerlink" title="信息不增原理"></a>信息不增原理</h5><p>对于输入变量 $X$，一级输出变量 $Y$ ，2级输出变量 $Z$，若满足 $p(x,z|y)&#x3D;p(x|y)p(z|y)$，即在 $Y$ 出现的情况下 $X$ 、$Z$相互独立，此时有马尔科夫链 $X\rightarrow Y\rightarrow Z$。</p>
+<p>则 $I(X;Z)\le I(Y;Z)$</p>
+<h5 id="相对熵"><a href="#相对熵" class="headerlink" title="相对熵"></a>相对熵</h5><p>$D(p&#x2F;&#x2F;q)&#x3D;\sum_ip_i\log_2\frac{p_i}{q_i}$</p>
+<p>$I(X;Y)&#x3D;D(X,Y&#x2F;&#x2F;X\times Y)$</p>
+<h5 id="熵的性质"><a href="#熵的性质" class="headerlink" title="熵的性质"></a>熵的性质</h5><ol>
+<li><p>非负性</p>
+<p>$H(X)&#x3D;0$ 当且仅当存在 $p_i&#x3D;1$</p>
+</li>
+<li><p>对称性</p>
+<p>信源熵只与概率分布的总体结构有关，不受符号与概率之间对应关系的影响。</p>
+</li>
+<li><p>香农辅助定理</p>
+<p>任意概率分布本身的熵必小于它对其他概率分布的数学期望</p>
+<p>$-\sum_ip_ilog_2p_i\le-\sum_ip_ilog_2q_i$</p>
+</li>
+<li><p>最大熵定理</p>
+<p>当各符号等概分布时，熵取最大值。</p>
+<p>$H(X)\le \log_2M$ ，$M$ 为符号数量。</p>
+</li>
+<li><p>$H(X|Y)\le H(X)$</p>
+</li>
+<li><p>$H(X,Y)\le H(X)+H(Y)$</p>
+<p>由互信息的性质得出</p>
+</li>
+<li><p>扩展性</p>
+<p>$\lim\limits_{\varepsilon\to 0}H(p_1,p_2,…,p_n-\varepsilon,\varepsilon)&#x3D;H(p_1,p_2,…,p_n)$</p>
+<p>$H(p_1,p_2,…,p_n-\delta,\delta)\gt H(p_1,p_2,…,p_n)$</p>
+</li>
+</ol>
+<h5 id="序列信源熵"><a href="#序列信源熵" class="headerlink" title="序列信源熵"></a>序列信源熵</h5><p>$\mathbf X&#x3D;(X_1,X_2,…,X_n)$ </p>
+<h6 id="信源无记忆"><a href="#信源无记忆" class="headerlink" title="信源无记忆"></a>信源无记忆</h6><p>$H(\mathbf X)&#x3D;\sum_{i_1}\sum_{i_2}…\sum_{i_n} p(x_{i_1},x_{i_2}…,x_{i_n})\log2p(x_{i_1},x_{i_2}…,x_{i_n})$</p>
+<p>在此基础上信源平稳，</p>
+<p>$H(\mathbf X)&#x3D;LH(X)$</p>
+<p>平均符号熵 $H_L(X)&#x3D;\frac{1}{L}H(\mathbf X)&#x3D;H(X)$</p>
+<h6 id="信源有记忆"><a href="#信源有记忆" class="headerlink" title="信源有记忆"></a>信源有记忆</h6><p>$H(\mathbf X)&#x3D;H(X_1)+H(X_2|X_1)+…+H(X_n|X_1,X_2,…X_{n-1})$</p>
+<p>记作 $H(\mathbf X)&#x3D;H(X^n)$&#x3D;$\sum_iH(X_i|X^{i-1})$</p>
+<h6 id="序列信源熵的性质"><a href="#序列信源熵的性质" class="headerlink" title="序列信源熵的性质"></a>序列信源熵的性质</h6><ol>
+<li><p>$H(X_L|X^{L-1})$ 是 $L$ 的单调非增函数</p>
+<p>这是由符号间的关联性导致的，符号数目越多，关联性越强，不确定度就越小。</p>
+</li>
+<li><p>$H(\mathbf X)\ge H(X_L|X^{L-1})$</p>
+<p>从 $H(\mathbf X)$ 的表达式以及熵的非负性推出。</p>
+</li>
+<li><p>$H_L(\mathbf X)$ 是 $L$ 的单调非增函数</p>
+<p>$H_L(\mathbf X)\ge H_{L+1}(\mathbf X)$</p>
+<p>由符号之间的关联性引起。</p>
+</li>
+<li><p>极限信息量</p>
+<p>$H_{\infty}&#x3D;\lim\limits_{L\to\infty} H_L(\mathbf X)$</p>
+<p>$H_0(\mathbf X)\ge H_1(\mathbf X)\ge…\ge H_{\infty}(\mathbf X)$</p>
+</li>
+</ol>
+<h6 id="马尔可夫链的极限熵"><a href="#马尔可夫链的极限熵" class="headerlink" title="马尔可夫链的极限熵"></a>马尔可夫链的极限熵</h6><p>$H(\mathbf X)&#x3D;\underset{i&#x3D;1}{\overset{n}{\Sigma}}W_iH(X|s_i)$</p>
+<h5 id="连续信源熵"><a href="#连续信源熵" class="headerlink" title="连续信源熵"></a>连续信源熵</h5><p><strong>连续信源熵是无穷！</strong></p>
+<p>通常用微分熵代替熵的计算</p>
+<h6 id="微分熵"><a href="#微分熵" class="headerlink" title="微分熵"></a>微分熵</h6><p>$H_c(X)&#x3D;-\int_{-\infty}^{+\infty}p_X(x)\log_2p_X(x)dx$</p>
+<h6 id="条件熵-1"><a href="#条件熵-1" class="headerlink" title="条件熵"></a>条件熵</h6><p>$H_c(Y|X)&#x3D;-\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}p_{X}(x)p_Y(y|x)\log_2p_{Y}(y|x)dxdy$</p>
+<h6 id="联合熵-1"><a href="#联合熵-1" class="headerlink" title="联合熵"></a>联合熵</h6><p>$H_c(X,Y)&#x3D;-\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}p_{X,Y}(x,y)\log_2p_{X,Y}(x,y)dxdy$</p>
+<h6 id="限平均功率的最大熵定理"><a href="#限平均功率的最大熵定理" class="headerlink" title="限平均功率的最大熵定理"></a>限平均功率的最大熵定理</h6><p>对于随机变量 $\mathbf X$，当且仅当它是正态分布时熵最大。</p>
+<p>若 $\mathbf X\sim N(\mu,\sigma^2)$，则 $H_c(\mathbf X)&#x3D;\frac{1}{2}\log_22\pi e\sigma^2$。</p>
+<p>由此可知，当信源属于正态分布时，熵仅和 $\sigma^2$ 有关，该变量在物理上往往是指信源的功率。</p>
+<p>根据限平均功率最大熵定理，当噪声符号正态分布时，其对信道干扰最大，因此我们研究高斯白噪声其实就是在研究信道在最坏情况下的传输能力。</p>
+<h5 id="冗余度"><a href="#冗余度" class="headerlink" title="冗余度"></a>冗余度</h5><h6 id="信息效率"><a href="#信息效率" class="headerlink" title="信息效率"></a>信息效率</h6><p>$\eta&#x3D;\frac{H_{\infty}(X)}{H_m(X)}$</p>
+<h6 id="冗余度-1"><a href="#冗余度-1" class="headerlink" title="冗余度"></a>冗余度</h6><p>$\gamma&#x3D;1-\eta$</p>
+<h3 id="信道与信道容量"><a href="#信道与信道容量" class="headerlink" title="信道与信道容量"></a>信道与信道容量</h3><h4 id="信道的数学模型"><a href="#信道的数学模型" class="headerlink" title="信道的数学模型"></a>信道的数学模型</h4><h5 id="信道分类"><a href="#信道分类" class="headerlink" title="信道分类"></a>信道分类</h5><p>对于信道输入 $\mathbf X&#x3D;{X_1,X_2,…,X_n}$ ，输出 $\mathbf Y&#x3D;{Y_1,Y_2,…,Y_n}$，通常使用 $p(\mathbf Y|\mathbf X)$ 来表示信道输入输出之间的依赖关系，即<strong>转移概率</strong>。</p>
+<p>据此我们将信道分为以下三类</p>
+<ol>
+<li><p>有干扰无记忆信道</p>
+</li>
+<li><p>无干扰无记忆信道</p>
+<p>该类信道的转移概率满足以下条件<br>$$<br>p(\mathbf Y|\mathbf X)&#x3D;<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>1,\mathbf Y&#x3D;f(\mathbf X)\\<br>0,\mathbf Y\ne f(\mathbf X)<br>\end{array}<br>\right.<br>$$</p>
+</li>
+<li><p>有干扰无记忆信道</p>
+<p>该类信道的转移概率并不恒为0或1，根据其输入输出数据的类型又分为下面三类</p>
+<ol>
+<li><p>离散无记忆信道</p>
+<p>这类信源可以用马尔科夫链的转移概率矩阵描述。<br>$$<br>\begin{bmatrix}<br>  p_{11}&amp;p_{12}&amp;…&amp;p_{1n}\\<br>  p_{21}&amp;…&amp;…&amp;p_{2n}\\<br>  \vdots&amp;\cdots&amp;\cdots&amp;\vdots\\<br>  p_{n1}&amp;p_{n2}&amp;…&amp;p_{nn}<br>  \end{bmatrix}<br>$$</p>
+</li>
+<li><p>离散输入，连续输出信道（不考）</p>
+<p>这类信道往往存在噪声，其中以加性高斯白噪声最为重要。对于含有这类噪声的信道，输入输出之间的关系为<br>$$<br>   Y&#x3D;X+G<br>$$<br>   其中 $G\sim N(0,\sigma^2)$，而 $p_Y(y|x_i)&#x3D;\frac{1}{\sqrt{2\pi\sigma}}e^{-\frac{(y-x_i)^2}{2\sigma^2}}$</p>
+</li>
+<li><p>波形信道（不考）</p>
+<p>该类信道中我们着重关注含有加性噪声的情况，其关系式如下<br>$$<br>   y(t)&#x3D;x(t)+n(t)<br>$$<br>   可以证明，在输入信号与噪声互相独立的情况下，<br>$$<br>H_c(Y|X)&#x3D;H_c(n)<br>$$</p>
+</li>
+</ol>
+</li>
+</ol>
+<h5 id="信道容量"><a href="#信道容量" class="headerlink" title="信道容量"></a>信道容量</h5><p>定义<strong>平均每个符号所传输的信息量</strong>是信息传输率。根据定义可以得出<br>$$<br>R&#x3D;I(X;Y)&#x3D;H(X)-H(Y|X)<br>$$<br>其单位是 bit&#x2F;符号 或 bit&#x2F;s。</p>
+<p>显然应当存在某种输入信号的分布使得信息传输率最大，我们称此时的信息传输率为信道容量。<br>$$<br>C&#x3D;\underset{p(a_i)}{max}I(X;Y)<br>$$</p>
+<h4 id="离散单符号信道容量"><a href="#离散单符号信道容量" class="headerlink" title="离散单符号信道容量"></a>离散单符号信道容量</h4><h5 id="无干扰信道"><a href="#无干扰信道" class="headerlink" title="无干扰信道"></a>无干扰信道</h5><p>假定输入 $X\in{a_1,a_2,…a_n}$ ，输出 $Y\in{b_1,b_2,…,b_m}$。</p>
+<p>分以下几种情况</p>
+<ol>
+<li><p>$n&#x3D;m$</p>
+<p>这种情况下输入输出一一对应，即 $H(Y|X)&#x3D;0$，$I(X;Y)&#x3D;H(X)&#x3D;H(Y)$。</p>
+<p>根据最大熵定理，当输入等概时，$H(X)$ 取最大值 $\log_2$n。<br>$$<br>C&#x3D;maxI(X;Y)&#x3D;\log_xn<br>$$</p>
+</li>
+<li><p>$n&gt;m$</p>
+<p>这种情况下，$H(X|Y)&#x3D;0$ ，因此信道容量取决于 $H(Y)$ 。</p>
+<p>因而当<strong>输出等概分布</strong>时信道容量取最大值。<br>$$<br>C&#x3D;maxH(Y)&#x3D;\log_2m<br>$$</p>
+</li>
+<li><p>$n&lt;m$</p>
+<p>这种情况与前一种正好相反，在输入等概时取最大值。<br>$$<br>C&#x3D;maxH(Y)&#x3D;\log_2n<br>$$</p>
+</li>
+</ol>
+<p>综上所述，离散单符号无干扰信道的容量 $C&#x3D;\log_2(min{n,m})$。</p>
+<h5 id="离散对称无记忆信道"><a href="#离散对称无记忆信道" class="headerlink" title="离散对称无记忆信道"></a>离散对称无记忆信道</h5><h6 id="对称"><a href="#对称" class="headerlink" title="对称"></a>对称</h6><p>若一个离散无记忆信道的转移概率矩阵的每一<strong>行</strong>都是第一<strong>行</strong>的置换，则称其为<strong>输入</strong>对称信道。</p>
+<p>若一个离散无记忆信道的转移概率矩阵的每一<strong>列</strong>都是第一<strong>列</strong>的置换，则称其为<strong>输出</strong>对称信道。</p>
+<p>若一个离散无记忆信道<strong>既是输入对称的又是输出对称</strong>的，则其是一个离散对称无记忆信道（<strong>DMC</strong>）。</p>
+<h6 id="DMC的容量"><a href="#DMC的容量" class="headerlink" title="DMC的容量"></a>DMC的容量</h6><p>当输入符号等概分布时，DMC的容量取最大值<br>$$<br>C&#x3D;log_2m-H(Y|a_i)&#x3D;\log_2m+\underset{j}{\Sigma}p_{ij}log_2(p_{ij})<br>$$<br>其中 $m$ 是信道<strong>输出</strong>符号个数。</p>
+<h6 id="离散无记忆模K加性噪声信道"><a href="#离散无记忆模K加性噪声信道" class="headerlink" title="离散无记忆模K加性噪声信道"></a>离散无记忆模K加性噪声信道</h6><p>这是一种特殊的DMC信道，$X\in Z_K$ 是输入，$Y\in Z_K$ 是输出 ，$Z$ 的信道干扰，满足<br>$$<br>Y&#x3D;X+Z\ mod\ K<br>$$<br>这类信道有恒等式 $H(Y|X)&#x3D;H(Z)$ ，因此容易得出其信道容量<br>$$<br>C&#x3D;log_2K-H(Z)<br>$$</p>
+<h6 id="BSC信道"><a href="#BSC信道" class="headerlink" title="BSC信道"></a>BSC信道</h6><p>二进制离散信道（BSC）也是DMC的一种，其转移概率矩阵如下<br>$$<br>\begin{bmatrix}<br>1-p&amp;p\\<br>p&amp;1-p<br>\end{bmatrix}<br>$$<br>根据DMC信道容量计算规则得到<br>$$<br>C&#x3D;1-H(p)<br>$$</p>
+<h6 id="信道串接"><a href="#信道串接" class="headerlink" title="信道串接"></a>信道串接</h6><p>信道串接在数学上的处理是将多个信道的转移概率矩阵按序相乘。</p>
+<p>一般来说，串接信道越多，信息传输率或信道容量越小。</p>
+<h5 id="准对称DMC信道"><a href="#准对称DMC信道" class="headerlink" title="准对称DMC信道"></a>准对称DMC信道</h5><p>准对称DMC信道是指<strong>输入对称而输出不对称</strong>的DMC信道。</p>
+<p>该信道被称为准对称是因为其转移概率矩阵可以被划分成若干个对称DMC信道的矩阵的组合。<br>$$<br>C&#x3D;\log_2n-H(p_{11},p_{12},…,p_{1m})-\underset{k&#x3D;1}{\Sigma}N_klog_2M_k<br>$$<br>其中 $n$为输入符号个数，$m$ 为输出符号个数，$N_k$ 是第k个子矩阵行元素之和，$M_k$ 是第k个矩阵列元素之和。</p>
+<h4 id="离散序列信道容量"><a href="#离散序列信道容量" class="headerlink" title="离散序列信道容量"></a>离散序列信道容量</h4><p>对于连续信道的输入矢量 $\mathbf X$ 和输出矢量 $\mathbf Y$ ，则其互信息量 $I(\mathbf X;\mathbf Y)$ 有以下两个不等式</p>
+<ol>
+<li><p>$\mathbf X$ 中各矢独立<br>   $$<br>   I(\mathbf X|\mathbf Y)\ge \underset{l&#x3D;1}{\overset{L}{\Sigma}}I(X_l;Y_l)<br>   $$</p>
+</li>
+<li><p>信道无记忆</p>
+</li>
+</ol>
+<p>$$<br>I(\mathbf X|\mathbf Y)\le \underset{l&#x3D;1}{\overset{L}{\Sigma}}I(X_l;Y_l)<br>$$</p>
+<p>显然当两个条件都满足时，互信息量可以计算。</p>
+<p>此时，信道容量有<br>$$<br>C_L&#x3D;\underset{p_X}{max}I(\mathbf X;\mathbf Y)&#x3D;\underset{p_X}{max}\underset{l&#x3D;1}{\overset{L}{\Sigma}}I(X_l;Y_l)&#x3D;\underset{l&#x3D;1}{\overset{L}{\Sigma}}\underset{p_X}{max}I(X_l;Y_l)&#x3D;\underset{l&#x3D;1}{\overset{L}{\Sigma}}C(l)<br>$$<br>当信道平稳时，$C_L&#x3D;LC_1$。</p>
+<h4 id="连续信道容量"><a href="#连续信道容量" class="headerlink" title="连续信道容量"></a>连续信道容量</h4><h5 id="连续单符号加性信道"><a href="#连续单符号加性信道" class="headerlink" title="连续单符号加性信道"></a>连续单符号加性信道</h5><p>我们先来研究噪声是加性高斯白噪声的情况，即噪声的分布 $n\sim N(0,\sigma^2)$。</p>
+<p>在此前提下，我们得出该噪声的微分熵 $H(n)&#x3D;\frac{1}{2}\log_2\pi e\sigma^2$。再进一步得出该信道的信道容量<br>$$<br>C&#x3D;\underset{p_x}{max}H_c(Y)-\frac{1}{2}\log_22\pi e\sigma^2<br>$$<br>而前文提到，当且仅当 $Y\sim N(0,P)$ 时 $Y$ 的微分熵达到最大值，故上式可进一步展开为<br>$$<br>C&#x3D;\frac{1}{2}\log_22\pi eP-\frac{1}{2}\log_22\pi e\sigma^2&#x3D;\frac{1}{2}\log_2\frac{P}{\sigma^2}&#x3D;\frac{1}{2}\log_2(1+\frac{S}{\sigma^2})<br>$$<br>其中 $\frac{S}{\sigma^2}$ 就表示<strong>信噪比</strong>，记作 $SNR$。</p>
+<p>而在一般情况下，噪声并不是正态分布的，因而有下面不等式<br>$$<br>\frac{1}{2}\log_2(1+\frac{S}{\sigma^2})\le C\le \frac{1}{2}\log_22\pi eP-H_c(n)<br>$$</p>
+<h5 id="多维无记忆连续信道"><a href="#多维无记忆连续信道" class="headerlink" title="多维无记忆连续信道"></a>多维无记忆连续信道</h5><h6 id="注水法"><a href="#注水法" class="headerlink" title="注水法"></a>注水法</h6><h5 id="香农公式"><a href="#香农公式" class="headerlink" title="香农公式"></a>香农公式</h5><p>$$<br>C_t&#x3D;\underset{t_B\to\infty}{lim}\frac{C}{t_B}&#x3D;Wlog(1+\frac{P_s}{N_0W})&#x3D;Wlog(1+SNR)<br>$$</p>
+<p>$W$是带宽，$P_s$ 是信号的平均功率，$N_0W$是噪声的平均功率，$log(1+SNR)$称为<strong>频带利用率</strong>。</p>
+<h6 id="极限容量"><a href="#极限容量" class="headerlink" title="极限容量"></a>极限容量</h6><p>$$<br>C_{\infty}&#x3D;\frac{P_s}{N_0ln2}<br>$$</p>
+<h3 id="信源编码"><a href="#信源编码" class="headerlink" title="信源编码"></a>信源编码</h3><h4 id="编码概念"><a href="#编码概念" class="headerlink" title="编码概念"></a>编码概念</h4><h5 id="编码分类"><a href="#编码分类" class="headerlink" title="编码分类"></a>编码分类</h5><p>$$<br>编码<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>非分组码&amp;\\<br>分组码&amp;<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>奇异码&amp;\\<br>非奇异码&amp;<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>非可唯一译码&amp;\\<br>可唯一译码&amp;<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>延长码&amp;\\<br>即时码&amp;<br>\end{array}<br>\right.<br>\end{array}<br>\right.<br>\end{array}<br>\right.<br>\end{array}<br>\right.<br>$$</p>
+<p>奇异码是指<strong>码字和信源符号一一对应</strong>的码。</p>
+<p>唯一译码是码元只能被<strong>唯一分割</strong>的码。</p>
+<p>即时码指接收端收到完整码字后不必查看下一位即可译码的编码，也称<strong>异前缀码</strong>。</p>
+<h5 id="Kraft-不等式"><a href="#Kraft-不等式" class="headerlink" title="$Kraft$ 不等式"></a>$Kraft$ 不等式</h5><p><strong>唯一可译码存在的充要条件</strong><br>$$<br>\underset{i&#x3D;1}{\overset{n}{\Sigma}}m^{-K_i}\le1<br>$$<br>上式中， $m$ 是码字的进制，$K_i$ 是各个码字的长度。</p>
+<p>需要注意，该式是唯一可译码存在的充要条件，即唯一可译码必然满足表达式；满足表达式的码长一定可用构造出唯一可译码。但是对于一个已经给定的编码方式，即使满足表达式我们也不能认为其是唯一可译码，因为<strong>是否是唯一可译码还取决于具体的编码方式</strong>。</p>
+<h4 id="无失真编码定理"><a href="#无失真编码定理" class="headerlink" title="无失真编码定理"></a>无失真编码定理</h4><h5 id="码字的信息量"><a href="#码字的信息量" class="headerlink" title="码字的信息量"></a>码字的信息量</h5><p>若码字符号集 $Y\in{Y_1,Y_2,…Y_m}$ ，则长度为 $K_L$ 的码字的最大信息量为 $K_L\log_2m$，传输一个信源符号所需的二进制平均长度 $\overline{K}&#x3D;\frac{K_L}{L}\log_2m$。</p>
+<h5 id="定长编码定理"><a href="#定长编码定理" class="headerlink" title="定长编码定理"></a>定长编码定理</h5><h6 id="定长编码定理-1"><a href="#定长编码定理-1" class="headerlink" title="定长编码定理"></a>定长编码定理</h6><p>由 $L$ 个平均符号熵为 $H_L(X)$ 的无记忆平稳序列可用 $K_L$ 个码元符号组成的序列编码。<br>$$<br>\frac{K_L}{L}\log_2m\ge H_L(X)+\varepsilon<br>$$<br>即码元的平均符号熵应略大于信源的平均符号熵。</p>
+<h6 id="差错率"><a href="#差错率" class="headerlink" title="差错率"></a>差错率</h6><p>$$<br>L\ge\frac{D^2(X)}{\varepsilon^2\delta}<br>$$</p>
+<p>当 $\varepsilon$ 和 $D(X)$ （即信源自信息量的方差）一定时，只要编码的序列长度满足上式，就能达到差错率的要求。</p>
+<h6 id="编码效率"><a href="#编码效率" class="headerlink" title="编码效率"></a>编码效率</h6><p>$$<br>\eta&#x3D;\frac{H_L(X)}{\overline{K}}&#x3D;\frac{H_L(X)}{H_L(X)+\varepsilon}<br>$$</p>
+<p>显然，$\underset{L\to \infty}{lim} \eta&#x3D;1$ 。</p>
+<h4 id="变长编码"><a href="#变长编码" class="headerlink" title="变长编码"></a>变长编码</h4><h5 id="单符号变长编码定理"><a href="#单符号变长编码定理" class="headerlink" title="单符号变长编码定理"></a>单符号变长编码定理</h5><p>离散无记忆信源熵为 $H(X)$ ，用 $m$ 元编码表示之，则一定存在一种无失真编码，其满足<br>$$<br>\frac{H(X)}{\log_2m}\le \overline{K}\lt \frac{H(X)}{\log_2m}+1<br>$$</p>
+<h5 id="香农编码"><a href="#香农编码" class="headerlink" title="香农编码"></a>香农编码</h5><ol>
+<li><p>符号重排</p>
+<p>将信源符号按概率从大到小排列 $p_1\ge p_2\ge…\ge p_n$</p>
+</li>
+<li><p>选择码长</p>
+<p>按照香农第一定理选择码长<br>$$<br>I(x_i)\le K_i \lt I(x_i)+1<br>$$</p>
+</li>
+<li><p>计算累加概率<br>$$<br>P_i&#x3D;\underset{i&#x3D;0}{\overset{i-1}{\Sigma}} p(x_i)\ ,\ p(x_0)&#x3D;0<br>$$</p>
+</li>
+<li><p>编码</p>
+<p>对于符号 $x_i$ 的编码，将累加概率 $P_i$ 转成二进制并去前 $K_i$ 位。</p>
+</li>
+</ol>
+<h5 id="哈夫曼编码"><a href="#哈夫曼编码" class="headerlink" title="哈夫曼编码"></a>哈夫曼编码</h5><p>略</p>
+<h5 id="算术编码"><a href="#算术编码" class="headerlink" title="算术编码"></a>算术编码</h5><ol>
+<li><p>初始化<br>$$<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>&amp;C(\phi)&#x3D;0\\<br>&amp;A(\phi)&#x3D;1r<br>\end{array}<br>\right.<br>$$</p>
+</li>
+<li><p>计算累加概率 $P_r$</p>
+<p>同香农编码</p>
+</li>
+<li><p>递推<br>$$<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>&amp;C(S,r)&#x3D;C(S)+A(S)P_r\\<br>&amp;A(S,r)&#x3D;A(S)p_r<br>\end{array}<br>\right.<br>$$</p>
+</li>
+<li><p>编码<br>$$<br>L&#x3D;\lfloor\log_2\frac{1}{A(S)}\rfloor<br>$$<br>之后取 $C(S)$ 二进制小数点后 $L$ 位</p>
+</li>
+</ol>
+<h3 id="信道编码"><a href="#信道编码" class="headerlink" title="信道编码"></a>信道编码</h3><h4 id="码空间"><a href="#码空间" class="headerlink" title="码空间"></a>码空间</h4><h5 id="n维空间"><a href="#n维空间" class="headerlink" title="n维空间"></a>n维空间</h5><p>在二元域 $F_2$ 上的矢量集合 $\mathbf V&#x3D;{v_i}$ ，$||v_i||&#x3D;n$ ，若其满足以下条件，则称该矢量集合构成一个n维空间</p>
+<ol>
+<li>$\mathbf V$ 中元素在矢量加法下构成加法群</li>
+<li>$\mathbf V$ 中元素与 $F_2$ 中元素乘法关于 $\mathbf V$  封闭</li>
+<li>满足分配律和结合律</li>
+</ol>
+<h5 id="基底"><a href="#基底" class="headerlink" title="基底"></a>基底</h5><p>对于数域 $F$ 上的若干矢量 $\mathbf v_1,\mathbf v_2,…\mathbf v_n$ ，若存在 $a_1,a_2,…,a_n$ 使得<br>$$<br>a_1 \mathbf v_1+a_2\mathbf v2+…+a_n\mathbf v_n&#x3D;\mathbf 0<br>$$</p>
+<p>则称这组矢量是<strong>线性相关</strong>的。</p>
+<p>若存在一组矢量 $\mathbf v_1,…,\mathbf v_n$ 是<strong>线性无关</strong>的且它们构成一个n维空间，则称这组矢量的该空间的<strong>基底</strong>。</p>
+<p>一个n维线性空间的一组基底应当有n个矢量，同一个线性空间的基底是不唯一的。</p>
+<h5 id="对偶空间"><a href="#对偶空间" class="headerlink" title="对偶空间"></a>对偶空间</h5><p>若线性空间 $\mathbf V_1$ 中任意矢量与线性空间 $\mathbf V_2$ 中任意矢量的内积为0，则称这两个线性空间<strong>正交</strong>。</p>
+<p><strong>若两个线性空间的基底正交，则这两个线性空间一定正交。</strong></p>
+<p>正交的两个线性空间<strong>互为对偶空间</strong>，其中一个是另一个的<strong>零空间</strong>（零化空间）。</p>
+<h4 id="信道编码定理"><a href="#信道编码定理" class="headerlink" title="信道编码定理"></a>信道编码定理</h4><p>$$<br>P_e\lt e^{-NE(R)}<br>$$</p>
+<p>其中 $P_e$ 是平均差错率， $E(R)$ 是可靠性函数</p>
+<p>该定理表明，只要信息传输率 $R$ 小于信道容量 $C$ ，则一定可以找到一种信道码能够以任意小的差错率实现编码。</p>
+<h4 id="最优译码"><a href="#最优译码" class="headerlink" title="最优译码"></a>最优译码</h4><h5 id="译码器"><a href="#译码器" class="headerlink" title="译码器"></a>译码器</h5><p>译码器的工作是从接收到的受损信息中尽可能的正确的恢复出原文信息，即</p>
+<ol>
+<li>接受到实际码字 $\mathbf r$</li>
+<li>信道编码解码得到带有一定错误率的信源编码 $\mathbf c_i$</li>
+<li>通过最优译码得出真实信源发送码字的估值序列 $\widehat{\mathbf c}_i$</li>
+<li>信源编码解码还原消息 $\mathbf m_i$</li>
+</ol>
+<h5 id="最优译码-1"><a href="#最优译码-1" class="headerlink" title="最优译码"></a>最优译码</h5><h6 id="最佳译码"><a href="#最佳译码" class="headerlink" title="最佳译码"></a>最佳译码</h6><p>$$<br>\widehat{\mathbf c}_i&#x3D;MaxP(\mathbf c_i|\mathbf r)<br>$$</p>
+<p>即通过经验总结和归纳得出接受码字的后验概率，然后从中选出后验概率最大者作为正确码字。</p>
+<p>该方法也被称为<strong>最大后验概率译码</strong>，因为是从后验概率出发，因而也是最优的解码方法。但实际操作中，后验概率往往是很难得到的。</p>
+<h6 id="最大似然译码"><a href="#最大似然译码" class="headerlink" title="最大似然译码"></a>最大似然译码</h6><p>$$<br>\widehat{\mathbf c}_i&#x3D;MaxP(\mathbf r|\mathbf c_i)<br>$$</p>
+<p>该方法使用先验概率作为判断依据，其中 $P(\mathbf r|\mathbf c_1)$ 被称为似然函数，似然函数在实际工作中比较容易获取。</p>
+<p>先验概率和后验概率可以通过贝叶斯公式联系起来<br>$$<br>P(\mathbf c_i|\mathbf r)&#x3D;\frac{P(\mathbf c_i)*P(\mathbf r|\mathbf c_i)}{P(\mathbf r)}<br>$$<br>实际通信中，最大似然译码的有效性略差于最优译码，但可以通过改良信道弥补部分差距，而先验概率又比较容易获取，因此最大似然译码是最常用的译码方法。</p>
+<p>对于无记忆信道<br>$$<br>MaxP(\mathbf r|\mathbf c_i)&#x3D;Max\prod_{j&#x3D;1}^nP(r_j|c_{ij})<br>$$<br>有时为简化运算，常用其等效函数<strong>对数似然函数</strong>。<br>$$<br>Max\ logP(\mathbf r|\mathbf c_i)&#x3D;Max\ log\sum_{j&#x3D;1}^nP(r_j|c_{ij})<br>$$<br>底数可以是2，e，10。</p>
+<h6 id="最小汉明距离"><a href="#最小汉明距离" class="headerlink" title="最小汉明距离"></a>最小汉明距离</h6><p>对于 BSC 信道，最大似然译码简化成最小汉明距离译码，此时先验概率简化为<br>$$<br>P(r_i|c_{ij})&#x3D;<br>\left{<br>\begin{array}{<strong>rcl</strong>}<br>&amp;p\ ,\ \ c_{ij}\ne r\\<br>&amp;1-p\ ,\ \ c_{ij}&#x3D;r<br>\end{array}<br>\right.<br>$$<br>定义 $\mathbf r$ 与 $\mathbf c$ 的不同位个数 $d$ 是汉明距离，则最大似然函数变为关于 $d$ 的一元函数<br>$$<br>P(\mathbf r|\mathbf c_i)&#x3D;p^d(1-p)^{N-d}&#x3D;(\frac{p}{1-p})^d*(1-p)^N<br>$$<br>这是关于 $d$ 的单调递减函数，因此最优译码问题变成求最小汉明距离问题。</p>
+<h4 id="线性分组码"><a href="#线性分组码" class="headerlink" title="线性分组码"></a>线性分组码</h4><h5 id="生成矩阵"><a href="#生成矩阵" class="headerlink" title="生成矩阵"></a>生成矩阵</h5><p>令 $\mathbf g_0,\mathbf g_2,…,\mathbf g_{n-1}$ 是m维码空间 $C$ 的一组基底，则该空间中的任意矢量（码字）可以表示成<br>$$<br>\mathbf c&#x3D;m_{n-1}\mathbf g_{n-1}+m_{n-2}\mathbf g_{n-2}+…+m_{0}\mathbf g_{0}<br>$$<br>若基底以列向量表示，则我们称 $\mathbf G&#x3D;[\mathbf g_{n-1}\ \mathbf g_{n-1}\ …\ \mathbf g_0]^T$ 为该$(m,n)$线性分组码的<strong>生成矩阵</strong>，则</p>
+<p>$\mathbf c&#x3D;\mathbf m\mathbf G$</p>
+<h5 id="系统化"><a href="#系统化" class="headerlink" title="系统化"></a>系统化</h5><p>$$<br>\mathbf G&#x3D;[\mathbf I_n|\mathbf P]&#x3D;<br>\left[\begin{array}{cccc|cccc}<br>1&amp;0&amp;…&amp;0&amp;p_{(n-1)<em>{(m-n-1)}}&amp;\cdots&amp;p</em>{(n-1)<em>{1}}&amp;p</em>{(n-1)<em>{0}}\\<br>0&amp;1&amp;…&amp;0&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots\\<br>\vdots&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots\\<br>0&amp;0&amp;\cdots&amp;1&amp;p</em>{0_{(m-n-1)}}&amp;\cdots&amp;p_{0_1}&amp;p_{0_0}<br>\end{array}\right]<br>$$</p>
+<p>该矩阵由原生成矩阵经过线性变换得到。</p>
+<h5 id="校验矩阵"><a href="#校验矩阵" class="headerlink" title="校验矩阵"></a>校验矩阵</h5><p>一个 $(m,n)$ 线性分组码的生成矩阵只使用了该m维空间的n个基底，剩下 $m-n$ 个基底应当也可以组成一个 $(m,m-n)$ 线性分组码，它是这个 $(m,n)$ 线性分组码的<strong>对偶码</strong>。由于两个码空间的基底同属于一个m维线性空间，因此它们之间是线性无关的，即<strong>两个码空间互为对偶空间</strong>，即<br>$$<br>\mathbf c\mathbf H^T&#x3D;\mathbf 0\<br>\mathbf G\mathbf H^T&#x3D;\mathbf 0<br>$$<br> $\mathbf H$ 是 $(m,m-n)$ 线性分组码的生成矩阵，也是 $(m,n)$ 线性分组码的<strong>校验矩阵</strong>。</p>
+<p><strong>即线性分组码的校验矩阵是其对偶空间的生成矩阵</strong>。</p>
+<h6 id="利用系统码求校验矩阵"><a href="#利用系统码求校验矩阵" class="headerlink" title="利用系统码求校验矩阵"></a>利用系统码求校验矩阵</h6><p>对于一个系统化的线性分组码，其校验矩阵可以通过系统矩阵快速得出<br>$$<br>\mathbf H&#x3D;[-\mathbf P^T|I_{m-n}]<br>$$<br>在二元域下， $\mathbf P$ 前面的符号可以忽略。</p>
+<h5 id="伴随式与标准阵列译码"><a href="#伴随式与标准阵列译码" class="headerlink" title="伴随式与标准阵列译码"></a>伴随式与标准阵列译码</h5><h6 id="差错图案"><a href="#差错图案" class="headerlink" title="差错图案"></a>差错图案</h6><p>$$<br>\mathbf E&#x3D;\mathbf R-\mathbf C<br>$$</p>
+<p>其中 $\mathbf R$ 是收码， $\mathbf C$ 是发码。</p>
+<h6 id="伴随式"><a href="#伴随式" class="headerlink" title="伴随式"></a>伴随式</h6><p>利用校验矩阵检查收码是否有误<br>$$<br>\mathbf S&#x3D;\mathbf R\mathbf H^T&#x3D;(\mathbf C+\mathbf E)\mathbf H^T&#x3D;\mathbf E\mathbf H^T<br>$$<br>这里的 $\mathbf S$ 就是伴随式，是一个 $m-n$ 元矢量，其所代表的$m$元方程组只有 $m-n$ 个方程，在二元域下有 $2^n$ 个解，即最终差错图样有 $2^n$ 中可能性。</p>
+<p>由于 $||\mathbf E||$ 即汉明距离，根据最大似然译码，汉明距离最小的差错图样出现的可能性最大，因此我们选取这 $2^n$ 个解中汉明距离最小的作为真实的差错图样。</p>
+<h6 id="标准阵列译码"><a href="#标准阵列译码" class="headerlink" title="标准阵列译码"></a>标准阵列译码</h6><p>由于解伴随式的计算量比较大，因此考虑用查表的方法解码，下面介绍标准阵列译码。</p>
+<ol>
+<li>代入 $\mathbf S$ 的 $2^{m-n}$ 中情况，解出伴随式，并选取 $||\mathbf E||$ 最小者作为真实的差错图样。</li>
+<li>构造 $2^{m-n}\times2^n$ 的表格。表格行标是伴随式的取值，列标是发码的码字。</li>
+<li>第一行填入 $2^n$ 个发码码字$\mathbf C_i$，该行所对应的伴随式为全0，即发码等于收码。</li>
+<li>第一列根据每列所对应的伴随式的值填入求解的最小差错图样 $\mathbf E_i$，此列对应发码为全0的情况，即收码等于差错图样。</li>
+<li>对于剩下的格点第 $i$ 行 $j$ 列填入 $\mathbf E_i\bigoplus \mathbf C_j$ 。</li>
+</ol>
+<p>译码过程如下</p>
+<ol>
+<li><p>在表格中找出收码所在位置 $(i,j)$ 。</p>
+<p>该步骤可以直接对表进行遍历，也可以根据 $\mathbf S&#x3D;\mathbf R\mathbf H^T$ 算出伴随式，然后在对应行做一维搜索。</p>
+</li>
+<li><p>找出 $(1,j)$ 位置的码字作为发码。</p>
+<p>该步骤也可以计算 $\mathbf R\bigoplus \mathbf E_i$ 来得到发码。</p>
+</li>
+</ol>
+<h5 id="纠错能力"><a href="#纠错能力" class="headerlink" title="纠错能力"></a>纠错能力</h5><h6 id="码距与最小距离"><a href="#码距与最小距离" class="headerlink" title="码距与最小距离"></a>码距与最小距离</h6><p>码距表示了码集中码字之间的差异。</p>
+<p>$d&#x3D;||\mathbf C_1\bigoplus\mathbf C_2||$</p>
+<p><strong>定理一</strong> 线性分组码的最小距离 $d_{min}&#x3D;min{||\mathbf C_i||}$。</p>
+<p><strong>定理二</strong> $(n,k)$ 线性分组码的最小距离为 $d_{min}$ 的<strong>必要条件</strong>是其校验矩阵 $\mathbf H$ 中有 $d_{min}-1$ 列线性无关，即最小距离的上限是 $R(\mathbf H)+1$。</p>
+<p><strong>定理三</strong> $(n,k)$ 线性分组码的最小距离一定满足 $d_{min}\le n-k+1$。</p>
+<p>若$(n,k)$线性分组码的最小距离满足定理三的等号，则称该线性分组码是<strong>极大最小距离码</strong>（MDC) 。</p>
+<h6 id="纠错能力与检错能力"><a href="#纠错能力与检错能力" class="headerlink" title="纠错能力与检错能力"></a>纠错能力与检错能力</h6><p>信道在传输码字的过程中，会使码字产生差错，如果该差错正好使得一个码字变成了另一个码字，解码方只会认为自己收到了另一个码字而没有检错能力；同样地，假使两个码字的码距是 $d$ ，如果传输过程中码字产生了不多于 $d&#x2F;2$ 位差错，收码方可以根据最优译码纠错，反之若大于这个数，收码方则会将其解释成另一码字。</p>
+<p><strong>定理四</strong> 任何最小距离为 $d_{min}$ 的线性分组码，其检错能力为 $d_{min}-1$ ，纠错能力为 $[\frac{d_{min}-1}{2}]$。</p>
+<h5 id="完备码"><a href="#完备码" class="headerlink" title="完备码"></a>完备码</h5><p>对于 $(n,k)$ 线性分组码的码字，其差错图样有 $\sum_{i&#x3D;0}^kC_n^i$ 中可能。如果该码的纠错能力是 $k$ ，则应当满足<br>$$<br>2^{n-k}\ge \sum_{i&#x3D;1}^tC_n^i<br>$$<br>该式称为<strong>汉明限</strong>。</p>
+<p>将其中满足<br>$$<br>2^{n-k}&#x3D;\sum_{i&#x3D;1}^tC_n^i<br>$$<br>的 $(n,k)$ 线性分组码称为<strong>完备码</strong>。</p>
+<h5 id="汉明码"><a href="#汉明码" class="headerlink" title="汉明码"></a>汉明码</h5><p>汉明码是纠错能力为1的完备码的统称。</p>
+<p>$(n,k)$ 汉明码服从 $(n,k)&#x3D;(2^m-1,2^m-1-m)$  ，其中 $m&#x3D;n-k$。</p>
+<h6 id="汉明码的构造"><a href="#汉明码的构造" class="headerlink" title="汉明码的构造"></a>汉明码的构造</h6><p>汉明码的校验矩阵具有特殊性，$(n,k)$ 线性分组码的校验矩阵是 $(n-k)\times n$ ，而汉明码满足 $n&#x3D;2^m-1$ 正好是 $m$ 长非零进制数。因此只要将 $n-k$ 长度的非零二进制数作为 $\mathbf H$  的列排列即可。</p>
+<h5 id="循环码"><a href="#循环码" class="headerlink" title="循环码"></a>循环码</h5><h6 id="码多项式"><a href="#码多项式" class="headerlink" title="码多项式"></a>码多项式</h6><p>若 $\mathbf C&#x3D;c_{n-1}c_{n-2}…c_0$ ，则 $C(x)&#x3D;c_{n-1}x^{n-1}+c_{n-2}x^{n-1}+…+c_0$称为该码字的<strong>码多项式</strong>。</p>
+<h6 id="生成多项式"><a href="#生成多项式" class="headerlink" title="生成多项式"></a>生成多项式</h6><p>由于循环码满足一个码字的循环位移仍是码字，因而其生成矩阵的基底也是一个基底的循环位移。称这个基底对应的多项式为<strong>生成多项式</strong>，从而简化编码运算。</p>
+<h6 id="循环码构造"><a href="#循环码构造" class="headerlink" title="循环码构造"></a>循环码构造</h6><p>构造 $(n,k)$ 循环码方法如下</p>
+<ol>
+<li><p>分解 $x^n+1$ ，找出其中次数为 $n-k$ 次的因子。</p>
+</li>
+<li><p>以该 $n-k$ 次因式$g(x)$作为循环码的生成多项式，码字计算规则如下<br>$$<br>\mathbf C(x)&#x3D;m(x)g(x)<br>$$</p>
+</li>
+</ol>
+<h6 id="校验多项式"><a href="#校验多项式" class="headerlink" title="校验多项式"></a>校验多项式</h6><p>若 $g(x)$ 为循环码的生成多项式，$h(x)&#x3D;\frac{x^n+1}{g(x)}$ 就是该码的校验矩阵。<br>$$<br>C(x)h(x)&#x3D;m(x)g(x)h(x)&#x3D;m(x)(x^n+1)&#x3D;0\ mod\ x^n+1<br>$$<br>类似码空间，$g(x)$ 所构造的 $(n,k)$ 循环码与 $h(x)$ 所构造的 $(n,n-k)$ 循环码互为<strong>对偶码</strong>。</p>
+<h6 id="系统循环码"><a href="#系统循环码" class="headerlink" title="系统循环码"></a>系统循环码</h6><p>系统循环码具有如下形式<br>$$<br>C(x)&#x3D;x^{n-k}m(x)+r(x)<br>$$<br>由于等式两边模 $g(x)$ 为0，我们可以通过这一性质计算 $r(x)$ 。<br>$$<br>\begin{align}<br>&amp;x^{n-k}m(x)+r(x)\ mod\ g(x)&#x3D;0\\<br>&amp;\Leftrightarrow r(x)&#x3D;2^{n-k}m(x)\ mod\ g(x)<br>\end{align}<br>$$<br>因此系统循环码构造方法如下</p>
+<ol>
+<li>根据需要确定 $g(x)$</li>
+<li>$m(x)$ 乘以 $x^{n-k}$，即左移 $n-k$ 位。</li>
+<li>将 $x^{n-k}m(x)$ 除 $g(x)$ 的余数作为 $r(x)$</li>
+<li>取 $C(x)&#x3D;x^{n-k}m(x)+r(x)$</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cata1ysts
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/10/13/%E4%BF%A1%E6%81%AF%E8%AE%BA%E4%B8%8E%E7%BC%96%E7%A0%81/" title="信息论与编码">http://example.com/2023/10/13/信息论与编码/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BF%A1%E6%81%AF%E8%AE%BA/" rel="tag"># 信息论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/06/C++STL%E7%AC%94%E8%AE%B0/" rel="prev" title="C++STL笔记">
+      <i class="fa fa-chevron-left"></i> C++STL笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%BA%90%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%86%B5"><span class="nav-number">2.</span> <span class="nav-text">信源与信息熵</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E4%BF%A1%E6%BA%90"><span class="nav-number">2.1.</span> <span class="nav-text">马尔可夫信源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AC%E7%A7%BB%E6%A6%82%E7%8E%87"><span class="nav-number">2.1.2.</span> <span class="nav-text">转移概率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B3%E7%A8%B3%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE"><span class="nav-number">2.1.3.</span> <span class="nav-text">平稳马尔科夫链</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E4%BF%A1%E6%81%AF%E9%87%8F%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%86%B5%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">2.2.</span> <span class="nav-text">自信息量与信息熵的计算</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E4%BF%A1%E6%81%AF%E9%87%8F"><span class="nav-number">2.2.1.</span> <span class="nav-text">自信息量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%A1%E6%BA%90%E7%86%B5"><span class="nav-number">2.2.2.</span> <span class="nav-text">信源熵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E5%85%83%E4%BF%A1%E6%BA%90%E7%86%B5"><span class="nav-number">2.2.3.</span> <span class="nav-text">二元信源熵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%86%B5"><span class="nav-number">2.2.4.</span> <span class="nav-text">条件熵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8D%95%E5%8F%98%E9%87%8F%E6%9D%A1%E4%BB%B6%E7%86%B5"><span class="nav-number">2.2.4.1.</span> <span class="nav-text">单变量条件熵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%8C%E5%8F%98%E9%87%8F%E6%9D%A1%E4%BB%B6%E7%86%B5"><span class="nav-number">2.2.4.2.</span> <span class="nav-text">双变量条件熵</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%86%B5"><span class="nav-number">2.2.5.</span> <span class="nav-text">联合熵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%86%B5%E7%9A%84%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F"><span class="nav-number">2.2.5.1.</span> <span class="nav-text">联合熵的计算公式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%86%B5%E4%B8%8E%E6%9D%A1%E4%BB%B6%E7%86%B5%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.2.5.2.</span> <span class="nav-text">联合熵与条件熵的关系</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%92%E4%BF%A1%E6%81%AF"><span class="nav-number">2.2.6.</span> <span class="nav-text">互信息</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BA%92%E4%BF%A1%E6%81%AF%E9%87%8F%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F"><span class="nav-number">2.2.6.1.</span> <span class="nav-text">互信息量计算公式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BA%92%E4%BF%A1%E6%81%AF%E9%87%8F%E5%92%8C%E7%86%B5%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.2.6.2.</span> <span class="nav-text">互信息量和熵的关系</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E4%BA%92%E4%BF%A1%E6%81%AF%E9%87%8F"><span class="nav-number">2.2.7.</span> <span class="nav-text">条件互信息量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E4%B8%8D%E5%A2%9E%E5%8E%9F%E7%90%86"><span class="nav-number">2.2.8.</span> <span class="nav-text">信息不增原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E7%86%B5"><span class="nav-number">2.2.9.</span> <span class="nav-text">相对熵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%86%B5%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">2.2.10.</span> <span class="nav-text">熵的性质</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E4%BF%A1%E6%BA%90%E7%86%B5"><span class="nav-number">2.2.11.</span> <span class="nav-text">序列信源熵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BF%A1%E6%BA%90%E6%97%A0%E8%AE%B0%E5%BF%86"><span class="nav-number">2.2.11.1.</span> <span class="nav-text">信源无记忆</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BF%A1%E6%BA%90%E6%9C%89%E8%AE%B0%E5%BF%86"><span class="nav-number">2.2.11.2.</span> <span class="nav-text">信源有记忆</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E4%BF%A1%E6%BA%90%E7%86%B5%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">2.2.11.3.</span> <span class="nav-text">序列信源熵的性质</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE%E7%9A%84%E6%9E%81%E9%99%90%E7%86%B5"><span class="nav-number">2.2.11.4.</span> <span class="nav-text">马尔可夫链的极限熵</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9E%E7%BB%AD%E4%BF%A1%E6%BA%90%E7%86%B5"><span class="nav-number">2.2.12.</span> <span class="nav-text">连续信源熵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BE%AE%E5%88%86%E7%86%B5"><span class="nav-number">2.2.12.1.</span> <span class="nav-text">微分熵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%86%B5-1"><span class="nav-number">2.2.12.2.</span> <span class="nav-text">条件熵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%86%B5-1"><span class="nav-number">2.2.12.3.</span> <span class="nav-text">联合熵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%99%90%E5%B9%B3%E5%9D%87%E5%8A%9F%E7%8E%87%E7%9A%84%E6%9C%80%E5%A4%A7%E7%86%B5%E5%AE%9A%E7%90%86"><span class="nav-number">2.2.12.4.</span> <span class="nav-text">限平均功率的最大熵定理</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%97%E4%BD%99%E5%BA%A6"><span class="nav-number">2.2.13.</span> <span class="nav-text">冗余度</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%95%88%E7%8E%87"><span class="nav-number">2.2.13.1.</span> <span class="nav-text">信息效率</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%86%97%E4%BD%99%E5%BA%A6-1"><span class="nav-number">2.2.13.2.</span> <span class="nav-text">冗余度</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E4%B8%8E%E4%BF%A1%E9%81%93%E5%AE%B9%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">信道与信道容量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E7%9A%84%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">信道的数学模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E5%88%86%E7%B1%BB"><span class="nav-number">3.1.1.</span> <span class="nav-text">信道分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E5%AE%B9%E9%87%8F"><span class="nav-number">3.1.2.</span> <span class="nav-text">信道容量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E5%8D%95%E7%AC%A6%E5%8F%B7%E4%BF%A1%E9%81%93%E5%AE%B9%E9%87%8F"><span class="nav-number">3.2.</span> <span class="nav-text">离散单符号信道容量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%A0%E5%B9%B2%E6%89%B0%E4%BF%A1%E9%81%93"><span class="nav-number">3.2.1.</span> <span class="nav-text">无干扰信道</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E5%AF%B9%E7%A7%B0%E6%97%A0%E8%AE%B0%E5%BF%86%E4%BF%A1%E9%81%93"><span class="nav-number">3.2.2.</span> <span class="nav-text">离散对称无记忆信道</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">对称</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#DMC%E7%9A%84%E5%AE%B9%E9%87%8F"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">DMC的容量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E6%97%A0%E8%AE%B0%E5%BF%86%E6%A8%A1K%E5%8A%A0%E6%80%A7%E5%99%AA%E5%A3%B0%E4%BF%A1%E9%81%93"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">离散无记忆模K加性噪声信道</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#BSC%E4%BF%A1%E9%81%93"><span class="nav-number">3.2.2.4.</span> <span class="nav-text">BSC信道</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E4%B8%B2%E6%8E%A5"><span class="nav-number">3.2.2.5.</span> <span class="nav-text">信道串接</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%86%E5%AF%B9%E7%A7%B0DMC%E4%BF%A1%E9%81%93"><span class="nav-number">3.2.3.</span> <span class="nav-text">准对称DMC信道</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E5%BA%8F%E5%88%97%E4%BF%A1%E9%81%93%E5%AE%B9%E9%87%8F"><span class="nav-number">3.3.</span> <span class="nav-text">离散序列信道容量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E7%BB%AD%E4%BF%A1%E9%81%93%E5%AE%B9%E9%87%8F"><span class="nav-number">3.4.</span> <span class="nav-text">连续信道容量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9E%E7%BB%AD%E5%8D%95%E7%AC%A6%E5%8F%B7%E5%8A%A0%E6%80%A7%E4%BF%A1%E9%81%93"><span class="nav-number">3.4.1.</span> <span class="nav-text">连续单符号加性信道</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E7%BB%B4%E6%97%A0%E8%AE%B0%E5%BF%86%E8%BF%9E%E7%BB%AD%E4%BF%A1%E9%81%93"><span class="nav-number">3.4.2.</span> <span class="nav-text">多维无记忆连续信道</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B3%A8%E6%B0%B4%E6%B3%95"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">注水法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A6%99%E5%86%9C%E5%85%AC%E5%BC%8F"><span class="nav-number">3.4.3.</span> <span class="nav-text">香农公式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F"><span class="nav-number">3.4.3.1.</span> <span class="nav-text">极限容量</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%BA%90%E7%BC%96%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">信源编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%A6%82%E5%BF%B5"><span class="nav-number">4.1.</span> <span class="nav-text">编码概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E5%88%86%E7%B1%BB"><span class="nav-number">4.1.1.</span> <span class="nav-text">编码分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Kraft-%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-number">4.1.2.</span> <span class="nav-text">$Kraft$ 不等式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%A4%B1%E7%9C%9F%E7%BC%96%E7%A0%81%E5%AE%9A%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">无失真编码定理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A0%81%E5%AD%97%E7%9A%84%E4%BF%A1%E6%81%AF%E9%87%8F"><span class="nav-number">4.2.1.</span> <span class="nav-text">码字的信息量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9A%E9%95%BF%E7%BC%96%E7%A0%81%E5%AE%9A%E7%90%86"><span class="nav-number">4.2.2.</span> <span class="nav-text">定长编码定理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%9A%E9%95%BF%E7%BC%96%E7%A0%81%E5%AE%9A%E7%90%86-1"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">定长编码定理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B7%AE%E9%94%99%E7%8E%87"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">差错率</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%95%88%E7%8E%87"><span class="nav-number">4.2.2.3.</span> <span class="nav-text">编码效率</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E9%95%BF%E7%BC%96%E7%A0%81"><span class="nav-number">4.3.</span> <span class="nav-text">变长编码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%AC%A6%E5%8F%B7%E5%8F%98%E9%95%BF%E7%BC%96%E7%A0%81%E5%AE%9A%E7%90%86"><span class="nav-number">4.3.1.</span> <span class="nav-text">单符号变长编码定理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A6%99%E5%86%9C%E7%BC%96%E7%A0%81"><span class="nav-number">4.3.2.</span> <span class="nav-text">香农编码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81"><span class="nav-number">4.3.3.</span> <span class="nav-text">哈夫曼编码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%97%E6%9C%AF%E7%BC%96%E7%A0%81"><span class="nav-number">4.3.4.</span> <span class="nav-text">算术编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E7%BC%96%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">信道编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A0%81%E7%A9%BA%E9%97%B4"><span class="nav-number">5.1.</span> <span class="nav-text">码空间</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#n%E7%BB%B4%E7%A9%BA%E9%97%B4"><span class="nav-number">5.1.1.</span> <span class="nav-text">n维空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E5%BA%95"><span class="nav-number">5.1.2.</span> <span class="nav-text">基底</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%B9%E5%81%B6%E7%A9%BA%E9%97%B4"><span class="nav-number">5.1.3.</span> <span class="nav-text">对偶空间</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E7%BC%96%E7%A0%81%E5%AE%9A%E7%90%86"><span class="nav-number">5.2.</span> <span class="nav-text">信道编码定理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E4%BC%98%E8%AF%91%E7%A0%81"><span class="nav-number">5.3.</span> <span class="nav-text">最优译码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%91%E7%A0%81%E5%99%A8"><span class="nav-number">5.3.1.</span> <span class="nav-text">译码器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E4%BC%98%E8%AF%91%E7%A0%81-1"><span class="nav-number">5.3.2.</span> <span class="nav-text">最优译码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E8%AF%91%E7%A0%81"><span class="nav-number">5.3.2.1.</span> <span class="nav-text">最佳译码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E8%AF%91%E7%A0%81"><span class="nav-number">5.3.2.2.</span> <span class="nav-text">最大似然译码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB"><span class="nav-number">5.3.2.3.</span> <span class="nav-text">最小汉明距离</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%88%86%E7%BB%84%E7%A0%81"><span class="nav-number">5.4.</span> <span class="nav-text">线性分组码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E7%9F%A9%E9%98%B5"><span class="nav-number">5.4.1.</span> <span class="nav-text">生成矩阵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%8C%96"><span class="nav-number">5.4.2.</span> <span class="nav-text">系统化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E7%9F%A9%E9%98%B5"><span class="nav-number">5.4.3.</span> <span class="nav-text">校验矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E7%B3%BB%E7%BB%9F%E7%A0%81%E6%B1%82%E6%A0%A1%E9%AA%8C%E7%9F%A9%E9%98%B5"><span class="nav-number">5.4.3.1.</span> <span class="nav-text">利用系统码求校验矩阵</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%B4%E9%9A%8F%E5%BC%8F%E4%B8%8E%E6%A0%87%E5%87%86%E9%98%B5%E5%88%97%E8%AF%91%E7%A0%81"><span class="nav-number">5.4.4.</span> <span class="nav-text">伴随式与标准阵列译码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B7%AE%E9%94%99%E5%9B%BE%E6%A1%88"><span class="nav-number">5.4.4.1.</span> <span class="nav-text">差错图案</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BC%B4%E9%9A%8F%E5%BC%8F"><span class="nav-number">5.4.4.2.</span> <span class="nav-text">伴随式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E9%98%B5%E5%88%97%E8%AF%91%E7%A0%81"><span class="nav-number">5.4.4.3.</span> <span class="nav-text">标准阵列译码</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BA%A0%E9%94%99%E8%83%BD%E5%8A%9B"><span class="nav-number">5.4.5.</span> <span class="nav-text">纠错能力</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A0%81%E8%B7%9D%E4%B8%8E%E6%9C%80%E5%B0%8F%E8%B7%9D%E7%A6%BB"><span class="nav-number">5.4.5.1.</span> <span class="nav-text">码距与最小距离</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BA%A0%E9%94%99%E8%83%BD%E5%8A%9B%E4%B8%8E%E6%A3%80%E9%94%99%E8%83%BD%E5%8A%9B"><span class="nav-number">5.4.5.2.</span> <span class="nav-text">纠错能力与检错能力</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%8C%E5%A4%87%E7%A0%81"><span class="nav-number">5.4.6.</span> <span class="nav-text">完备码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B1%89%E6%98%8E%E7%A0%81"><span class="nav-number">5.4.7.</span> <span class="nav-text">汉明码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B1%89%E6%98%8E%E7%A0%81%E7%9A%84%E6%9E%84%E9%80%A0"><span class="nav-number">5.4.7.1.</span> <span class="nav-text">汉明码的构造</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%A0%81"><span class="nav-number">5.4.8.</span> <span class="nav-text">循环码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A0%81%E5%A4%9A%E9%A1%B9%E5%BC%8F"><span class="nav-number">5.4.8.1.</span> <span class="nav-text">码多项式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%A4%9A%E9%A1%B9%E5%BC%8F"><span class="nav-number">5.4.8.2.</span> <span class="nav-text">生成多项式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%A0%81%E6%9E%84%E9%80%A0"><span class="nav-number">5.4.8.3.</span> <span class="nav-text">循环码构造</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%A4%9A%E9%A1%B9%E5%BC%8F"><span class="nav-number">5.4.8.4.</span> <span class="nav-text">校验多项式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%BE%AA%E7%8E%AF%E7%A0%81"><span class="nav-number">5.4.8.5.</span> <span class="nav-text">系统循环码</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cata1ysts"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Cata1ysts</p>
+  <div class="site-description" itemprop="description">努力学习crypto并希望有一个web大手子浇浇的pwn萌新</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cata1ysts</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":250},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
