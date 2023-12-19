@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="请勿打开，里面含有*%&amp;（￥（&amp;*">
+<meta property="og:type" content="article">
+<meta property="og:title" content="病毒学笔记一——计算机病毒理论">
+<meta property="og:url" content="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%80/index.html">
+<meta property="og:site_name" content="Cata1yst&#39;s blog">
+<meta property="og:description" content="请勿打开，里面含有*%&amp;（￥（&amp;*">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-05T03:45:14.000Z">
+<meta property="article:modified_time" content="2023-12-19T09:02:41.279Z">
+<meta property="article:author" content="Cata1ysts">
+<meta property="article:tag" content="计算机病毒">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>病毒学笔记一——计算机病毒理论 | Cata1yst's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cata1yst's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">祇今尚有清流月，曾照高王万马过</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cata1ysts">
+      <meta itemprop="description" content="努力学习crypto并希望有一个web大手子浇浇的pwn萌新">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cata1yst's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          病毒学笔记一——计算机病毒理论
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-12-05 11:45:14" itemprop="dateCreated datePublished" datetime="2023-12-05T11:45:14+08:00">2023-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-19 17:02:41" itemprop="dateModified" datetime="2023-12-19T17:02:41+08:00">2023-12-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92/" itemprop="url" rel="index"><span itemprop="name">计算机病毒</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">请勿打开，里面含有*%&（￥（&*</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<h1 id="计算机病毒学"><a href="#计算机病毒学" class="headerlink" title="计算机病毒学"></a>计算机病毒学</h1><p>[TOC]</p>
+<h2 id="计算机病毒概论"><a href="#计算机病毒概论" class="headerlink" title="计算机病毒概论"></a>计算机病毒概论</h2><h3 id="计算机病毒"><a href="#计算机病毒" class="headerlink" title="计算机病毒"></a>计算机病毒</h3><h4 id="计算机病毒的基本概念"><a href="#计算机病毒的基本概念" class="headerlink" title="计算机病毒的基本概念"></a>计算机病毒的基本概念</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>计算机病毒是一种可以感染其它程序的程序，感染的方式为在被感染程序中加入计算机病毒的一个副本，这个副本可能是在原病毒基础上演变过来的；计算机病毒不能独立运行，它依赖其宿主程序的运行而运作。</p>
+<h5 id="国标定义"><a href="#国标定义" class="headerlink" title="国标定义"></a>国标定义</h5><p>计算机病毒，是指编制或者在计算机程序中插入的破坏计算机功能或者毁坏数据，影响计算机使用，并能自我复制的一组计算机指令或者程序代码。</p>
+<h5 id="与生物病毒的区别与联系"><a href="#与生物病毒的区别与联系" class="headerlink" title="与生物病毒的区别与联系"></a>与生物病毒的区别与联系</h5><p>计算机病毒不是天然存在的，它是<strong>人为</strong>地利用计算机系统漏洞而产生的。</p>
+<p>计算机病毒与生物学病毒都具有<strong>传染性和破坏性</strong>。</p>
+<h5 id="计算机病毒产生的原因"><a href="#计算机病毒产生的原因" class="headerlink" title="计算机病毒产生的原因"></a>计算机病毒产生的原因</h5><ol>
+<li>计算机系统的脆弱性</li>
+<li>出于军事或政治目的</li>
+<li>出于科学研究需要</li>
+<li>出于个人好奇心理活报复心理</li>
+<li>加密软件</li>
+</ol>
+<h5 id="蠕虫"><a href="#蠕虫" class="headerlink" title="蠕虫"></a>蠕虫</h5><p>计算机蠕虫可以独立运行，并能把自身的一个包含所有功能的版本传播到另外的计算机上。</p>
+<p>蠕虫的基本特性是<strong>自我移动</strong>、<strong>自我复制</strong>。</p>
+<h6 id="与病毒的区别"><a href="#与病毒的区别" class="headerlink" title="与病毒的区别"></a>与病毒的区别</h6><p>病毒不能独立运行。</p>
+<h5 id="计算机病毒的特性"><a href="#计算机病毒的特性" class="headerlink" title="计算机病毒的特性"></a>计算机病毒的特性</h5><ol>
+<li><p>寄生性</p>
+<p>计算机病毒都<strong>不是独立存在</strong>的，而是<strong>寄生于其他的程序</strong>中，当执行该程序时，病毒代码就会被执行。</p>
+</li>
+<li><p>传染性</p>
+<p>病毒可以从一个程序传染到另一个程序，从一个计算机或一个网络传染到另一个计算机或网络。</p>
+</li>
+<li><p>隐蔽性</p>
+<ol>
+<li>病毒潜入系统后，不一定立即发作，可以长时间的潜伏，不易被用户发现，也不影响系统的正常运行。</li>
+<li>在一定条件下，传染机制被激活，则进入传染期，破坏机制被激活时，则进行破坏。</li>
+</ol>
+<ul>
+<li>一方面指计算机病毒进入系统时没有明显现象，不易被发现</li>
+<li>另一方面指计算机病毒隐藏在正常程序或某种介质中</li>
+</ul>
+</li>
+<li><p>触发（潜伏）性</p>
+<ol>
+<li><p>触发感染</p>
+<p>在一定条件下激活感染机制进行感染。</p>
+</li>
+<li><p>触发破坏</p>
+<p>在一定条件下触发破坏机制进行破坏。</p>
+</li>
+</ol>
+</li>
+<li><p>破坏性</p>
+<ul>
+<li>直接破坏<ul>
+<li>占用资源</li>
+<li>影响正常使用</li>
+<li>修改磁盘文件（删除、覆盖等）</li>
+<li>破坏硬盘（引导区、注册表、格式化等）</li>
+<li>破坏硬件</li>
+<li>盗取隐私</li>
+<li>破坏网络（网络病毒）</li>
+</ul>
+</li>
+<li>间接破坏<ul>
+<li>给用户造成心理压力</li>
+<li>造成业务损失</li>
+<li>法律问题</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="病毒的结构"><a href="#病毒的结构" class="headerlink" title="病毒的结构"></a>病毒的结构</h5><ol>
+<li>引导模块</li>
+<li>传染模块<ol>
+<li>传染条件判断</li>
+<li>实施传染功能</li>
+</ol>
+</li>
+<li>破坏模块<ol>
+<li>破坏条件判断</li>
+<li>实施破坏功能</li>
+</ol>
+</li>
+</ol>
+<h3 id="计算机病毒分类"><a href="#计算机病毒分类" class="headerlink" title="计算机病毒分类"></a>计算机病毒分类</h3><h4 id="按照宿主媒介分类"><a href="#按照宿主媒介分类" class="headerlink" title="按照宿主媒介分类"></a>按照宿主媒介分类</h4><ol>
+<li>网络病毒</li>
+<li>文件病毒</li>
+<li>引导区病毒</li>
+<li>混合病毒</li>
+</ol>
+<h4 id="按照传染方法分类"><a href="#按照传染方法分类" class="headerlink" title="按照传染方法分类"></a>按照传染方法分类</h4><ol>
+<li>引导扇区传染病毒</li>
+<li>可执行文件传染病毒</li>
+<li>网络传染病毒</li>
+</ol>
+<h4 id="按照破坏能力分类"><a href="#按照破坏能力分类" class="headerlink" title="按照破坏能力分类"></a>按照破坏能力分类</h4><ol>
+<li><p>无害</p>
+<p>仅占用空间</p>
+</li>
+<li><p>无危险</p>
+<p>显示图片、发出噪声等</p>
+</li>
+<li><p>危险</p>
+<p>对操作系统产生影响</p>
+</li>
+<li><p>重度危险</p>
+<p>破坏数据、清除内存和重要文件</p>
+</li>
+</ol>
+<h4 id="按照算法分类"><a href="#按照算法分类" class="headerlink" title="按照算法分类"></a>按照算法分类</h4><ol>
+<li><p>伴随型</p>
+<p>不改变文件内容，仅产生一个可执行文件的伴随文件。</p>
+</li>
+<li><p>蠕虫型</p>
+<p>通过网络传播，仅占用资源。</p>
+</li>
+<li><p>寄生型</p>
+<p>依附在引导扇区或者文件中，通过系统功能传播。</p>
+</li>
+<li><p>练习型</p>
+<p>未成形病毒，处于测试阶段。</p>
+</li>
+<li><p>变形病毒</p>
+<p>在传播过程中会改变自身内容和大小，一般包含一个加密结构。</p>
+</li>
+</ol>
+<h4 id="按照链接方式分类"><a href="#按照链接方式分类" class="headerlink" title="按照链接方式分类"></a>按照链接方式分类</h4><ol>
+<li><p>源码型</p>
+<p>添加到编译前的编程语言文本中，经过编译而称为程序的一部分。</p>
+</li>
+<li><p>嵌入型</p>
+<p>插入到现有程序中，并改变宿主程序使当其执行时优先执行病毒程序</p>
+<p>最难编写、最难清除。</p>
+</li>
+<li><p>外壳型</p>
+<p>不改变宿主程序，仅将自身包围在宿主程序周围，可以通过检查文件大小清除。</p>
+</li>
+<li><p>操作系统型</p>
+<p>进入操作系统并获取较高权限，危害极大。</p>
+</li>
+</ol>
+<h3 id="计算机病毒的症状"><a href="#计算机病毒的症状" class="headerlink" title="计算机病毒的症状"></a>计算机病毒的症状</h3><h4 id="感染症状"><a href="#感染症状" class="headerlink" title="感染症状"></a>感染症状</h4><ol>
+<li>突然死机</li>
+<li>操作系统无法启动</li>
+<li>运行速度变慢</li>
+<li>内存不足</li>
+<li>通信异常</li>
+<li>无故请求对软盘的写操作</li>
+<li>启动正常应用程序时报错</li>
+<li>系统文件日期、大小发生改变</li>
+<li>磁盘空间迅速减小</li>
+<li>陌生邮件</li>
+</ol>
+<h4 id="发作时症状"><a href="#发作时症状" class="headerlink" title="发作时症状"></a>发作时症状</h4><ol>
+<li>自动运行程序（弹出对话、播放音频、显示图片、发送邮件等）</li>
+<li>桌面图标改变</li>
+<li>硬盘指示灯闪烁</li>
+<li>鼠标不受控制（木马）</li>
+</ol>
+<h4 id="发作后症状"><a href="#发作后症状" class="headerlink" title="发作后症状"></a>发作后症状</h4><ol>
+<li>硬盘无法启动</li>
+<li>系统文件丢失</li>
+<li>文件目录改变</li>
+<li>文件损坏</li>
+<li>文件被加密</li>
+<li>主板被破坏</li>
+<li>网络瘫痪</li>
+</ol>
+<h3 id="病毒命名规则"><a href="#病毒命名规则" class="headerlink" title="病毒命名规则"></a>病毒命名规则</h3><p>前缀名—家族名—组名—大变种—小变种—修改者</p>
+<p>一般来说前两个是家族名和组名，但是如果最前面由<strong>全大写、下划线和数字</strong>组成，则可能是前缀名，剩余名字依次后延。</p>
+<h2 id="病毒模型"><a href="#病毒模型" class="headerlink" title="病毒模型"></a>病毒模型</h2><h3 id="病毒伪代码的共性"><a href="#病毒伪代码的共性" class="headerlink" title="病毒伪代码的共性"></a>病毒伪代码的共性</h3><ul>
+<li><p>对于每个程序，都存在相应的感染方式。即病毒是一个从程序到程序的映射</p>
+</li>
+<li><p>病毒在每个被感染程序的每个输入上有三种选择</p>
+<ul>
+<li><p>破坏</p>
+<p>不执行原先的功能，而去完成其它功能</p>
+</li>
+<li><p>传染</p>
+<p>执行原先的功能，同时如果程序能终止，则传染程序</p>
+</li>
+<li><p>模仿</p>
+<p>既不破坏也不传染，不加修改地执行原先的功能</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="病毒传播模型"><a href="#病毒传播模型" class="headerlink" title="病毒传播模型"></a>病毒传播模型</h3><h4 id="病毒检测的一般问题"><a href="#病毒检测的一般问题" class="headerlink" title="病毒检测的一般问题"></a>病毒检测的一般问题</h4><p>不可能制造出一个图灵机，并利用该计算机判断RASPM_ABS中的可执行文件是否含有病毒。</p>
+<h3 id="蠕虫传播模型"><a href="#蠕虫传播模型" class="headerlink" title="蠕虫传播模型"></a><a id="Worm">蠕虫传播模型</a></h3><h4 id="SIS模型"><a href="#SIS模型" class="headerlink" title="SIS模型"></a>SIS模型</h4><p>适用于只有易感程序和已感染程序两类，但会<strong>反复感染的病毒</strong>。</p>
+<h5 id="模型假设"><a href="#模型假设" class="headerlink" title="模型假设"></a>模型假设</h5><p>易感程序被计算机病毒传染后，变为已感染程序，可被杀毒再次变为易感程序，无潜伏期、无免疫力。</p>
+<h4 id="SI模型"><a href="#SI模型" class="headerlink" title="SI模型"></a>SI模型</h4><p>适用于只有易感程序和已感染程序两类，且<strong>不会反复感染</strong>的病毒。</p>
+<h5 id="模型假设-1"><a href="#模型假设-1" class="headerlink" title="模型假设"></a>模型假设</h5><p>易感程序被计算机病毒传染后，变为已感染程序，无潜伏期、无杀毒恢复的情况、无免疫力。</p>
+<h4 id="SIR模型"><a href="#SIR模型" class="headerlink" title="SIR模型"></a>SIR模型</h4><h5 id="模型假设-2"><a href="#模型假设-2" class="headerlink" title="模型假设"></a>模型假设</h5><ul>
+<li>已被病毒感染的文件<strong>具有免疫力</strong>。 </li>
+<li>病毒的<strong>潜伏期很短</strong>，近似地认为等于零。</li>
+</ul>
+<p>该模型下病毒强度和感染主机数符合logistic曲线，具有慢启动、块传染、缓消失三个阶段。</p>
+<h3 id="Fred-Cohen-“四模型”理论"><a href="#Fred-Cohen-“四模型”理论" class="headerlink" title="Fred Cohen “四模型”理论"></a>Fred Cohen “四模型”理论</h3><h4 id="基本隔离模型"><a href="#基本隔离模型" class="headerlink" title="基本隔离模型"></a>基本隔离模型</h4><p>取消消息共享，将计算机与外界通信隔离。</p>
+<h4 id="分隔模型"><a href="#分隔模型" class="headerlink" title="分隔模型"></a>分隔模型</h4><p>将用户群分为若干封闭子群，病毒只能在子群内部传播。</p>
+<h4 id="流模型"><a href="#流模型" class="headerlink" title="流模型"></a>流模型</h4><p>对信息流作出阈值限制，使之只能在一定距离内传播。</p>
+<h4 id="限制解释模型"><a href="#限制解释模型" class="headerlink" title="限制解释模型"></a>限制解释模型</h4><p>采用固定的解释模式，从而杜绝病毒感染。</p>
+<h4 id="计算机病毒模型理论启示"><a href="#计算机病毒模型理论启示" class="headerlink" title="计算机病毒模型理论启示"></a>计算机病毒模型理论启示</h4><ul>
+<li>Cohen模型本质是在安全性与共享性之间的权衡，通过限制权限和系统隔离将病毒传播限制在一定范围内。</li>
+<li>写操作是病毒所必须含有的，也是最薄弱的环节，在病毒执行写操作时检测出其中的病毒代码进行防范</li>
+<li>设计动态监控措施，使之适应各种变化</li>
+<li>全面防护。分级防护只会使得计算机病毒种类越来越多</li>
+<li>遏制计算机病毒的核心是人的管理</li>
+</ul>
+<h2 id="计算机病毒结构与工作原理"><a href="#计算机病毒结构与工作原理" class="headerlink" title="计算机病毒结构与工作原理"></a>计算机病毒结构与工作原理</h2><h3 id="病毒的工作流程"><a href="#病毒的工作流程" class="headerlink" title="病毒的工作流程"></a>病毒的工作流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">a((静态))--&gt;b(引导模块)</span><br><span class="line">b--&gt;c((动态))</span><br><span class="line">c--&gt;d(触发模块)</span><br><span class="line">d--&gt;e&#123;感染条件&#125;</span><br><span class="line">e--yes--&gt;f(感染模块)</span><br><span class="line">e--no--&gt;g(潜伏或消散)</span><br><span class="line">f--&gt;h&#123;破坏条件&#125;</span><br><span class="line">h--yes--&gt;i(破坏模块)</span><br><span class="line">h--no--&gt;g</span><br></pre></td></tr></table></figure>
+
+<p>四个模块：引导、感染、触发、破坏。</p>
+<p>两个状态：静态、动态。</p>
+<h4 id="引导模块"><a href="#引导模块" class="headerlink" title="引导模块"></a>引导模块</h4><h5 id="寄生"><a href="#寄生" class="headerlink" title="寄生"></a>寄生</h5><h6 id="寄生位置"><a href="#寄生位置" class="headerlink" title="寄生位置"></a>寄生位置</h6><p>引导区、文件</p>
+<h6 id="寄生手段"><a href="#寄生手段" class="headerlink" title="寄生手段"></a>寄生手段</h6><p>替代法：将原有内容搬迁至其他位置后植入病毒代码，常见于引导区病毒。</p>
+<p>链接法：将代码加入文件头尾处并修改文件入口至病毒模块，常见于文件型病毒。</p>
+<h5 id="引导过程"><a href="#引导过程" class="headerlink" title="引导过程"></a>引导过程</h5><p>驻留内存 $\rightarrow$ 获取控制权 $\rightarrow$ 恢复系统功能</p>
+<h6 id="引导区病毒"><a href="#引导区病毒" class="headerlink" title="引导区病毒"></a>引导区病毒</h6><p>启动  $\rightarrow$ 执行病毒引导模块 $\rightarrow$ 加载感染、破坏、触发模块至内存 $\rightarrow$ 驻留内存 $\rightarrow$ 跳转到系统引导程序 $\rightarrow$ 正常启动。 </p>
+<h6 id="文件型病毒"><a href="#文件型病毒" class="headerlink" title="文件型病毒"></a>文件型病毒</h6><p>执行文件 $\rightarrow$ 跳转到病毒引导模块 $\rightarrow$ 加载感染、破坏、触发模块至内存 $\rightarrow$ 驻留内存 $\rightarrow$ 转回原始入口处 $\rightarrow$ 正正常执行文件。 </p>
+<h4 id="感染模块"><a href="#感染模块" class="headerlink" title="感染模块"></a>感染模块</h4><h5 id="感染条件"><a href="#感染条件" class="headerlink" title="感染条件"></a>感染条件</h5><ol>
+<li><p>被动传染</p>
+<p>用户拷贝文件、磁盘或者进行网络通信时将病毒文件转发至另一台计算机上。</p>
+</li>
+<li><p>主动传染</p>
+<p>病毒程序运行时，若满足病毒程序内部的感染条件，则可以主动感染其他设备。</p>
+</li>
+</ol>
+<h5 id="传染方式"><a href="#传染方式" class="headerlink" title="传染方式"></a>传染方式</h5><ol>
+<li><p>立即传染</p>
+<p>运行宿主程序时，病毒程序先一步运行，完成对其他文件或磁盘的感染，再执行宿主程序。</p>
+</li>
+<li><p>伺机传染</p>
+<p><strong>驻留在内存的病毒</strong>先对系统进行检查，当系统满足一定条件时才进行感染。</p>
+</li>
+</ol>
+<h5 id="传染过程"><a href="#传染过程" class="headerlink" title="传染过程"></a>传染过程</h5><p>宿主文件被执行 $\rightarrow$ 加载各种模块到内存 $\rightarrow$ 启动感染</p>
+<h5 id="文件型病毒传染机理"><a href="#文件型病毒传染机理" class="headerlink" title="文件型病毒传染机理"></a>文件型病毒传染机理</h5><ol>
+<li><p>重入检测</p>
+<p>病毒对文件进行检查，根据其是否含有自身独特表示判断是否被感染过。</p>
+</li>
+<li><p>链接</p>
+<p>当满足条件时，病毒会链接到文件中，本体则保存到磁盘。</p>
+</li>
+<li><p>监视</p>
+<p>完成一次传染后，病毒会继续监控其他文件，等待下一次传染。</p>
+</li>
+</ol>
+<h4 id="破坏模块"><a href="#破坏模块" class="headerlink" title="破坏模块"></a>破坏模块</h4><p>破坏模块是病毒的表现模块，但是并不是破坏能力越强越好。</p>
+<h4 id="触发模块"><a href="#触发模块" class="headerlink" title="触发模块"></a>触发模块</h4><p>触发模块的目的是调节病毒的攻击性和潜伏性之间的平衡。</p>
+<h3 id="16位操作系统病毒编制技术"><a href="#16位操作系统病毒编制技术" class="headerlink" title="16位操作系统病毒编制技术"></a>16位操作系统病毒编制技术</h3><h4 id="引导型病毒"><a href="#引导型病毒" class="headerlink" title="引导型病毒"></a>引导型病毒</h4><h5 id="计算机系统引导程序流程"><a href="#计算机系统引导程序流程" class="headerlink" title="计算机系统引导程序流程"></a>计算机系统引导程序流程</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">a[装载DOS&lt;br&gt;引导区]--&gt;b[运行引导程序]</span><br><span class="line">b--&gt;c[加载&lt;br&gt;IO.sys/MSDOS.sys]</span><br><span class="line">c--&gt;d[加载DOS]</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用含有病毒的软盘启动"><a href="#使用含有病毒的软盘启动" class="headerlink" title="使用含有病毒的软盘启动"></a>使用含有病毒的软盘启动</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">a[病毒从软盘&lt;br&gt;加载到内存]--&gt;b[寻找DOS引导区位置]</span><br><span class="line">b--&gt;c[将DOS引导区&lt;br&gt;移动到其他位置]</span><br><span class="line">c--&gt;d[病毒将自己写入&lt;br&gt;原引导区位置]</span><br></pre></td></tr></table></figure>
+
+<h5 id="启动带病毒的系统"><a href="#启动带病毒的系统" class="headerlink" title="启动带病毒的系统"></a>启动带病毒的系统</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">a[加载病毒引导&lt;br&gt;程序至内存]--&gt;b[运行病毒&lt;br&gt;引导程序]</span><br><span class="line">b--&gt;c[病毒驻留内存]</span><br><span class="line">c--&gt;d[执行DOS引导程序&lt;br&gt;并装载系统]</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="文件型病毒-1"><a href="#文件型病毒-1" class="headerlink" title="文件型病毒"></a>文件型病毒</h4><p>16位系统可执行文件：COM、MZ、EXE、NE等</p>
+<p>其中COM文件没有重定位机制，MZ格式具有重定位功能。</p>
+<p>NE是Windows中为兼容MZ格式而出现的，它包含MZ文件头以及一个自身的文件头，之后才是可执行文件的开始；NE的一个重要特性是它将数据、代码<strong>隔离储存</strong>，在运行时进行<strong>动态链接</strong>。</p>
+<h5 id="MZ文件头"><a href="#MZ文件头" class="headerlink" title="MZ文件头"></a>MZ文件头</h5><p>病毒通过文件头中的<strong>文件类型标记</strong>项确定文件类型，根据<strong>扇区数</strong>和<strong>最后一个扇区字节数</strong>计算文件大小，根据<strong>文件头大小</strong>项确定代码开始位置，最终修改<strong>初始代码段指针</strong>（IP）和<strong>初始代码段段地址</strong>（CS）使自身代码优先执行。</p>
+<h3 id="32位操作系统病毒编制技术"><a href="#32位操作系统病毒编制技术" class="headerlink" title="32位操作系统病毒编制技术"></a>32位操作系统病毒编制技术</h3><h4 id="PE文件格式"><a href="#PE文件格式" class="headerlink" title="PE文件格式"></a>PE文件格式</h4><p>PE是Win32的可执行文件格式。</p>
+<p>PE文件包含MZ文件头和PE文件头；接下来是<strong>节表</strong>，用于各小节的索引；之后是每一个节点内容，每一节都是一块具有共同属性的数据。</p>
+<h4 id="重定位计算"><a href="#重定位计算" class="headerlink" title="重定位计算"></a>重定位计算</h4><p>正常程序执行的变量和函数的相对地址都是预先计算的，而病毒是植入原有程序的部分，其相对地址较难计算。</p>
+<p>通过<strong>动态参照点</strong>解决链接后病毒变量及病毒代码的寻址问题。</p>
+<p>例如 <code>lea eax,[ebp+(offset var1-offset delta)] </code>就是一种重定位代码。</p>
+<h4 id="API函数"><a href="#API函数" class="headerlink" title="API函数"></a>API函数</h4><p>正常程序可以通过引用表获得，而病毒只是插入程序的代码段，没有自己的引入表。</p>
+<p>通过寻找相关链接库在执行过程中的基地址解决病毒植入后没有自身<strong>引入表</strong>问题。</p>
+<h4 id="内存映射文件"><a href="#内存映射文件" class="headerlink" title="内存映射文件"></a>内存映射文件</h4><p>内存映射提供了一组函数，这组函数将文件内容全部或部分搬入进程的虚拟空间，使得程序对文件的访问可以之间在虚存访问；对文件数据的操作也相当于在内存去操作。可以极大提高运行效率。</p>
+<p>病毒通过该技术减少资源占有，提高隐蔽性。</p>
+<h2 id="病毒技术特征"><a href="#病毒技术特征" class="headerlink" title="病毒技术特征"></a>病毒技术特征</h2><h3 id="驻留内存"><a href="#驻留内存" class="headerlink" title="驻留内存"></a>驻留内存</h3><h4 id="Dos系统"><a href="#Dos系统" class="headerlink" title="Dos系统"></a>Dos系统</h4><h5 id="驻留方法"><a href="#驻留方法" class="headerlink" title="驻留方法"></a>驻留方法</h5><ul>
+<li>在CONFIG.SYS中作为设备驱动驻留</li>
+<li>调用INT 21H中断</li>
+</ul>
+<h5 id="驻留位置"><a href="#驻留位置" class="headerlink" title="驻留位置"></a>驻留位置</h5><ul>
+<li>Dos系统区空闲区域</li>
+<li>高端内存区空闲区域</li>
+<li>视频内存块空闲区域</li>
+<li>中断向量表空闲区域</li>
+<li>系统分配的内存块</li>
+</ul>
+<h5 id="驻留大小"><a href="#驻留大小" class="headerlink" title="驻留大小"></a>驻留大小</h5><ul>
+<li>病毒驻留内存大小一般在1K到几K之间</li>
+<li>一般会等待系统自动为自己分配内存，以减少被用户发现的风险</li>
+<li>引导区可以不含有重入检测，减少代码量</li>
+</ul>
+<h4 id="Windows系统"><a href="#Windows系统" class="headerlink" title="Windows系统"></a>Windows系统</h4><h5 id="驻留方法-1"><a href="#驻留方法-1" class="headerlink" title="驻留方法"></a>驻留方法</h5><ol>
+<li>作为一个独立的应用程序运行（可以隐藏窗口）</li>
+<li>向系统申请空间</li>
+<li>作为设备驱动程序</li>
+</ol>
+<h3 id="防止重载"><a href="#防止重载" class="headerlink" title="防止重载"></a>防止重载</h3><ul>
+<li>静态加载时，在SYSTEM.INI文件中包含一条加载设备驱动的消息</li>
+<li>动态加载时，利用CPU特殊位来标记</li>
+</ul>
+<h3 id="病毒变种"><a href="#病毒变种" class="headerlink" title="病毒变种"></a>病毒变种</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><h5 id="变形"><a href="#变形" class="headerlink" title="变形"></a>变形</h5><p>通过<strong>修改病毒代码</strong>，使其躲过现有病毒检测程序，新出现的病毒称为变形。</p>
+<h5 id="变种"><a href="#变种" class="headerlink" title="变种"></a>变种</h5><p>变形了的病毒继承父本病毒的<strong>主要特征</strong>时，称为变种。</p>
+<h5 id="新品种"><a href="#新品种" class="headerlink" title="新品种"></a>新品种</h5><p>变形病毒已具备足以<strong>区别于父本病毒的特征</strong>时，称为新品种。</p>
+<h4 id="变形强度"><a href="#变形强度" class="headerlink" title="变形强度"></a>变形强度</h4><h5 id="一维变形病毒"><a href="#一维变形病毒" class="headerlink" title="一维变形病毒"></a>一维变形病毒</h5><ol>
+<li>保留基本特性</li>
+<li>与其他形态基本没有连续多个字节相同</li>
+<li>代码及其相对空间的排列保持不变</li>
+</ol>
+<h5 id="二维变形病毒"><a href="#二维变形病毒" class="headerlink" title="二维变形病毒"></a>二维变形病毒</h5><ol>
+<li>具有一维变形的特征</li>
+<li>变化代码之间的相对位置也发生变化</li>
+<li>文件长度可能不同</li>
+</ol>
+<h5 id="三维变形病毒"><a href="#三维变形病毒" class="headerlink" title="三维变形病毒"></a>三维变形病毒</h5><ol>
+<li>具有二维变形的特征</li>
+<li>能够将自身分块保存在不同位置</li>
+<li>任何一子块被激活都可以独立拼凑出完整代码</li>
+</ol>
+<h5 id="四维变形病毒"><a href="#四维变形病毒" class="headerlink" title="四维变形病毒"></a>四维变形病毒</h5><ol>
+<li>具有三维变形的特征</li>
+<li>特性随时间变化</li>
+</ol>
+<h3 id="EPO（Entry-Point-Obscuring）技术"><a href="#EPO（Entry-Point-Obscuring）技术" class="headerlink" title="EPO（Entry Point Obscuring）技术"></a>EPO（Entry Point Obscuring）技术</h3><p>基于杀毒软件不会扫描文件的所有字段，可以将病毒插入到文件中间的某处以逃过查杀。</p>
+<h3 id="抗分析技术"><a href="#抗分析技术" class="headerlink" title="抗分析技术"></a>抗分析技术</h3><ol>
+<li><p>加密技术</p>
+<p>加密技术是一种<strong>静态</strong>抗分析技术，分析者在没有解密密钥的情况下不能查看病毒代码明文，因而也无法识别病毒特征。</p>
+</li>
+<li><p>反跟踪技术</p>
+<p>反跟踪技术是<strong>动态</strong>抗分析技术。</p>
+<ol>
+<li><p>键盘封锁</p>
+<p>使分析者无法输入指令跟踪病毒运行。</p>
+</li>
+<li><p>关闭屏幕</p>
+<p>使病毒运行过程不可见。</p>
+</li>
+<li><p>修改堆栈指令</p>
+<p>可以使反汇编程序失效。</p>
+</li>
+<li><p>运行计时</p>
+<p>基于正常运行和debug跟踪执行时间的差别，判断自身是否被跟踪。</p>
+</li>
+<li><p>动态生成指令</p>
+<p>修改病毒代码使其不可阅读，但在执行过程中逐步恢复，并在执行结束后销毁。分析者即使用了反汇编技术也无法获得病毒全貌。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="隐蔽性病毒技术"><a href="#隐蔽性病毒技术" class="headerlink" title="隐蔽性病毒技术"></a>隐蔽性病毒技术</h3><h4 id="引导型病毒隐藏"><a href="#引导型病毒隐藏" class="headerlink" title="引导型病毒隐藏"></a>引导型病毒隐藏</h4><ol>
+<li><p>方法一</p>
+<p>修改中断指令INT 13H的入口地址，使其指向病毒代码。当该指令入读取受感染扇区时，病毒会抢先将其截获，并将不受感染的内容返回给调用函数，以造成扇区未被感染的假象。</p>
+</li>
+<li><p>方法二</p>
+<p>启动其他程序时，病毒先恢复受感染区域，此时其他程序只能看到正常的扇区。当其他程序执行完毕后再重新感染。</p>
+</li>
+</ol>
+<h4 id="文件型病毒隐藏"><a href="#文件型病毒隐藏" class="headerlink" title="文件型病毒隐藏"></a>文件型病毒隐藏</h4><p>病毒会拦截来自其他程序的访问指令，之后恢复受感染文件，将正常文件返回给接口，文件被关闭后再次感染。</p>
+<h4 id="宏病毒隐藏技术"><a href="#宏病毒隐藏技术" class="headerlink" title="宏病毒隐藏技术"></a>宏病毒隐藏技术</h4><p>首先通过宏病毒代码删除相关的菜单项，同时使用宏病毒自己的FileTemplates 和ToolsMacro宏(Springer例)替代系统缺省的宏。 </p>
+<h3 id="多态性病毒技术"><a href="#多态性病毒技术" class="headerlink" title="多态性病毒技术"></a>多态性病毒技术</h3><p>多态病毒就是<strong>没有特殊特征码</strong>的病毒，这种病毒无法（或极难）用特征码扫描法检测到。</p>
+<h4 id="实现多态的方法"><a href="#实现多态的方法" class="headerlink" title="实现多态的方法"></a>实现多态的方法</h4><ol>
+<li>随机数加密</li>
+<li>在执行过程中改变病毒代码</li>
+<li>添加额外指令序列</li>
+</ol>
+<h4 id="多态的分级"><a href="#多态的分级" class="headerlink" title="多态的分级"></a>多态的分级</h4><ol>
+<li><p>半多态</p>
+<p>具有一组有限的解密模式，实践过程中随机选取一个。</p>
+</li>
+<li><p>具有不动点的多态</p>
+<p>存在一句或几句不变的语句，其他语句可变。</p>
+</li>
+<li><p>带有填充物的多态</p>
+<p>包含有无实际功能的代码混淆视听。</p>
+</li>
+<li><p>算法不变多态</p>
+<p>病毒解密使用的算法固定，但指令的顺序可变。</p>
+</li>
+<li><p>算法可变多态</p>
+<p>包含上述特性但解密代码的指令可变或部分可变。</p>
+</li>
+<li><p>完全多态</p>
+<p>病毒可以分块并随机分布在文件各个位置，必要时可以重新组装。</p>
+</li>
+</ol>
+<p>对于前三种，代码仍保留了部分不变语句，可以使用改进的特征码检测。</p>
+<p>对于第四种，可以对特征码进行扩增。</p>
+<p>对于最后两种，传统的查杀方法无效，可以使用虚拟执行技术。</p>
+<h3 id="插入型病毒技术"><a href="#插入型病毒技术" class="headerlink" title="插入型病毒技术"></a>插入型病毒技术</h3><p>将病毒各个部分插入到宿主的不同位置处的一种技术。</p>
+<h3 id="超级病毒技术"><a href="#超级病毒技术" class="headerlink" title="超级病毒技术"></a>超级病毒技术</h3><p>超级病毒技术就是在计算机病毒进行感染、破坏时，使得<strong>病毒预防工具无法获得运行机会</strong>的病毒技术。</p>
+<p>难度较大且具有<strong>时效性</strong>。</p>
+<h3 id="破坏性感染技术"><a href="#破坏性感染技术" class="headerlink" title="破坏性感染技术"></a>破坏性感染技术</h3><p>破坏性感染病毒是针对计算机病毒消除技术的一项病毒技术，它使得收攻击的文件或磁盘无法完全恢复。</p>
+<p>传播性差，但可以延长潜伏时期来改善。</p>
+<h3 id="病毒自动生产技术"><a href="#病毒自动生产技术" class="headerlink" title="病毒自动生产技术"></a>病毒自动生产技术</h3><p>病毒自动生产技术（批量生产各种变形的病毒），不是从质，而是从量上，压垮病毒分析者。 </p>
+<h3 id="网络病毒技术"><a href="#网络病毒技术" class="headerlink" title="网络病毒技术"></a>网络病毒技术</h3><p>网络病毒是指以网络为平台，对计算机产生安全威胁的所有程序的总和。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cata1ysts
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%80/" title="病毒学笔记一——计算机病毒理论">http://example.com/2023/12/05/计算机病毒一/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92/" rel="tag"># 计算机病毒</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/13/%E4%BF%A1%E6%81%AF%E8%AE%BA%E4%B8%8E%E7%BC%96%E7%A0%81/" rel="prev" title="信息论与编码">
+      <i class="fa fa-chevron-left"></i> 信息论与编码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/12/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%BA%8C/" rel="next" title="病毒学笔记二——病毒查杀">
+      病毒学笔记二——病毒查杀 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E5%AD%A6"><span class="nav-number">1.</span> <span class="nav-text">计算机病毒学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E6%A6%82%E8%AE%BA"><span class="nav-number">1.1.</span> <span class="nav-text">计算机病毒概论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92"><span class="nav-number">1.1.1.</span> <span class="nav-text">计算机病毒</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">计算机病毒的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.1.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BD%E6%A0%87%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.1.1.2.</span> <span class="nav-text">国标定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8E%E7%94%9F%E7%89%A9%E7%97%85%E6%AF%92%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="nav-number">1.1.1.1.3.</span> <span class="nav-text">与生物病毒的区别与联系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.1.1.1.4.</span> <span class="nav-text">计算机病毒产生的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A0%95%E8%99%AB"><span class="nav-number">1.1.1.1.5.</span> <span class="nav-text">蠕虫</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%8E%E7%97%85%E6%AF%92%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.1.1.5.1.</span> <span class="nav-text">与病毒的区别</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">1.1.1.1.6.</span> <span class="nav-text">计算机病毒的特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.1.1.7.</span> <span class="nav-text">病毒的结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.</span> <span class="nav-text">计算机病毒分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E5%AE%BF%E4%B8%BB%E5%AA%92%E4%BB%8B%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">按照宿主媒介分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E4%BC%A0%E6%9F%93%E6%96%B9%E6%B3%95%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">按照传染方法分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E7%A0%B4%E5%9D%8F%E8%83%BD%E5%8A%9B%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">按照破坏能力分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">按照算法分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E9%93%BE%E6%8E%A5%E6%96%B9%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">按照链接方式分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E7%9A%84%E7%97%87%E7%8A%B6"><span class="nav-number">1.1.3.</span> <span class="nav-text">计算机病毒的症状</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%9F%E6%9F%93%E7%97%87%E7%8A%B6"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">感染症状</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E4%BD%9C%E6%97%B6%E7%97%87%E7%8A%B6"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">发作时症状</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E4%BD%9C%E5%90%8E%E7%97%87%E7%8A%B6"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">发作后症状</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="nav-number">1.1.4.</span> <span class="nav-text">病毒命名规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">病毒模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E4%BC%AA%E4%BB%A3%E7%A0%81%E7%9A%84%E5%85%B1%E6%80%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">病毒伪代码的共性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E4%BC%A0%E6%92%AD%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">病毒传播模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%A3%80%E6%B5%8B%E7%9A%84%E4%B8%80%E8%88%AC%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">病毒检测的一般问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A0%95%E8%99%AB%E4%BC%A0%E6%92%AD%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">蠕虫传播模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SIS%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">SIS模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%81%87%E8%AE%BE"><span class="nav-number">1.2.3.1.1.</span> <span class="nav-text">模型假设</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SI%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">SI模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%81%87%E8%AE%BE-1"><span class="nav-number">1.2.3.2.1.</span> <span class="nav-text">模型假设</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SIR%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">SIR模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%81%87%E8%AE%BE-2"><span class="nav-number">1.2.3.3.1.</span> <span class="nav-text">模型假设</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fred-Cohen-%E2%80%9C%E5%9B%9B%E6%A8%A1%E5%9E%8B%E2%80%9D%E7%90%86%E8%AE%BA"><span class="nav-number">1.2.4.</span> <span class="nav-text">Fred Cohen “四模型”理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%9A%94%E7%A6%BB%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">基本隔离模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E9%9A%94%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">分隔模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">流模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%90%E5%88%B6%E8%A7%A3%E9%87%8A%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">限制解释模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E6%A8%A1%E5%9E%8B%E7%90%86%E8%AE%BA%E5%90%AF%E7%A4%BA"><span class="nav-number">1.2.4.5.</span> <span class="nav-text">计算机病毒模型理论启示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E7%BB%93%E6%9E%84%E4%B8%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">计算机病毒结构与工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">病毒的工作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E5%AF%BC%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">引导模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%84%E7%94%9F"><span class="nav-number">1.3.1.1.1.</span> <span class="nav-text">寄生</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AF%84%E7%94%9F%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.3.1.1.1.1.</span> <span class="nav-text">寄生位置</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AF%84%E7%94%9F%E6%89%8B%E6%AE%B5"><span class="nav-number">1.3.1.1.1.2.</span> <span class="nav-text">寄生手段</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%95%E5%AF%BC%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.1.1.2.</span> <span class="nav-text">引导过程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BC%95%E5%AF%BC%E5%8C%BA%E7%97%85%E6%AF%92"><span class="nav-number">1.3.1.1.2.1.</span> <span class="nav-text">引导区病毒</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%9E%8B%E7%97%85%E6%AF%92"><span class="nav-number">1.3.1.1.2.2.</span> <span class="nav-text">文件型病毒</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%9F%E6%9F%93%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">感染模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%84%9F%E6%9F%93%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.3.1.2.1.</span> <span class="nav-text">感染条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%A0%E6%9F%93%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.1.2.2.</span> <span class="nav-text">传染方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%A0%E6%9F%93%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.1.2.3.</span> <span class="nav-text">传染过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%9E%8B%E7%97%85%E6%AF%92%E4%BC%A0%E6%9F%93%E6%9C%BA%E7%90%86"><span class="nav-number">1.3.1.2.4.</span> <span class="nav-text">文件型病毒传染机理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">破坏模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">触发模块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16%E4%BD%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%97%85%E6%AF%92%E7%BC%96%E5%88%B6%E6%8A%80%E6%9C%AF"><span class="nav-number">1.3.2.</span> <span class="nav-text">16位操作系统病毒编制技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E5%AF%BC%E5%9E%8B%E7%97%85%E6%AF%92"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">引导型病毒</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.2.1.1.</span> <span class="nav-text">计算机系统引导程序流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%90%AB%E6%9C%89%E7%97%85%E6%AF%92%E7%9A%84%E8%BD%AF%E7%9B%98%E5%90%AF%E5%8A%A8"><span class="nav-number">1.3.2.1.2.</span> <span class="nav-text">使用含有病毒的软盘启动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%B8%A6%E7%97%85%E6%AF%92%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.3.2.1.3.</span> <span class="nav-text">启动带病毒的系统</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%9E%8B%E7%97%85%E6%AF%92-1"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">文件型病毒</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MZ%E6%96%87%E4%BB%B6%E5%A4%B4"><span class="nav-number">1.3.2.2.1.</span> <span class="nav-text">MZ文件头</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32%E4%BD%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%97%85%E6%AF%92%E7%BC%96%E5%88%B6%E6%8A%80%E6%9C%AF"><span class="nav-number">1.3.3.</span> <span class="nav-text">32位操作系统病毒编制技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">PE文件格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E4%BD%8D%E8%AE%A1%E7%AE%97"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">重定位计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">API函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">内存映射文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%8A%80%E6%9C%AF%E7%89%B9%E5%BE%81"><span class="nav-number">1.4.</span> <span class="nav-text">病毒技术特征</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%BB%E7%95%99%E5%86%85%E5%AD%98"><span class="nav-number">1.4.1.</span> <span class="nav-text">驻留内存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dos%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">Dos系统</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A9%BB%E7%95%99%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.1.1.1.</span> <span class="nav-text">驻留方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A9%BB%E7%95%99%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.4.1.1.2.</span> <span class="nav-text">驻留位置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A9%BB%E7%95%99%E5%A4%A7%E5%B0%8F"><span class="nav-number">1.4.1.1.3.</span> <span class="nav-text">驻留大小</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">Windows系统</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A9%BB%E7%95%99%E6%96%B9%E6%B3%95-1"><span class="nav-number">1.4.1.2.1.</span> <span class="nav-text">驻留方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E9%87%8D%E8%BD%BD"><span class="nav-number">1.4.2.</span> <span class="nav-text">防止重载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E5%8F%98%E7%A7%8D"><span class="nav-number">1.4.3.</span> <span class="nav-text">病毒变种</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E5%BD%A2"><span class="nav-number">1.4.3.1.1.</span> <span class="nav-text">变形</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E7%A7%8D"><span class="nav-number">1.4.3.1.2.</span> <span class="nav-text">变种</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B0%E5%93%81%E7%A7%8D"><span class="nav-number">1.4.3.1.3.</span> <span class="nav-text">新品种</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E5%BD%A2%E5%BC%BA%E5%BA%A6"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">变形强度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E7%BB%B4%E5%8F%98%E5%BD%A2%E7%97%85%E6%AF%92"><span class="nav-number">1.4.3.2.1.</span> <span class="nav-text">一维变形病毒</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E5%8F%98%E5%BD%A2%E7%97%85%E6%AF%92"><span class="nav-number">1.4.3.2.2.</span> <span class="nav-text">二维变形病毒</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E5%8F%98%E5%BD%A2%E7%97%85%E6%AF%92"><span class="nav-number">1.4.3.2.3.</span> <span class="nav-text">三维变形病毒</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9B%E7%BB%B4%E5%8F%98%E5%BD%A2%E7%97%85%E6%AF%92"><span class="nav-number">1.4.3.2.4.</span> <span class="nav-text">四维变形病毒</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EPO%EF%BC%88Entry-Point-Obscuring%EF%BC%89%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.4.</span> <span class="nav-text">EPO（Entry Point Obscuring）技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%97%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.5.</span> <span class="nav-text">抗分析技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%94%BD%E6%80%A7%E7%97%85%E6%AF%92%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.6.</span> <span class="nav-text">隐蔽性病毒技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E5%AF%BC%E5%9E%8B%E7%97%85%E6%AF%92%E9%9A%90%E8%97%8F"><span class="nav-number">1.4.6.1.</span> <span class="nav-text">引导型病毒隐藏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%9E%8B%E7%97%85%E6%AF%92%E9%9A%90%E8%97%8F"><span class="nav-number">1.4.6.2.</span> <span class="nav-text">文件型病毒隐藏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8F%E7%97%85%E6%AF%92%E9%9A%90%E8%97%8F%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.6.3.</span> <span class="nav-text">宏病毒隐藏技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%80%81%E6%80%A7%E7%97%85%E6%AF%92%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.7.</span> <span class="nav-text">多态性病毒技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%9A%E6%80%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.7.1.</span> <span class="nav-text">实现多态的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E5%88%86%E7%BA%A7"><span class="nav-number">1.4.7.2.</span> <span class="nav-text">多态的分级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9E%8B%E7%97%85%E6%AF%92%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.8.</span> <span class="nav-text">插入型病毒技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E7%BA%A7%E7%97%85%E6%AF%92%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.9.</span> <span class="nav-text">超级病毒技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E6%80%A7%E6%84%9F%E6%9F%93%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.10.</span> <span class="nav-text">破坏性感染技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E8%87%AA%E5%8A%A8%E7%94%9F%E4%BA%A7%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.11.</span> <span class="nav-text">病毒自动生产技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%97%85%E6%AF%92%E6%8A%80%E6%9C%AF"><span class="nav-number">1.4.12.</span> <span class="nav-text">网络病毒技术</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cata1ysts"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Cata1ysts</p>
+  <div class="site-description" itemprop="description">努力学习crypto并希望有一个web大手子浇浇的pwn萌新</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cata1ysts</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":250},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
