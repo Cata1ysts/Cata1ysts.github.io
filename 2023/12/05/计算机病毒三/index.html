@@ -22,16 +22,19 @@
 
   <meta name="description" content="请勿打开，里面含有*%&amp;（￥（&amp;*">
 <meta property="og:type" content="article">
-<meta property="og:title" content="病毒学笔记二——病毒查杀">
+<meta property="og:title" content="病毒学笔记三——病毒查杀">
 <meta property="og:url" content="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89/index.html">
 <meta property="og:site_name" content="Cata1yst&#39;s blog">
 <meta property="og:description" content="请勿打开，里面含有*%&amp;（￥（&amp;*">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89.assets/1703147580970.png">
+<meta property="og:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89.assets/1703148382563.png">
 <meta property="article:published_time" content="2023-12-05T11:20:21.000Z">
-<meta property="article:modified_time" content="2023-12-19T09:56:11.315Z">
+<meta property="article:modified_time" content="2023-12-21T09:10:28.913Z">
 <meta property="article:author" content="Cata1ysts">
 <meta property="article:tag" content="计算机病毒">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89.assets/1703147580970.png">
 
 <link rel="canonical" href="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89/">
 
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title>病毒学笔记二——病毒查杀 | Cata1yst's blog</title>
+  <title>病毒学笔记三——病毒查杀 | Cata1yst's blog</title>
   
 
 
@@ -175,7 +178,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          病毒学笔记二——病毒查杀
+          病毒学笔记三——病毒查杀
         </h1>
 
         <div class="post-meta">
@@ -192,7 +195,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-19 17:56:11" itemprop="dateModified" datetime="2023-12-19T17:56:11+08:00">2023-12-19</time>
+                <time title="修改时间：2023-12-21 17:10:28" itemprop="dateModified" datetime="2023-12-21T17:10:28+08:00">2023-12-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,6 +235,7 @@
     </script>
 </head>
 
+<p>[TOC]</p>
 <h2 id="计算机病毒查杀"><a href="#计算机病毒查杀" class="headerlink" title="计算机病毒查杀"></a>计算机病毒查杀</h2><h3 id="信息保障PDRR"><a href="#信息保障PDRR" class="headerlink" title="信息保障PDRR"></a>信息保障PDRR</h3><ul>
 <li>保护protect</li>
 <li>检测detect</li>
@@ -295,6 +299,8 @@
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 <h4 id="校验和法"><a href="#校验和法" class="headerlink" title="校验和法"></a>校验和法</h4><p>计算正常文件内容的校验和并且将该校验和写入某个位置保存。然后，在每次使用文件前或文件使用过程中，定期地检查文件现在内容算出的校验和与原来保存的校验和是否一致，从而可以发现文件是否感染。</p>
 <h5 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h5><ul>
 <li>优点<ul>
@@ -323,6 +329,20 @@
 <li>具有代表性</li>
 <li>能与正常程序区分</li>
 </ul>
+<h5 id="扫描引擎"><a href="#扫描引擎" class="headerlink" title="扫描引擎"></a>扫描引擎</h5><p>扫描引擎是杀毒软件的精华部分，常用扫描算法有单匹配模式和双匹配模式</p>
+<ul>
+<li>单匹配模式<ul>
+<li>KMP算法</li>
+<li>QS算法</li>
+<li>BM算法</li>
+</ul>
+</li>
+<li>双匹配模式<ul>
+<li>DFSA算法</li>
+<li>基于二叉树算法</li>
+</ul>
+</li>
+</ul>
 <h5 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h5><ul>
 <li>优点<ul>
 <li>对于好的特征串，使用方便</li>
@@ -343,7 +363,510 @@
 </ul>
 </li>
 </ul>
-<h4 id="行为监测法"><a href="#行为监测法" class="headerlink" title="行为监测法"></a>行为监测法</h4></li>
+<h4 id="行为监测法"><a href="#行为监测法" class="headerlink" title="行为监测法"></a>行为监测法</h4><p>利用病毒特有的行为来监测病毒</p>
+<h5 id="病毒常见行为"><a href="#病毒常见行为" class="headerlink" title="病毒常见行为"></a>病毒常见行为</h5><ul>
+<li>占用INT 13H中断</li>
+<li>修改Dos系统数据区内存总量</li>
+<li>对COM、EXE文件进行写操作</li>
+<li>修改注册表</li>
+<li>自动联网请求</li>
+</ul>
+<h5 id="优缺点-2"><a href="#优缺点-2" class="headerlink" title="优缺点"></a>优缺点</h5><ul>
+<li>优点<ul>
+<li>能够发现未知病毒</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>实现难度大</li>
+<li>有误报风险</li>
+<li>无法辨别病毒种类</li>
+</ul>
+</li>
+</ul>
+<h4 id="感染试验法"><a href="#感染试验法" class="headerlink" title="感染试验法"></a>感染试验法</h4><p>即运行可疑程序后再运行一些正常程序，观察正常程序运行后的变化</p>
+<h4 id="虚拟执行法"><a href="#虚拟执行法" class="headerlink" title="虚拟执行法"></a><a id="virtual">虚拟执行法</a></h4><p>用软件来模拟计算机系统，然后引导病毒在虚拟系统中传染，待病毒自动解码进行感染时，再利用特征码等方法识别病毒。</p>
+<h4 id="分析法"><a href="#分析法" class="headerlink" title="分析法"></a>分析法</h4><p>让专业人员手动分析病毒</p>
+<h5 id="分析法步骤"><a href="#分析法步骤" class="headerlink" title="分析法步骤"></a>分析法步骤</h5><ol>
+<li>确认磁盘引导区和程序是否染毒</li>
+<li>确认病毒种类和类型</li>
+<li>了解病毒大致结构，提取其特征码加入数据库</li>
+<li>分析病毒代码并制定杀毒方案</li>
+</ol>
+<h4 id="病毒检测总结"><a href="#病毒检测总结" class="headerlink" title="病毒检测总结"></a>病毒检测总结</h4><ul>
+<li>手动检测<ul>
+<li>可以分析新病毒</li>
+<li>技术难度大，无法普及</li>
+</ul>
+</li>
+<li>自动检测<ul>
+<li>易于普及</li>
+<li>难以处理新病毒</li>
+</ul>
+</li>
+</ul>
+<h3 id="病毒清除"><a href="#病毒清除" class="headerlink" title="病毒清除"></a>病毒清除</h3><p>病毒的清除比起检测在原理上困难许多，因为清除病毒必须知道病毒确切的感染过程及机理。</p>
+<h4 id="病毒清除原理"><a href="#病毒清除原理" class="headerlink" title="病毒清除原理"></a>病毒清除原理</h4><h5 id="清除原则"><a href="#清除原则" class="headerlink" title="清除原则"></a>清除原则</h5><p>将病毒模块从染毒文件上摘除并恢复染毒文件至正常可用</p>
+<h5 id="清除难点"><a href="#清除难点" class="headerlink" title="清除难点"></a>清除难点</h5><p>并不是所有病毒都可以被安全去除，并不是所有文件在去除病毒后都可以恢复</p>
+<ul>
+<li>清除过程会破坏文件</li>
+<li>有些病毒的去除过程会进行格式化操作</li>
+</ul>
+<h4 id="引导型病毒清除"><a href="#引导型病毒清除" class="headerlink" title="引导型病毒清除"></a>引导型病毒清除</h4><h5 id="引导型病毒的破坏行为"><a href="#引导型病毒的破坏行为" class="headerlink" title="引导型病毒的破坏行为"></a>引导型病毒的破坏行为</h5><ul>
+<li>破坏硬盘主引导扇区</li>
+<li>破坏BOOT扇区</li>
+<li>对其他扇区写入内容</li>
+</ul>
+<h5 id="修复方案"><a href="#修复方案" class="headerlink" title="修复方案"></a>修复方案</h5><ul>
+<li><p>主引导扇区染毒</p>
+<p>可以修复</p>
+<ol>
+<li>使用无毒软盘启动系统</li>
+<li>寻找另一台配置完全相同的计算机，将其主引导区写入一张软盘</li>
+<li>将该软盘插入染毒计算机并将主引导区数据写入病毒硬盘</li>
+</ol>
+</li>
+<li><p>BOOT扇区染毒</p>
+<p>可以修复</p>
+<p>找一张与染毒计算机版本相同的无毒系统软盘，执行SYS命令</p>
+</li>
+<li><p>根目录区被覆盖式写入</p>
+<p><strong>不可恢复</strong></p>
+</li>
+<li><p>第一FAT表被覆盖而第二FAT表无改变</p>
+<p>可以恢复</p>
+<p>将第二FAT表复制到第一FAT表</p>
+</li>
+<li><p>占用其他存储空间</p>
+<p>一般可以恢复</p>
+</li>
+</ul>
+<h4 id="文件型病毒清除"><a href="#文件型病毒清除" class="headerlink" title="文件型病毒清除"></a>文件型病毒清除</h4><ul>
+<li><p>覆盖型病毒</p>
+<p><strong>无法恢复</strong>，除非有备份</p>
+</li>
+<li><p>非覆盖型病毒</p>
+<p>原则上可以恢复</p>
+<p>根据染毒的<strong>逆过程</strong>恢复</p>
+</li>
+</ul>
+<h4 id="交叉病毒清除"><a href="#交叉病毒清除" class="headerlink" title="交叉病毒清除"></a>交叉病毒清除</h4><h5 id="清除关键"><a href="#清除关键" class="headerlink" title="清除关键"></a>清除关键</h5><ul>
+<li>搞清染毒顺序</li>
+</ul>
+<h5 id="清除过程"><a href="#清除过程" class="headerlink" title="清除过程"></a>清除过程</h5><p>根据染毒顺序的<strong>逆序</strong>清除</p>
+<h4 id="病毒清除方法"><a href="#病毒清除方法" class="headerlink" title="病毒清除方法"></a>病毒清除方法</h4><ul>
+<li><p>手工清除</p>
+<p>用反汇编工具追踪病毒进而进行清除</p>
+<ul>
+<li><p>优点</p>
+<p>可以处理新型病毒或疑难病毒</p>
+</li>
+<li><p>缺点</p>
+<p>技术难度高、容易出现风险</p>
+</li>
+</ul>
+</li>
+<li><p>自动清除</p>
+<p>杀毒软件自动清除病毒</p>
+<ul>
+<li><p>优点</p>
+<p>方便易普及</p>
+</li>
+<li><p>缺点</p>
+<p>滞后、不一定完全有用</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="病毒清除实例"><a href="#病毒清除实例" class="headerlink" title="病毒清除实例"></a>病毒清除实例</h4><h5 id="Outlook病毒清除"><a href="#Outlook病毒清除" class="headerlink" title="Outlook病毒清除"></a>Outlook病毒清除</h5><h6 id="清除原则-1"><a href="#清除原则-1" class="headerlink" title="清除原则"></a>清除原则</h6><p>在附件或邮件本体搜索病毒特征码</p>
+<h6 id="查杀关键"><a href="#查杀关键" class="headerlink" title="查杀关键"></a>查杀关键</h6><p>及时拦截病毒邮件</p>
+<h6 id="杀毒方案"><a href="#杀毒方案" class="headerlink" title="杀毒方案"></a>杀毒方案</h6><ul>
+<li><p>服务端</p>
+<p>反垃圾邮件系统</p>
+</li>
+<li><p>客户端</p>
+<ul>
+<li>客户端绑定工具Add-in</li>
+<li>杀毒软件，第三方反垃圾邮件工具</li>
+</ul>
+</li>
+</ul>
+<h5 id="W32-Spybot-Worm蠕虫清除"><a href="#W32-Spybot-Worm蠕虫清除" class="headerlink" title="W32.Spybot.Worm蠕虫清除"></a>W32.Spybot.Worm蠕虫清除</h5><p>该蠕虫源自网络聊天机器人开放性源码病毒，由于其开放性和分布性，该类蠕虫存在很大具有微小差异的版本，一般杀毒软件难以清除，需要手工杀毒。</p>
+<ol>
+<li>隔离计算机，断网</li>
+<li>关闭计算机“系统还原”功能</li>
+<li>更新杀毒软件</li>
+<li>进入安全模式</li>
+<li>扫描全文件</li>
+<li>记录染毒文件名称并删除</li>
+<li>备份注册表</li>
+<li>将注册表中含有染毒文件的键值对删除</li>
+<li>安装系统补丁</li>
+<li>加强管理员密码</li>
+</ol>
+<h3 id="免疫技术"><a href="#免疫技术" class="headerlink" title="免疫技术"></a>免疫技术</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>在正常对象中添加病毒重入检测标志以防止感染</p>
+<h4 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h4><h5 id="特定病毒免疫"><a href="#特定病毒免疫" class="headerlink" title="特定病毒免疫"></a>特定病毒免疫</h5><p>加入某个特定病毒的标识</p>
+<ul>
+<li>缺点<ul>
+<li>对于不设重入标识的病毒无效</li>
+<li>病毒的变种可能不采用其原型的标识</li>
+<li>以此方法进行大规模免疫会导致文件内容冗杂</li>
+<li>只能预防感染，不能阻止易感染吧病毒的破坏</li>
+<li>有些病毒的标识难以仿制</li>
+</ul>
+</li>
+</ul>
+<h5 id="完整性检查"><a href="#完整性检查" class="headerlink" title="完整性检查"></a>完整性检查</h5><p>对可执行文件增加自我完整性检查外壳，执行前先执行外壳出现程序，检查文件是否完好，只有通过检测的文件才能被运行。</p>
+<ul>
+<li>缺点<ul>
+<li>会增加文件大小</li>
+<li>只对文件有效，不能保护引导区</li>
+<li>一些文件增加外壳后不能正常执行</li>
+<li>检验算法可能无法检验某些病毒</li>
+<li>病毒一旦进入外壳，则无法被杀毒软件发现</li>
+</ul>
+</li>
+</ul>
+<h4 id="数字免疫系统DIS"><a href="#数字免疫系统DIS" class="headerlink" title="数字免疫系统DIS"></a>数字免疫系统DIS</h4><p>DIS的目标是提供快速响应，使病毒出现时就消灭它。</p>
+<p>当新病毒进入到一个系统时，该系统自动捕获到该病毒并进行分析，同时将它添加到病毒库中，以增加系统保护能力，接着清除它，并把这个病毒的信息传送给正在运行的DIS系统，使该病毒在其他地方运行之前也能被检测到。</p>
+<ul>
+<li>封闭循环自动化网络防病毒技术</li>
+<li>启发式侦测技术</li>
+</ul>
+<h3 id="系统加固"><a href="#系统加固" class="headerlink" title="系统加固"></a>系统加固</h3><ul>
+<li>安装最新补丁</li>
+<li>禁止不必要的服务</li>
+<li>禁止不必要的账号</li>
+<li>去除后门</li>
+<li>内核参数配置</li>
+<li>系统最小化处理</li>
+<li>加强口令管理</li>
+<li>启动日志审计</li>
+</ul>
+<h3 id="预防技术"><a href="#预防技术" class="headerlink" title="预防技术"></a>预防技术</h3><h4 id="计算机监控技术"><a href="#计算机监控技术" class="headerlink" title="计算机监控技术"></a>计算机监控技术</h4><ul>
+<li><p>内存监控</p>
+</li>
+<li><p>注册表监控</p>
+</li>
+<li><p>脚本监控</p>
+</li>
+<li><p>文件监控</p>
+</li>
+<li><p>邮件监控</p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>入侵即报警，并启动自动查杀</li>
+<li>防止未知病毒</li>
+</ul>
+</li>
+</ul>
+<h4 id="监控病毒源技术"><a href="#监控病毒源技术" class="headerlink" title="监控病毒源技术"></a>监控病毒源技术</h4><p>密切侦测和监控网络系统外部计算机病毒的动向，<strong>将所有计算机病毒源堵截在网络入口处</strong>，是当前网络防范病毒的重点。</p>
+<h5 id="邮件跟踪"><a href="#邮件跟踪" class="headerlink" title="邮件跟踪"></a>邮件跟踪</h5><p>消息跟踪查询协议MTQP</p>
+<h5 id="网络入口监控"><a href="#网络入口监控" class="headerlink" title="网络入口监控"></a>网络入口监控</h5><p>个人防火墙</p>
+<ul>
+<li>监控网络级、控制应用级数据流</li>
+<li>报告异常网络通信</li>
+<li>切断危险网络行为</li>
+</ul>
+<h4 id="虚拟机技术"><a href="#虚拟机技术" class="headerlink" title="虚拟机技术"></a>虚拟机技术</h4><p>在<a href="#virtual">虚拟执行</a>的基础上继续在虚拟机中摘除病毒代码实现杀毒</p>
+<h4 id="驱动程序技术"><a href="#驱动程序技术" class="headerlink" title="驱动程序技术"></a>驱动程序技术</h4><p>一种接近内核级的监控程序</p>
+<h4 id="主动内核技术"><a href="#主动内核技术" class="headerlink" title="主动内核技术"></a>主动内核技术</h4><p>在操作系统和网络的内核中加入反病毒功能，使其成为系统底层的一部分</p>
+<h4 id="压缩文件检查技术"><a href="#压缩文件检查技术" class="headerlink" title="压缩文件检查技术"></a>压缩文件检查技术</h4><ul>
+<li>压缩病毒特征码</li>
+<li>在虚拟机下解压可疑文件</li>
+</ul>
+<h4 id="启发式代码扫描"><a href="#启发式代码扫描" class="headerlink" title="启发式代码扫描"></a>启发式代码扫描</h4><p>以特定方式实现一个反编译器，使其对有关指令进行反汇编并找出可疑操作</p>
+<h5 id="可疑的操作"><a href="#可疑的操作" class="headerlink" title="可疑的操作"></a>可疑的操作</h5><ul>
+<li>格式化磁盘</li>
+<li>搜索和定位可执行文件</li>
+<li>驻留内存</li>
+<li>进行平时不常用的系统调用</li>
+</ul>
+<h4 id="立体防毒技术"><a href="#立体防毒技术" class="headerlink" title="立体防毒技术"></a>立体防毒技术</h4><p>即对病毒检测、漏洞扫描、病毒查杀、个人防火墙、数据备份等防毒技术分层次管理控制，从而达到一体化的效果。</p>
+<h4 id="网络病毒防御技术"><a href="#网络病毒防御技术" class="headerlink" title="网络病毒防御技术"></a>网络病毒防御技术</h4><ul>
+<li><p>用户桌面防护级</p>
+<p>用户桌面一般是计算机病毒的传染源</p>
+</li>
+<li><p>网关防护</p>
+<p>对邮件进行检测</p>
+</li>
+<li><p>防火墙防护</p>
+<p>过滤病毒</p>
+</li>
+<li><p>工作站防护</p>
+</li>
+<li><p>服务器防护</p>
+</li>
+<li><p>网络管理</p>
+</li>
+</ul>
+<h5 id="网络防护的特征"><a href="#网络防护的特征" class="headerlink" title="网络防护的特征"></a>网络防护的特征</h5><ul>
+<li>多层次</li>
+<li>集成性</li>
+<li>自动化</li>
+</ul>
+<h4 id="移动终端杀毒技术"><a href="#移动终端杀毒技术" class="headerlink" title="移动终端杀毒技术"></a>移动终端杀毒技术</h4><p>各类新型杀毒软件</p>
+<h4 id="云查杀技术"><a href="#云查杀技术" class="headerlink" title="云查杀技术"></a>云查杀技术</h4><p>将原本用于查杀的计算从客户端转移至服务器，以减轻客户端运行压力</p>
+<h4 id="防毒技术的缺陷"><a href="#防毒技术的缺陷" class="headerlink" title="防毒技术的缺陷"></a>防毒技术的缺陷</h4><ul>
+<li>需要不断更新技术与代码库，不能一劳永逸</li>
+<li>难以查杀未知不断</li>
+<li>难以准确清除病毒</li>
+</ul>
+<h3 id="数据备份与恢复"><a href="#数据备份与恢复" class="headerlink" title="数据备份与恢复"></a>数据备份与恢复</h3><h4 id="数据丢失原因"><a href="#数据丢失原因" class="headerlink" title="数据丢失原因"></a>数据丢失原因</h4><ul>
+<li>硬件故障</li>
+<li>人为损坏</li>
+<li>病毒破坏</li>
+<li>软件原因</li>
+<li>盗窃</li>
+<li>硬件损坏</li>
+</ul>
+<h4 id="数据备份系统原则"><a href="#数据备份系统原则" class="headerlink" title="数据备份系统原则"></a>数据备份系统原则</h4><ul>
+<li>自动化备份</li>
+<li>备份工作制度化、科学化</li>
+<li>介质管理有效化</li>
+<li>科学数据分类</li>
+<li>介质轮转自动化，提高介质寿命</li>
+<li>以备份服务器为中心，实现分布处理、统一管理</li>
+<li>文件恢复效率</li>
+<li>网络带宽、平台安全性、适度冗余</li>
+</ul>
+<h4 id="存储备份策略"><a href="#存储备份策略" class="headerlink" title="存储备份策略"></a>存储备份策略</h4><h5 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h5><ul>
+<li><p>完全备份</p>
+</li>
+<li><p>增量备份</p>
+<p>对上一次备份后新产生和修改的数据进行备份</p>
+</li>
+<li><p>差分备份</p>
+<p>对上一次<strong>完全备份</strong>后新产生以及发生变化的数据进行备份</p>
+</li>
+</ul>
+<h6 id="差分备份和增量备份的区别"><a href="#差分备份和增量备份的区别" class="headerlink" title="差分备份和增量备份的区别"></a>差分备份和增量备份的区别</h6><p>增量备份是相对上一次备份而言的，只记录上一次备份基础上的变化，恢复时需要有前一次<strong>全备份</strong>，以及每一次<strong>增量备份</strong>，对全备份进行增量累计实现恢复，其特点是<strong>存储量小</strong>、<strong>速度慢</strong>。</p>
+<p>差分备份是针对上一次<strong>全备份</strong>而言的，记录了当前数据和上一次全备份之间的区别，恢复时只要有上一次<strong>全备份</strong>以及<strong>最新的差分备份</strong>数据，直接对全备份进行差分计算即可，其特点的<strong>容量稍大但恢复快</strong>。</p>
+<h6 id="三种备份比较"><a href="#三种备份比较" class="headerlink" title="三种备份比较"></a>三种备份比较</h6><ul>
+<li><p>数据量</p>
+<p>全备份&gt;差分备份&gt;增量备份</p>
+</li>
+<li><p>恢复速度</p>
+<p>全备份&gt;差分备份&gt;增量备份</p>
+</li>
+<li><p>备份速度</p>
+<p>全备份&lt;差分备份&lt;增量备份</p>
+</li>
+</ul>
+<h4 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a>数据恢复</h4><h5 id="正常（备份）数据恢复"><a href="#正常（备份）数据恢复" class="headerlink" title="正常（备份）数据恢复"></a>正常（备份）数据恢复</h5><p>按照备份方式恢复</p>
+<h5 id="灾难数据恢复"><a href="#灾难数据恢复" class="headerlink" title="灾难数据恢复"></a>灾难数据恢复</h5><p>因为各种原因导致数据损失时仅对<strong>保留在介质上</strong>的数据进行恢复</p>
+<ul>
+<li><p>格式化</p>
+<p>大部分数据丢失，可以用恢复软件读取一部分</p>
+</li>
+<li><p>硬件损坏</p>
+<p>更换硬件后正常读取</p>
+</li>
+<li><p>介质损坏或被覆盖</p>
+<p>无法恢复</p>
+</li>
+</ul>
+<h5 id="低难数据恢复"><a href="#低难数据恢复" class="headerlink" title="低难数据恢复"></a>低难数据恢复</h5><ol>
+<li><p>硬件损坏</p>
+<ul>
+<li><p>现象</p>
+<p>机器正常且接线正常的情况下无法检测到硬盘</p>
+</li>
+<li><p>操作</p>
+<p>找到受损硬件并更换</p>
+</li>
+</ul>
+</li>
+<li><p>分区损坏、格式化、误删等</p>
+<ul>
+<li><p>操作</p>
+<p>将硬盘挂载到另一台计算机，用第三方软件抢修</p>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="高难数据恢复"><a href="#高难数据恢复" class="headerlink" title="高难数据恢复"></a>高难数据恢复</h5><ul>
+<li><p>分区表破坏</p>
+<ul>
+<li><p>误删</p>
+<p>如果没有进行其他操作，则原则上可以恢复</p>
+</li>
+<li><p>用第三方分区工具导致</p>
+<p>有恢复的可能性</p>
+</li>
+<li><p>病毒破坏</p>
+<p>可以部分或完全恢复</p>
+</li>
+<li><p>利用Ghost克隆分区</p>
+<p>部分或不能恢复</p>
+</li>
+</ul>
+</li>
+<li><p>坏道</p>
+<ul>
+<li><p>逻辑坏道</p>
+<p>使用软件恢复</p>
+</li>
+<li><p>物理坏道</p>
+<p>已经写入坏道的数据无法恢复，接下来只能标记坏道并在后续读写中避免使用该坏道。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="硬盘数据恢复原则"><a href="#硬盘数据恢复原则" class="headerlink" title="硬盘数据恢复原则"></a>硬盘数据恢复原则</h5><ul>
+<li>发现数据丢失立刻关机，且切勿继续对硬盘操作。操作越多，恢复越困难</li>
+<li>如果操作可逆或者只对硬盘进行读操作的情况下有恢复的机会</li>
+</ul>
+<h2 id="杀毒软件"><a href="#杀毒软件" class="headerlink" title="杀毒软件"></a>杀毒软件</h2><h3 id="杀毒软件评价指标"><a href="#杀毒软件评价指标" class="headerlink" title="杀毒软件评价指标"></a>杀毒软件评价指标</h3><ul>
+<li>病毒查杀<ul>
+<li>漏报率</li>
+<li>误报率</li>
+<li>清除能力</li>
+</ul>
+</li>
+<li>自我保护</li>
+<li>反应能力<ul>
+<li>供应商的病毒信息网络</li>
+<li>病毒库更新周期</li>
+<li>供应商对新病毒的响应速度</li>
+</ul>
+</li>
+<li>备份和恢复能力</li>
+<li>监控能力</li>
+<li>升级效率</li>
+<li>智能安装、远程安装服务</li>
+<li>界面友好、操作难度</li>
+<li>资源占用率</li>
+<li>价格</li>
+</ul>
+<h3 id="反病毒产品的地缘性"><a href="#反病毒产品的地缘性" class="headerlink" title="反病毒产品的地缘性"></a>反病毒产品的地缘性</h3><h4 id="病毒的地缘性"><a href="#病毒的地缘性" class="headerlink" title="病毒的地缘性"></a>病毒的地缘性</h4><ul>
+<li>早期病毒依靠磁盘传播，以制造者为中心辐射</li>
+<li>各地区流行的操作系统及软件环境</li>
+<li>定向攻击以及传播条件</li>
+</ul>
+<h4 id="国外产品的本土化改造"><a href="#国外产品的本土化改造" class="headerlink" title="国外产品的本土化改造"></a>国外产品的本土化改造</h4><ul>
+<li>有效对抗本土新病毒</li>
+<li>及时采集本土病毒样本</li>
+<li>符合国内用户使用习惯</li>
+<li>推广企业级反病毒策略</li>
+<li>宣传技术优势</li>
+</ul>
+<h3 id="企业级病毒防治"><a href="#企业级病毒防治" class="headerlink" title="企业级病毒防治"></a>企业级病毒防治</h3><h4 id="企业病毒防治的重要性"><a href="#企业病毒防治的重要性" class="headerlink" title="企业病毒防治的重要性"></a>企业病毒防治的重要性</h4><p>企业的业务数据以及企业网络对其是至关重要的</p>
+<h4 id="企业网络结构"><a href="#企业网络结构" class="headerlink" title="企业网络结构"></a>企业网络结构</h4><p><img src="/./%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89.assets/1703147580970.png" alt="1703147580970"></p>
+<ul>
+<li><p>结构</p>
+<ul>
+<li>网关</li>
+<li>服务器<ul>
+<li>邮件服务器</li>
+<li>文件服务器</li>
+</ul>
+</li>
+<li>客户端</li>
+</ul>
+</li>
+<li><p>网络应用模式</p>
+<p>大多采用C&#x2F;S结构</p>
+</li>
+<li><p>操作系统</p>
+<p>以WIndows为主，一些关键业务用到Unix</p>
+</li>
+<li><p>通讯协议</p>
+<p>绝大多数为TCP&#x2F;IP协议</p>
+</li>
+</ul>
+<h4 id="病毒在企业网络中的传播途径"><a href="#病毒在企业网络中的传播途径" class="headerlink" title="病毒在企业网络中的传播途径"></a>病毒在企业网络中的传播途径</h4><p><img src="/./%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89.assets/1703148382563.png" alt="1703148382563"></p>
+<ul>
+<li>来自互联网</li>
+<li>内部共享文件</li>
+<li>用户之间硬盘传递</li>
+</ul>
+<h4 id="防治策略"><a href="#防治策略" class="headerlink" title="防治策略"></a>防治策略</h4><p>远程安装、集中管理、统一防护，需要建立多层次立体防护体系以及有效的管理系统。</p>
+<h2 id="病毒防治策略"><a href="#病毒防治策略" class="headerlink" title="病毒防治策略"></a>病毒防治策略</h2><h3 id="病毒防治策略的意义"><a href="#病毒防治策略的意义" class="headerlink" title="病毒防治策略的意义"></a>病毒防治策略的意义</h3><ul>
+<li>技术不能完全解决防毒问题</li>
+<li>策略是对技术的补充</li>
+<li>策略可以最大限度的发挥技术的作用</li>
+</ul>
+<h3 id="病毒防治策略评价指标"><a href="#病毒防治策略评价指标" class="headerlink" title="病毒防治策略评价指标"></a>病毒防治策略评价指标</h3><ul>
+<li><p>拒绝访问能力</p>
+</li>
+<li><p>病毒检测能力</p>
+</li>
+<li><p>控制传播能力</p>
+</li>
+<li><p>清除能力</p>
+</li>
+<li><p>恢复能力</p>
+</li>
+<li><p>替代操作</p>
+<p>在系统未恢复前提供原有程序的可替代措施</p>
+</li>
+</ul>
+<h3 id="单机用户防治策略"><a href="#单机用户防治策略" class="headerlink" title="单机用户防治策略"></a>单机用户防治策略</h3><h4 id="单机用户特点"><a href="#单机用户特点" class="headerlink" title="单机用户特点"></a>单机用户特点</h4><ul>
+<li>只有一台计算机</li>
+<li>上网方式简单</li>
+<li>威胁相对较低</li>
+<li>损失相对较低</li>
+</ul>
+<h4 id="个人用户特点"><a href="#个人用户特点" class="headerlink" title="个人用户特点"></a>个人用户特点</h4><ul>
+<li>相对简单</li>
+<li>防范意识薄弱</li>
+<li>技术能力薄弱</li>
+</ul>
+<h4 id="一般措施"><a href="#一般措施" class="headerlink" title="一般措施"></a>一般措施</h4><ul>
+<li>下载杀毒软件</li>
+<li>及时升级系统</li>
+<li>提高口令强度</li>
+<li>备份重要数据</li>
+<li>定期使用杀毒软件对硬盘进行检测</li>
+<li>安装防火墙</li>
+<li>不使用时及时断网</li>
+<li>正确配置系统</li>
+<li>定期检查敏感文件</li>
+</ul>
+<h4 id="上网基本策略"><a href="#上网基本策略" class="headerlink" title="上网基本策略"></a>上网基本策略</h4><ul>
+<li>经常更改密码</li>
+<li>匿名浏览，关闭Cookie选项</li>
+<li>阅读网站隐私保护条款</li>
+<li>安装个人防火墙</li>
+<li>网上购物时确认采用了安全的连接方式</li>
+<li>不要向任何人透露密码</li>
+<li>关闭不必要的文件打印和共享</li>
+<li>定时扫描全盘</li>
+<li>关闭不必要的组件和服务</li>
+<li>使用代理服务器</li>
+</ul>
+<h3 id="企业病毒防治策略"><a href="#企业病毒防治策略" class="headerlink" title="企业病毒防治策略"></a>企业病毒防治策略</h3><ol>
+<li>开发和实现防御计划</li>
+<li>反病毒扫描程序</li>
+<li>对每个单独系统加固</li>
+<li>配置额外的防御工具</li>
+</ol>
+<h3 id="扫描策略"><a href="#扫描策略" class="headerlink" title="扫描策略"></a>扫描策略</h3><h4 id="扫描策略-1"><a href="#扫描策略-1" class="headerlink" title="扫描策略"></a>扫描策略</h4><ul>
+<li>实时扫描</li>
+<li>定时扫描</li>
+<li>按需扫描</li>
+<li>只对新文件扫描</li>
+</ul>
+<h5 id="策略对比"><a href="#策略对比" class="headerlink" title="策略对比"></a>策略对比</h5><p>实时扫描系统开销太大；</p>
+<p>定时扫描需要避免高峰期，按需扫描完全由用户决定，两种方式都有可能在两次扫描工作之间发生感染；</p>
+<p>扫描新文件相对最优</p>
+<h3 id="其他防御工具"><a href="#其他防御工具" class="headerlink" title="其他防御工具"></a>其他防御工具</h3><ul>
+<li><p>防火墙</p>
+</li>
+<li><p>入侵检测系统</p>
+</li>
+<li><p>蜜罐</p>
+<p>引诱黑客对一个看似保存了重要文件的虚假服务器进行攻击从而避免真实系统被入侵</p>
+</li>
+<li><p>端口监视和扫描程序</p>
+</li>
+<li><p>漏洞扫描</p>
+</li>
+<li><p>Internet内容扫描程序</p>
+</li>
+<li><p>备份</p>
+</li>
 </ul>
 
     </div>
@@ -360,7 +883,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89/" title="病毒学笔记二——病毒查杀">http://example.com/2023/12/05/计算机病毒三/</a>
+    <a href="http://example.com/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89/" title="病毒学笔记三——病毒查杀">http://example.com/2023/12/05/计算机病毒三/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -442,7 +965,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E6%9F%A5%E6%9D%80"><span class="nav-number">1.</span> <span class="nav-text">计算机病毒查杀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E4%BF%9D%E9%9A%9CPDRR"><span class="nav-number">1.1.</span> <span class="nav-text">信息保障PDRR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E9%98%B2%E8%8C%83%E6%80%BB%E7%BA%B2"><span class="nav-number">1.2.</span> <span class="nav-text">病毒防范总纲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%A3%80%E6%B5%8B"><span class="nav-number">1.3.</span> <span class="nav-text">病毒检测</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E6%B3%95"><span class="nav-number">1.3.1.</span> <span class="nav-text">比较法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E6%B3%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">比较法的优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C%E6%B3%95"><span class="nav-number">1.3.2.</span> <span class="nav-text">校验和法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A0%81%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.3.</span> <span class="nav-text">特征码扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A0%81%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">特征码扫描器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E4%B8%B2%E9%80%89%E5%8F%96%E5%8E%9F%E5%88%99"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">特征串选取原则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9-1"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E7%9B%91%E6%B5%8B%E6%B3%95"><span class="nav-number">1.3.4.</span> <span class="nav-text">行为监测法</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E6%9F%A5%E6%9D%80"><span class="nav-number">1.</span> <span class="nav-text">计算机病毒查杀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E4%BF%9D%E9%9A%9CPDRR"><span class="nav-number">1.1.</span> <span class="nav-text">信息保障PDRR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E9%98%B2%E8%8C%83%E6%80%BB%E7%BA%B2"><span class="nav-number">1.2.</span> <span class="nav-text">病毒防范总纲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%A3%80%E6%B5%8B"><span class="nav-number">1.3.</span> <span class="nav-text">病毒检测</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E6%B3%95"><span class="nav-number">1.3.1.</span> <span class="nav-text">比较法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E6%B3%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">比较法的优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C%E6%B3%95"><span class="nav-number">1.3.2.</span> <span class="nav-text">校验和法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A0%81%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.3.</span> <span class="nav-text">特征码扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A0%81%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">特征码扫描器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E4%B8%B2%E9%80%89%E5%8F%96%E5%8E%9F%E5%88%99"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">特征串选取原则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E5%BC%95%E6%93%8E"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">扫描引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9-1"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E7%9B%91%E6%B5%8B%E6%B3%95"><span class="nav-number">1.3.4.</span> <span class="nav-text">行为监测法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E5%B8%B8%E8%A7%81%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">病毒常见行为</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9-2"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%9F%E6%9F%93%E8%AF%95%E9%AA%8C%E6%B3%95"><span class="nav-number">1.3.5.</span> <span class="nav-text">感染试验法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%89%A7%E8%A1%8C%E6%B3%95"><span class="nav-number">1.3.6.</span> <span class="nav-text">虚拟执行法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%B3%95"><span class="nav-number">1.3.7.</span> <span class="nav-text">分析法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.3.7.1.</span> <span class="nav-text">分析法步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%A3%80%E6%B5%8B%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.8.</span> <span class="nav-text">病毒检测总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.</span> <span class="nav-text">病毒清除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4%E5%8E%9F%E7%90%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">病毒清除原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E5%8E%9F%E5%88%99"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">清除原则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E9%9A%BE%E7%82%B9"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">清除难点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E5%AF%BC%E5%9E%8B%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.2.</span> <span class="nav-text">引导型病毒清除</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%95%E5%AF%BC%E5%9E%8B%E7%97%85%E6%AF%92%E7%9A%84%E7%A0%B4%E5%9D%8F%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">引导型病毒的破坏行为</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">修复方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%9E%8B%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.3.</span> <span class="nav-text">文件型病毒清除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.4.</span> <span class="nav-text">交叉病毒清除</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E5%85%B3%E9%94%AE"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">清除关键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">清除过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.5.</span> <span class="nav-text">病毒清除方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.4.6.</span> <span class="nav-text">病毒清除实例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Outlook%E7%97%85%E6%AF%92%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.6.1.</span> <span class="nav-text">Outlook病毒清除</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E5%8E%9F%E5%88%99-1"><span class="nav-number">1.4.6.1.1.</span> <span class="nav-text">清除原则</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9F%A5%E6%9D%80%E5%85%B3%E9%94%AE"><span class="nav-number">1.4.6.1.2.</span> <span class="nav-text">查杀关键</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9D%80%E6%AF%92%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.6.1.3.</span> <span class="nav-text">杀毒方案</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#W32-Spybot-Worm%E8%A0%95%E8%99%AB%E6%B8%85%E9%99%A4"><span class="nav-number">1.4.6.2.</span> <span class="nav-text">W32.Spybot.Worm蠕虫清除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%8D%E7%96%AB%E6%8A%80%E6%9C%AF"><span class="nav-number">1.5.</span> <span class="nav-text">免疫技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.5.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%A1%88"><span class="nav-number">1.5.2.</span> <span class="nav-text">方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E5%AE%9A%E7%97%85%E6%AF%92%E5%85%8D%E7%96%AB"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">特定病毒免疫</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E6%80%A7%E6%A3%80%E6%9F%A5"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">完整性检查</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E5%85%8D%E7%96%AB%E7%B3%BB%E7%BB%9FDIS"><span class="nav-number">1.5.3.</span> <span class="nav-text">数字免疫系统DIS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%8A%A0%E5%9B%BA"><span class="nav-number">1.6.</span> <span class="nav-text">系统加固</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E9%98%B2%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.</span> <span class="nav-text">预防技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9B%91%E6%8E%A7%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.1.</span> <span class="nav-text">计算机监控技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%91%E6%8E%A7%E7%97%85%E6%AF%92%E6%BA%90%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.2.</span> <span class="nav-text">监控病毒源技术</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%82%AE%E4%BB%B6%E8%B7%9F%E8%B8%AA"><span class="nav-number">1.7.2.1.</span> <span class="nav-text">邮件跟踪</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%85%A5%E5%8F%A3%E7%9B%91%E6%8E%A7"><span class="nav-number">1.7.2.2.</span> <span class="nav-text">网络入口监控</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.3.</span> <span class="nav-text">虚拟机技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.4.</span> <span class="nav-text">驱动程序技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%8A%A8%E5%86%85%E6%A0%B8%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.5.</span> <span class="nav-text">主动内核技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E6%A3%80%E6%9F%A5%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.6.</span> <span class="nav-text">压缩文件检查技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8F%91%E5%BC%8F%E4%BB%A3%E7%A0%81%E6%89%AB%E6%8F%8F"><span class="nav-number">1.7.7.</span> <span class="nav-text">启发式代码扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E7%96%91%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.7.7.1.</span> <span class="nav-text">可疑的操作</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%8B%E4%BD%93%E9%98%B2%E6%AF%92%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.8.</span> <span class="nav-text">立体防毒技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%97%85%E6%AF%92%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.9.</span> <span class="nav-text">网络病毒防御技术</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%98%B2%E6%8A%A4%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">1.7.9.1.</span> <span class="nav-text">网络防护的特征</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%BB%88%E7%AB%AF%E6%9D%80%E6%AF%92%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.10.</span> <span class="nav-text">移动终端杀毒技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%91%E6%9F%A5%E6%9D%80%E6%8A%80%E6%9C%AF"><span class="nav-number">1.7.11.</span> <span class="nav-text">云查杀技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E6%AF%92%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="nav-number">1.7.12.</span> <span class="nav-text">防毒技术的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="nav-number">1.8.</span> <span class="nav-text">数据备份与恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.8.1.</span> <span class="nav-text">数据丢失原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E7%B3%BB%E7%BB%9F%E5%8E%9F%E5%88%99"><span class="nav-number">1.8.2.</span> <span class="nav-text">数据备份系统原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%A4%87%E4%BB%BD%E7%AD%96%E7%95%A5"><span class="nav-number">1.8.3.</span> <span class="nav-text">存储备份策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%96%B9%E5%BC%8F"><span class="nav-number">1.8.3.1.</span> <span class="nav-text">备份方式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E5%A4%87%E4%BB%BD%E5%92%8C%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.3.1.1.</span> <span class="nav-text">差分备份和增量备份的区别</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%A4%87%E4%BB%BD%E6%AF%94%E8%BE%83"><span class="nav-number">1.8.3.1.2.</span> <span class="nav-text">三种备份比较</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="nav-number">1.8.4.</span> <span class="nav-text">数据恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A3%E5%B8%B8%EF%BC%88%E5%A4%87%E4%BB%BD%EF%BC%89%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="nav-number">1.8.4.1.</span> <span class="nav-text">正常（备份）数据恢复</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%81%BE%E9%9A%BE%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="nav-number">1.8.4.2.</span> <span class="nav-text">灾难数据恢复</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%8E%E9%9A%BE%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="nav-number">1.8.4.3.</span> <span class="nav-text">低难数据恢复</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%AB%98%E9%9A%BE%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="nav-number">1.8.4.4.</span> <span class="nav-text">高难数据恢复</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D%E5%8E%9F%E5%88%99"><span class="nav-number">1.8.4.5.</span> <span class="nav-text">硬盘数据恢复原则</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">杀毒软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="nav-number">2.1.</span> <span class="nav-text">杀毒软件评价指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E7%97%85%E6%AF%92%E4%BA%A7%E5%93%81%E7%9A%84%E5%9C%B0%E7%BC%98%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">反病毒产品的地缘性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E7%9A%84%E5%9C%B0%E7%BC%98%E6%80%A7"><span class="nav-number">2.2.1.</span> <span class="nav-text">病毒的地缘性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BD%E5%A4%96%E4%BA%A7%E5%93%81%E7%9A%84%E6%9C%AC%E5%9C%9F%E5%8C%96%E6%94%B9%E9%80%A0"><span class="nav-number">2.2.2.</span> <span class="nav-text">国外产品的本土化改造</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E7%BA%A7%E7%97%85%E6%AF%92%E9%98%B2%E6%B2%BB"><span class="nav-number">2.3.</span> <span class="nav-text">企业级病毒防治</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E7%97%85%E6%AF%92%E9%98%B2%E6%B2%BB%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-number">2.3.1.</span> <span class="nav-text">企业病毒防治的重要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.2.</span> <span class="nav-text">企业网络结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E5%9C%A8%E4%BC%81%E4%B8%9A%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%BC%A0%E6%92%AD%E9%80%94%E5%BE%84"><span class="nav-number">2.3.3.</span> <span class="nav-text">病毒在企业网络中的传播途径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E6%B2%BB%E7%AD%96%E7%95%A5"><span class="nav-number">2.3.4.</span> <span class="nav-text">防治策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E9%98%B2%E6%B2%BB%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">病毒防治策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E9%98%B2%E6%B2%BB%E7%AD%96%E7%95%A5%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-number">3.1.</span> <span class="nav-text">病毒防治策略的意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%85%E6%AF%92%E9%98%B2%E6%B2%BB%E7%AD%96%E7%95%A5%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="nav-number">3.2.</span> <span class="nav-text">病毒防治策略评价指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E6%9C%BA%E7%94%A8%E6%88%B7%E9%98%B2%E6%B2%BB%E7%AD%96%E7%95%A5"><span class="nav-number">3.3.</span> <span class="nav-text">单机用户防治策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E6%9C%BA%E7%94%A8%E6%88%B7%E7%89%B9%E7%82%B9"><span class="nav-number">3.3.1.</span> <span class="nav-text">单机用户特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E7%94%A8%E6%88%B7%E7%89%B9%E7%82%B9"><span class="nav-number">3.3.2.</span> <span class="nav-text">个人用户特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E6%8E%AA%E6%96%BD"><span class="nav-number">3.3.3.</span> <span class="nav-text">一般措施</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BD%91%E5%9F%BA%E6%9C%AC%E7%AD%96%E7%95%A5"><span class="nav-number">3.3.4.</span> <span class="nav-text">上网基本策略</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E7%97%85%E6%AF%92%E9%98%B2%E6%B2%BB%E7%AD%96%E7%95%A5"><span class="nav-number">3.4.</span> <span class="nav-text">企业病毒防治策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%AD%96%E7%95%A5"><span class="nav-number">3.5.</span> <span class="nav-text">扫描策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%AD%96%E7%95%A5-1"><span class="nav-number">3.5.1.</span> <span class="nav-text">扫描策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E5%AF%B9%E6%AF%94"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">策略对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%98%B2%E5%BE%A1%E5%B7%A5%E5%85%B7"><span class="nav-number">3.6.</span> <span class="nav-text">其他防御工具</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
