@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="you have receives a email...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络安全笔记一——常见网络攻击技术">
+<meta property="og:url" content="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/index.html">
+<meta property="og:site_name" content="Cata1yst&#39;s blog">
+<meta property="og:description" content="you have receives a email...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/1715316163688.png">
+<meta property="og:image" content="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/1715484238956.png">
+<meta property="og:image" content="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/1715484365446.png">
+<meta property="article:published_time" content="2024-05-10T03:45:14.000Z">
+<meta property="article:modified_time" content="2024-05-14T07:46:34.508Z">
+<meta property="article:author" content="Cata1ysts">
+<meta property="article:tag" content="网络安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/1715316163688.png">
+
+<link rel="canonical" href="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络安全笔记一——常见网络攻击技术 | Cata1yst's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cata1yst's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">祇今尚有清流月，曾照高王万马过</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cata1ysts">
+      <meta itemprop="description" content="努力学习crypto并希望有一个web大手子浇浇的pwn萌新">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cata1yst's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络安全笔记一——常见网络攻击技术
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-10 11:45:14" itemprop="dateCreated datePublished" datetime="2024-05-10T11:45:14+08:00">2024-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-14 15:46:34" itemprop="dateModified" datetime="2024-05-14T15:46:34+08:00">2024-05-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">you have receives a email...</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="常见网络攻击技术"><a href="#常见网络攻击技术" class="headerlink" title="常见网络攻击技术"></a>常见网络攻击技术</h2><h3 id="链路层攻击"><a href="#链路层攻击" class="headerlink" title="链路层攻击"></a>链路层攻击</h3><h4 id="电磁泄露"><a href="#电磁泄露" class="headerlink" title="电磁泄露"></a>电磁泄露</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>电磁信息泄露的根源是设备的电磁辐射可以沿导线或空间向外辐射；而在一定信噪比和强度的条件下，这些辐射可以被还原从而泄露通信内容。</p>
+<h5 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h5><ol>
+<li><p>降低辐射强度</p>
+<p>屏蔽、隔离、设备线路良好、采用低泄露设备等。</p>
+</li>
+<li><p>加大信噪比</p>
+<p>滤波、干扰器等。</p>
+</li>
+</ol>
+<h4 id="测信道攻击"><a href="#测信道攻击" class="headerlink" title="测信道攻击"></a>测信道攻击</h4><h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><p>测信道攻击是一种分析利用设备在加解密过程中产生的辐射、功耗、延时物理信号，推断出加解密过程的具体信息的攻击方式</p>
+<h5 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h5><p><img src="/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/1715316163688.png" alt="1715316163688"></p>
+<h6 id="常见测信道攻击"><a href="#常见测信道攻击" class="headerlink" title="常见测信道攻击"></a>常见测信道攻击</h6><ul>
+<li><p>简单功耗攻击 SPA</p>
+<p>简单地观测加解密过程中设备的功耗来分析密钥，可以通过<strong>增加随机噪声</strong>的办法抵御。</p>
+</li>
+<li><p>差分功耗攻击 DPA</p>
+<p>对SPA的增强，需要统计大量加解密过程的数据进而分析出密钥，其特点是能够利用极其微小的差异进行攻击。抵御该类攻击需要综合考虑<strong>加密算法的安全性</strong>，也要兼顾<strong>硬件安全</strong>。</p>
+</li>
+<li><p>电磁辐射攻击 EMA</p>
+<p>EMA通过分析设备运行过程中的电磁辐射来推断密钥，一般适用于硬件设备制造工艺有缺陷的情况。可以通过<strong>电磁屏蔽</strong>等方法抵御。</p>
+</li>
+<li><p>时间测量攻击 TMA</p>
+<p>TMA利用了设备在加解密不同数据时的时延特征来分析密钥；可以通过<strong>优化算法</strong>的方法实现。</p>
+</li>
+</ul>
+<h4 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h4><h5 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h5><p>以太网的MAC地址在网卡被初始化时读入寄存器，此后每次发送或接收以太网帧时都会与该寄存器内容进行比较；而一些I&#x2F;O操作可以修改寄存器内容，从而将设备的MAC地址替换成攻击者希望的地址。</p>
+<h5 id="防范-1"><a href="#防范-1" class="headerlink" title="防范"></a>防范</h5><ul>
+<li>禁用对以太网地址寄存器的I&#x2F;O操作</li>
+<li>追踪线路以确保没有非授权网卡存在网络中</li>
+<li>确保线路上已授权的设备使用的都是自身的MAC地址</li>
+</ul>
+<h4 id="网络监听"><a href="#网络监听" class="headerlink" title="网络监听"></a>网络监听</h4><h5 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h5><p>任何主机发送的以太网帧会被同一网段中的所有网卡接收，但各网卡一般会忽略非到达本设备的帧。</p>
+<p>以太网接口中存在一种<strong>混杂模式</strong>，可以使设备能够接收任何收到的帧信息，攻击者可以利用这个特点监听网段中的所有报文。</p>
+<h5 id="防范-2"><a href="#防范-2" class="headerlink" title="防范"></a>防范</h5><ul>
+<li>利用交换机、网桥等设备对数据流进行限制</li>
+<li>禁用混杂模式</li>
+<li>链路层帧加密</li>
+</ul>
+<h3 id="网络层攻击"><a href="#网络层攻击" class="headerlink" title="网络层攻击"></a>网络层攻击</h3><h4 id="网络扫描"><a href="#网络扫描" class="headerlink" title="网络扫描"></a>网络扫描</h4><p>使用如ping、tracert、figner等工具获取网络中主机的基本信息（地址、端口、日志、路由等）</p>
+<h4 id="IP地址欺骗"><a href="#IP地址欺骗" class="headerlink" title="IP地址欺骗"></a>IP地址欺骗</h4><h5 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h5><p>网络层的IP协议并不对报文的IP地址进行验证，攻击者可以主动构造报文的IP地址以实现特定目的。</p>
+<h5 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h5><ul>
+<li>隐藏主机IP，以防被反向跟踪</li>
+<li>通过修改IP地址以绕过防火墙或某些认证</li>
+</ul>
+<h5 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h5><ul>
+<li><p>单向欺骗</p>
+<p>通过修改主机配置或使用编程手段主动构造报文实现的IP伪造，不考虑回传报文</p>
+</li>
+<li><p>双向欺骗</p>
+<p>需要考虑回传报文的情况，如<a href="#ip">源路由欺骗</a></p>
+</li>
+</ul>
+<h5 id="防范-3"><a href="#防范-3" class="headerlink" title="防范"></a>防范</h5><ul>
+<li><p>主机防护</p>
+<ul>
+<li>权限管理，不允许随意修改IP配置</li>
+</ul>
+</li>
+<li><p>网络防护</p>
+<ul>
+<li>在网络入口处禁止外来数据包带有内部地址</li>
+<li>在网络出口处禁止内部包带有外部地址</li>
+</ul>
+</li>
+<li><p>源路由防御</p>
+<p>禁止此类报文</p>
+</li>
+</ul>
+<h4 id="ARP欺骗"><a href="#ARP欺骗" class="headerlink" title="ARP欺骗"></a>ARP欺骗</h4><h5 id="review：ARP路由过程"><a href="#review：ARP路由过程" class="headerlink" title="review：ARP路由过程"></a>review：ARP路由过程</h5><ol>
+<li>主机A希望与网关M通信</li>
+<li>A广播ARP请求，希望获得M的地址</li>
+<li>交换机转发该请求至各个网关，并更新自身的端口映射表</li>
+<li>各网关更新</li>
+<li>M在更新端口映射表后向A发送自己的地址的响应报文</li>
+<li>网关更新ARP缓存表</li>
+<li>A收到ARP响应报文后更新缓存表</li>
+<li>建立通信</li>
+</ol>
+<h5 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a>原理</h5><p>攻击者篡改ARP请求报文中的MAC地址，使目标网关相信其具有某个特定的物理地址</p>
+<h5 id="防范-4"><a href="#防范-4" class="headerlink" title="防范"></a>防范</h5><ol>
+<li>类似MAC地址欺骗的防范</li>
+<li>记录ARP日志，一旦有未经允许的修改即发出警告</li>
+</ol>
+<h4 id="路由欺骗"><a href="#路由欺骗" class="headerlink" title="路由欺骗"></a>路由欺骗</h4><h5 id="RIP欺骗"><a href="#RIP欺骗" class="headerlink" title="RIP欺骗"></a>RIP欺骗</h5><h6 id="原理-6"><a href="#原理-6" class="headerlink" title="原理"></a>原理</h6><p>RIP协议中，路由器不会对RIP报文作出认证，因此攻击者可以声称自己的路由器是到达某一节点的最近设备，从而诱导其他路由器将送往该节点的报文转发至自身路由器以实现监听、篡改。</p>
+<h6 id="防范-5"><a href="#防范-5" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>路由器对新的路由信息进行检查，验证其是否可达</li>
+<li>路由信息都是可查的，越大的路由网络越容易检测池RIP欺骗；可以通过定期检查路由日志减少受攻击可能性；</li>
+<li>RIP报文加入身份认证，但难以实现</li>
+</ol>
+<h5 id="源路由欺骗"><a href="#源路由欺骗" class="headerlink" title="源路由欺骗"></a>源路由欺骗<a id="ip"></a></h5><h6 id="原理-7"><a href="#原理-7" class="headerlink" title="原理"></a>原理</h6><p>IPv4报文的可选字段中有LSRR、SSRR两个选项，开启后则会记录报文在路由过程中经过的一些重要节点。而服务器处理一些特殊的报文时，并不是按照源地址直接回送，而是根据路由记录反向传送。</p>
+<p>因此，攻击者可以恶意开启源路由选项，从而诱导服务器按照路由记录反向发送报文以截取回送报文。</p>
+<h6 id="防范-6"><a href="#防范-6" class="headerlink" title="防范"></a>防范</h6><p>关闭源路由选项</p>
+<h4 id="碎片攻击"><a href="#碎片攻击" class="headerlink" title="碎片攻击"></a>碎片攻击</h4><h6 id="原理-8"><a href="#原理-8" class="headerlink" title="原理"></a>原理</h6><p>链路层数据包具有最大传输单元（MTU），超出该长度的报文会进行分片传输。而IP碎片攻击主要利用了系统在处理IP分片时的一些缺陷和不周全的地方。</p>
+<h6 id="泪滴（teardrop）攻击"><a href="#泪滴（teardrop）攻击" class="headerlink" title="泪滴（teardrop）攻击"></a>泪滴（teardrop）攻击</h6><p>泪滴攻击利用重叠的IP分片进行攻击，它对服务器发送两个或多个IP分片，其中后一个分片的偏移量小于前一分片报文中声明的长度且两个分片的总长度也小于该长度，从而产生重叠。此时服务器会在进行报文重组时计算出一个负值，进而分配出超量资源直至系统崩溃。</p>
+<h6 id="ip包碎片攻击"><a href="#ip包碎片攻击" class="headerlink" title="ip包碎片攻击"></a>ip包碎片攻击</h6><p>通过发送多个IP分片报文，它们的总长度超过单一IP报文的最大限制（65536），使得系统在计算资源时产生溢出。</p>
+<h6 id="防范-7"><a href="#防范-7" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>升级系统，添加补丁</li>
+<li>一些系统具有分片重组功能，可以检测出异常分片</li>
+</ol>
+<h4 id="ICMP攻击"><a href="#ICMP攻击" class="headerlink" title="ICMP攻击"></a>ICMP攻击</h4><h6 id="原理-9"><a href="#原理-9" class="headerlink" title="原理"></a>原理</h6><p>ICMP是网络层的辅助协议，为网络层提供控制信息报文，但它也没有对报文进行验证的机制。攻击者可以主动发送某些ICMP报文，诱导系统作出某些错误响应。</p>
+<h6 id="ip扫描"><a href="#ip扫描" class="headerlink" title="ip扫描"></a>ip扫描</h6><p>对网络中的计算机发送ICMP的<strong>请求应答报文</strong>，若得到对方的响应报文，这可以证明对方主机开机，以此实现对网络中主机存活性的扫描。</p>
+<h6 id="ping-of-death"><a href="#ping-of-death" class="headerlink" title="ping of death"></a>ping of death</h6><p>路由器对ICMP报文作出了最大长度限制（64KB），可以发送声称超过该长度的ICMP报文，从而使目标机在处理报文时崩溃。</p>
+<h6 id="ping-flooding"><a href="#ping-flooding" class="headerlink" title="ping flooding"></a>ping flooding</h6><p>Dos攻击的一种，即在同一时刻对一个主机发送大量ICMP报文，从而耗尽主机资源。</p>
+<h6 id="Smurf攻击"><a href="#Smurf攻击" class="headerlink" title="Smurf攻击"></a>Smurf攻击</h6><p>攻击者伪造一个源地址是受害主机，目的地址是子网的广播地址的报文，从而使得ICMP应答报文淹没受害主机。</p>
+<h6 id="ICMP重定向攻击"><a href="#ICMP重定向攻击" class="headerlink" title="ICMP重定向攻击"></a>ICMP重定向攻击</h6><p>ICMP具有重定向功能，当网关检测到当前路由不是最优路径时，会向主机发送一个重定向报文。</p>
+<p>攻击者可以利用这个性质，将一个恶意路径传达给主机，从而使得该主机的报文丢失或者监听篡改。</p>
+<h6 id="其他攻击"><a href="#其他攻击" class="headerlink" title="其他攻击"></a>其他攻击</h6><p>攻击者可以利用主机不可达或者超时报文，干扰正常的通信流程。</p>
+<h6 id="防范-8"><a href="#防范-8" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>禁止不必要的ICMP报文，严格控制其适用范围</li>
+<li>禁止未经请求而收到的应答报文</li>
+<li>主机与路由器的路由表不以ICMP重定向报文为唯一依据</li>
+</ol>
+<h3 id="运输层攻击"><a href="#运输层攻击" class="headerlink" title="运输层攻击"></a>运输层攻击</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><h6 id="全连接扫描"><a href="#全连接扫描" class="headerlink" title="全连接扫描"></a>全连接扫描</h6><p>对主机的端口进行一次连接尝试，若连接成功则说明端口开放。这种方法容易被发现。</p>
+<h6 id="SYN扫描"><a href="#SYN扫描" class="headerlink" title="SYN扫描"></a>SYN扫描</h6><p>不进行全过程连接扫描，而是发送一个单独的SYN数据包，若主机返回SYN+ACK报文，则再回送RST报文断开连接，否则视为未开放。</p>
+<h6 id="FIN扫描"><a href="#FIN扫描" class="headerlink" title="FIN扫描"></a>FIN扫描</h6><p>利用已关闭端口会对FIN报文回送一个RST报文的特征，可以扫描主机端口是否开放。这种方法比前两种更隐蔽。</p>
+<h6 id="UDP-ICMP扫描"><a href="#UDP-ICMP扫描" class="headerlink" title="UDP ICMP扫描"></a>UDP ICMP扫描</h6><p>向未开启端口发送UDP报文时，服务器会回送一个ICMP_PORT_UNREACH的ICMP报文，据此可以进行扫描。</p>
+<h6 id="防范-9"><a href="#防范-9" class="headerlink" title="防范"></a>防范</h6><p>对一段时间内端口收到的有端口扫描嫌疑的报文类型进行统计，若数量巨大或者呈现出一定的时间规律（针对慢扫描），则可以认定为受到扫描。</p>
+<h4 id="TCP初始序号预测"><a href="#TCP初始序号预测" class="headerlink" title="TCP初始序号预测"></a>TCP初始序号预测</h4><h6 id="原理-10"><a href="#原理-10" class="headerlink" title="原理"></a>原理</h6><p>基于对TCP序列号生成算法的分析得出特定时间下通信双方的序列号，从而进行通信欺骗。</p>
+<h6 id="TCP序列号生成算法"><a href="#TCP序列号生成算法" class="headerlink" title="TCP序列号生成算法"></a>TCP序列号生成算法</h6><ol>
+<li>每秒使用一个常量增加序列号，若产生新的连接，则使用另一常量增加</li>
+<li>根据系统时间产生初始指，并随系统时间变化</li>
+<li>选择一个合适的伪随机数生成算法，比较难以预测</li>
+</ol>
+<p>对于前两种算法，攻击者可以向服务器发送一个SYN包获取系统当前的序列给，并根据往返时间估计计算出序列号。</p>
+<h4 id="TCP欺骗"><a href="#TCP欺骗" class="headerlink" title="TCP欺骗"></a>TCP欺骗</h4><h6 id="原理-11"><a href="#原理-11" class="headerlink" title="原理"></a>原理</h6><ul>
+<li><p>非盲欺骗</p>
+<p>要求攻击者和目标主机在同一子网</p>
+<ol>
+<li>攻击者首先要使一台目标主机的信任主机<strong>瘫痪</strong></li>
+<li>使用该被信任主机的地址和端口号<strong>伪造TCP SYN报文</strong>发送给目标主机</li>
+<li>利用<strong>嗅探技术</strong>截获从目标主机发出的SYN+ACK报文，获取其中的<strong>序列号</strong></li>
+<li>利用截获的序列号再次伪造一个ACK报文完成三次握手</li>
+<li>建立连接后攻击者可以任意与目标主机通信</li>
+</ol>
+</li>
+<li><p>盲欺骗</p>
+<p>攻击者和目标主机不在同一子网</p>
+<p>攻击者可以利用<strong>路由欺骗技术</strong>实现网络穿透，其余过程与非盲欺骗相同</p>
+</li>
+</ul>
+<h6 id="防范-10"><a href="#防范-10" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>采用合适的序列号生成算法</li>
+<li>拒绝来自外网而源地址属于内网的报文（针对盲攻击）</li>
+<li>TCP协议加密</li>
+</ol>
+<h4 id="TCP会话劫持"><a href="#TCP会话劫持" class="headerlink" title="TCP会话劫持"></a>TCP会话劫持</h4><h6 id="原理-12"><a href="#原理-12" class="headerlink" title="原理"></a>原理</h6><p>该技术是序列号预测与TCP欺骗的综合运用，其主要用于攻击以TCP协议通信的应用程序。由于TCP连接在建立后就不再提供其他保证措施，因此攻击者可以利用会话劫持绕过一些应用程序的口令认证。</p>
+<h6 id="防范-11"><a href="#防范-11" class="headerlink" title="防范"></a>防范</h6><p>TCP数据加密或者应用层加密，攻击者将因为没有会话密钥而无法加密伪造信息。</p>
+<h4 id="SYN-flooding"><a href="#SYN-flooding" class="headerlink" title="SYN flooding"></a>SYN flooding</h4><h6 id="原理-13"><a href="#原理-13" class="headerlink" title="原理"></a>原理</h6><p>TCP等待重传机制，通过建立大量半开放式连接（即发送无效地址的SYN连接请求或拒绝响应SYN+ACK响应报文），使得目标机花费大量资源在等待重传上。</p>
+<p>这种攻击的特点是范围广、难溯源、短时间内产生大量SYN请求。</p>
+<h6 id="防范-12"><a href="#防范-12" class="headerlink" title="防范"></a>防范</h6><ol>
+<li><p>缩短SYN timeout的时长</p>
+</li>
+<li><p>记录SYN请求的源地址，若短时间内收到大量同一地址的连接请求，则认为是受到了攻击</p>
+</li>
+<li><p>负反馈策略</p>
+<p>先设置一个最大半连接数量，对于超过该数目的SYN请求予以忽略。</p>
+<p>若短时间内半连接数量过多，则认为遭到攻击，并进行减少SYN等待时间、减少SYN+ACK重传次数等应对操作。</p>
+</li>
+<li><p>容忍策略</p>
+<p>由于SYN flooding攻击在开始后就不再进行域名解析，故可以在认定受到攻击后<strong>更换域名的地址</strong>，此时攻击方只是在攻击一个空地址或无效地址。</p>
+</li>
+<li><p>负载均衡策略</p>
+<p>采用分布式服务器，则攻击者同一时间只能攻击一台服务器，从而最大限度减少其对正常服务的影响。</p>
+</li>
+<li><p>防火墙技术</p>
+<p>采用防火墙规则过滤、带宽限制等技术。</p>
+</li>
+</ol>
+<h4 id="Land攻击"><a href="#Land攻击" class="headerlink" title="Land攻击"></a>Land攻击</h4><h6 id="原理-14"><a href="#原理-14" class="headerlink" title="原理"></a>原理</h6><p>向目标主机发送一个源地址与目的地址都为该主机地址的SYN报文，使其创建一个自连接，大量这样的空连接会迅速消耗目标主机的资源。</p>
+<h6 id="防范-13"><a href="#防范-13" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>系统补丁</li>
+<li>丢弃源地址和目的地址一样的报文</li>
+</ol>
+<h4 id="RES和FIN攻击"><a href="#RES和FIN攻击" class="headerlink" title="RES和FIN攻击"></a>RES和FIN攻击</h4><h6 id="原理-15"><a href="#原理-15" class="headerlink" title="原理"></a>原理</h6><p>TCP报文种RST位和FIN位的作用。</p>
+<p>攻击者向目标机发送一个包含RST位的报文，则目标机会关闭现有连接；发送一个带有FIN位的报文后，目标机会认为通话结束，原有通信之间的报文会被认为是网络故障的无效包。</p>
+<p>这种攻击常用于打断正常通信过程。</p>
+<h6 id="防范-14"><a href="#防范-14" class="headerlink" title="防范"></a>防范</h6><p>该类型攻击的核心仍然是截获正常通信的报文然后分析序列号，因此防范措施可参考前文。</p>
+<h4 id="winnuke"><a href="#winnuke" class="headerlink" title="winnuke"></a>winnuke</h4><h6 id="原理-16"><a href="#原理-16" class="headerlink" title="原理"></a>原理</h6><p>利用了NetBIOS协议种外带数据（OOB）漏洞。</p>
+<p>Windows NT系统的137、138、139端口在收到URG数据后会死机。</p>
+<h6 id="防范-15"><a href="#防范-15" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>系统升级</li>
+<li>禁用NetBIOS协议</li>
+<li>禁用137、138、139端口</li>
+</ol>
+<h4 id="UDP-flooding"><a href="#UDP-flooding" class="headerlink" title="UDP flooding"></a>UDP flooding</h4><h6 id="原理-17"><a href="#原理-17" class="headerlink" title="原理"></a>原理</h6><p>利用UDP特殊端口的功能</p>
+<ol>
+<li><p>echo(7)</p>
+<p>回送收到的字符串。遇到回车键后整行送回，因此客户端发送的一行数据会产生两行输出</p>
+</li>
+<li><p>chargen(19)</p>
+<p>随机生成字符串</p>
+</li>
+</ol>
+<p>攻击者控制UDP 19端口发送一个写满ASCII字符串的UDP报文至7端口，若其中含有回车，则7端口回送数据。根据echo的性质，二者之间的通信量会越来越多直到主机崩溃。</p>
+<h6 id="防范-16"><a href="#防范-16" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>禁用特殊端口</li>
+<li>采用防火墙监控特殊端口</li>
+</ol>
+<h3 id="应用层攻击"><a href="#应用层攻击" class="headerlink" title="应用层攻击"></a>应用层攻击</h3><h4 id="DNS攻击"><a href="#DNS攻击" class="headerlink" title="DNS攻击"></a>DNS攻击</h4><h6 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h6><p>攻击者将网页URL改写为自己的服务器，用户在访问该网页时实际上是对攻击者服务器发送请求。</p>
+<h6 id="DNS欺骗"><a href="#DNS欺骗" class="headerlink" title="DNS欺骗"></a>DNS欺骗</h6><p>由于DNS协议不对信息进行身份认证，因此攻击者可以使用一个假的DNS响应来诱导用户访问自身服务器。</p>
+<h6 id="防范-17"><a href="#防范-17" class="headerlink" title="防范"></a>防范</h6><p>反向域名解析，对解析后的IP地址再转换回DNS域名进行验证。</p>
+<h4 id="Finger"><a href="#Finger" class="headerlink" title="Finger"></a>Finger</h4><p>finger服务是早期UNIX系统中用于公开自身某些信息的服务，其目的是方便不同用户之间的交流。但其具有一系列安全漏洞，从而可以被攻击者利用以获取用户隐私信息。</p>
+<h4 id="http服务攻击"><a href="#http服务攻击" class="headerlink" title="http服务攻击"></a>http服务攻击</h4><h6 id="Unicode解码漏洞利用"><a href="#Unicode解码漏洞利用" class="headerlink" title="Unicode解码漏洞利用"></a>Unicode解码漏洞利用</h6><p>在IIS服务器中，web服务都使用了虚拟目录，即浏览器显示的路由和服务器真实目录名并不一样，用户访问文件的真实过程是将服务器本地目录和URL路由拼接而后访问服务器文件。因此就有必要对形如<code>../</code>、<code>..\</code>之类的目录转换符号进行过滤。</p>
+<p>但在Unicode字符集中，特殊符号<code>/</code>是可以用<code>%c1%c1</code>等效替代，就可以实现对前面提到的过滤过程进行绕过。</p>
+<h6 id="防范-18"><a href="#防范-18" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>系统补丁</li>
+<li>防火墙对http路由进行预解码</li>
+</ol>
+<h4 id="Web重放攻击"><a href="#Web重放攻击" class="headerlink" title="Web重放攻击"></a>Web重放攻击</h4><h6 id="原理-18"><a href="#原理-18" class="headerlink" title="原理"></a>原理</h6><p>攻击者不断重复发送一个有效的数据传输，以达到欺骗服务器的目的，通常用于绕过某些认证机制。</p>
+<p>如用户可以截取一个有效<code>cookie</code>，之后不断在报文中重放该<code>cookie</code>以假冒合法用户。</p>
+<h6 id="防范-19"><a href="#防范-19" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>根据算法生成随机数验证</li>
+<li>根据时间戳进行验证，要求前后端严格同步</li>
+<li>采用流水号</li>
+</ol>
+<h3 id="其他网络攻击"><a href="#其他网络攻击" class="headerlink" title="其他网络攻击"></a>其他网络攻击</h3><h4 id="缓冲区溢出攻击"><a href="#缓冲区溢出攻击" class="headerlink" title="缓冲区溢出攻击"></a>缓冲区溢出攻击</h4><h6 id="原理-19"><a href="#原理-19" class="headerlink" title="原理"></a>原理</h6><p>向程序的堆栈区填入过多的数据，造成缓冲区溢出，破坏正常堆栈结构，使程序执行其他指令。例如可以将函数调用的返回地址改成某个指令，当函数返回时，就会执行该指令。</p>
+<h4 id="Dos和DDos攻击"><a href="#Dos和DDos攻击" class="headerlink" title="Dos和DDos攻击"></a>Dos和DDos攻击</h4><h6 id="原理-20"><a href="#原理-20" class="headerlink" title="原理"></a>原理</h6><p>Dos和DDos攻击的目的都是耗尽主机资源使其无法正常服务，其中DDos攻击是分布式的，同一时刻可以有大量计算机参与攻击，其威力远大于Dos攻击。</p>
+<ul>
+<li><p>直接攻击</p>
+<p>直接攻击由攻击者控制攻击傀儡主机直接对服务器发起攻击。</p>
+<p><img src="/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/1715484238956.png" alt="1715484238956"></p>
+</li>
+<li><p>反射攻击</p>
+<p>反射攻击则是攻击者控制攻击傀儡主机对一组预先确定的反射节点发起请求，之后由反射节点对服务器发起大量访问。</p>
+<p><img src="/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/1715484365446.png" alt="1715484365446"></p>
+</li>
+</ul>
+<h6 id="防范-20"><a href="#防范-20" class="headerlink" title="防范"></a>防范</h6><ol>
+<li>优化网络结构，调整路由表</li>
+<li>使用路由带宽分配技术</li>
+<li>禁止不必要的服务</li>
+<li>扫描漏洞，系统补丁</li>
+<li>及时与傀儡主机取得联系</li>
+<li>蜜罐技术与负载均衡技术</li>
+<li>流量清洗</li>
+</ol>
+<h6 id="SYN-flooding防范"><a href="#SYN-flooding防范" class="headerlink" title="SYN flooding防范"></a>SYN flooding防范</h6><ol>
+<li>随机丢包</li>
+<li>特征匹配</li>
+<li>采用Cookie技术将TCP握手变为无连接模式</li>
+</ol>
+<h6 id="TCP全连接防范"><a href="#TCP全连接防范" class="headerlink" title="TCP全连接防范"></a>TCP全连接防范</h6><ol>
+<li>限制单个IP连接上限</li>
+</ol>
+<h3 id="网络安全防护策略"><a href="#网络安全防护策略" class="headerlink" title="网络安全防护策略"></a>网络安全防护策略</h3><h4 id="链路层安全性"><a href="#链路层安全性" class="headerlink" title="链路层安全性"></a>链路层安全性</h4><p>在PPP协议中，双方在完成LCP（控制协议）后进行一次身份鉴别，再进行后续连接。</p>
+<p>常用的鉴别协议有CHAP和PAP协议。</p>
+<h4 id="网络层安全性"><a href="#网络层安全性" class="headerlink" title="网络层安全性"></a>网络层安全性</h4><p>IPSec协议，包括封装载荷安全（ESP）和鉴别头（AH）。</p>
+<p>ESP协议用于提供数据加密和完整性保护，但在IP验证方面作用不大。</p>
+<p>AH协议用于提供认证服务，但不对数据进行加密。</p>
+<h4 id="传输层安全性"><a href="#传输层安全性" class="headerlink" title="传输层安全性"></a>传输层安全性</h4><p>安全套接层SSL和传输层安全协议TLS。</p>
+<p>SSL层在TCP通信之上建立了一个新的加密信道，以达到保护数据的目的。</p>
+<h4 id="应用层安全性"><a href="#应用层安全性" class="headerlink" title="应用层安全性"></a>应用层安全性</h4><p>应用层常见安全协议</p>
+<p>PGP（邮件安全）</p>
+<p>S-HTTP（web应用层，https是传输层安全协议）</p>
+<p>SET（电子交易安全协议）</p>
+<p>SSH（远程连接）</p>
+<p>Kerberos（S&#x2F;C结构下的身份识别）</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cata1ysts
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/05/10/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%B8%80/" title="网络安全笔记一——常见网络攻击技术">http://example.com/2024/05/10/网络安全复习一/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag"># 网络安全</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%97%85%E6%AF%92%E4%B8%89/" rel="prev" title="病毒学笔记三——病毒查杀">
+      <i class="fa fa-chevron-left"></i> 病毒学笔记三——病毒查杀
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/05/15/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%8D%E4%B9%A0%E4%BA%8C/" rel="next" title="网络安全笔记二——访问控制">
+      网络安全笔记二——访问控制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF"><span class="nav-number">1.</span> <span class="nav-text">常见网络攻击技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E5%B1%82%E6%94%BB%E5%87%BB"><span class="nav-number">1.1.</span> <span class="nav-text">链路层攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%B5%E7%A3%81%E6%B3%84%E9%9C%B2"><span class="nav-number">1.1.1.</span> <span class="nav-text">电磁泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%98%B2%E8%8C%83"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">防范</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB"><span class="nav-number">1.1.2.</span> <span class="nav-text">测信道攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%B5%8B%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB"><span class="nav-number">1.1.2.2.1.</span> <span class="nav-text">常见测信道攻击</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MAC%E5%9C%B0%E5%9D%80%E6%AC%BA%E9%AA%97"><span class="nav-number">1.1.3.</span> <span class="nav-text">MAC地址欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-1"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">防范</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%9B%91%E5%90%AC"><span class="nav-number">1.1.4.</span> <span class="nav-text">网络监听</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-3"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-2"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.</span> <span class="nav-text">网络层攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">网络扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E6%AC%BA%E9%AA%97"><span class="nav-number">1.2.2.</span> <span class="nav-text">IP地址欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-4"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E7%B1%BB-1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-3"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">防范</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARP%E6%AC%BA%E9%AA%97"><span class="nav-number">1.2.3.</span> <span class="nav-text">ARP欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#review%EF%BC%9AARP%E8%B7%AF%E7%94%B1%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">review：ARP路由过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-5"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-4"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">防范</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E6%AC%BA%E9%AA%97"><span class="nav-number">1.2.4.</span> <span class="nav-text">路由欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#RIP%E6%AC%BA%E9%AA%97"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">RIP欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-6"><span class="nav-number">1.2.4.1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-5"><span class="nav-number">1.2.4.1.2.</span> <span class="nav-text">防范</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%BA%90%E8%B7%AF%E7%94%B1%E6%AC%BA%E9%AA%97"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">源路由欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-7"><span class="nav-number">1.2.4.2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-6"><span class="nav-number">1.2.4.2.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A2%8E%E7%89%87%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.5.</span> <span class="nav-text">碎片攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-8"><span class="nav-number">1.2.5.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B3%AA%E6%BB%B4%EF%BC%88teardrop%EF%BC%89%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.5.0.2.</span> <span class="nav-text">泪滴（teardrop）攻击</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ip%E5%8C%85%E7%A2%8E%E7%89%87%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.5.0.3.</span> <span class="nav-text">ip包碎片攻击</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-7"><span class="nav-number">1.2.5.0.4.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ICMP%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.6.</span> <span class="nav-text">ICMP攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-9"><span class="nav-number">1.2.6.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ip%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.6.0.2.</span> <span class="nav-text">ip扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ping-of-death"><span class="nav-number">1.2.6.0.3.</span> <span class="nav-text">ping of death</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ping-flooding"><span class="nav-number">1.2.6.0.4.</span> <span class="nav-text">ping flooding</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Smurf%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.6.0.5.</span> <span class="nav-text">Smurf攻击</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ICMP%E9%87%8D%E5%AE%9A%E5%90%91%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.6.0.6.</span> <span class="nav-text">ICMP重定向攻击</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.6.0.7.</span> <span class="nav-text">其他攻击</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-8"><span class="nav-number">1.2.6.0.8.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%BE%93%E5%B1%82%E6%94%BB%E5%87%BB"><span class="nav-number">1.3.</span> <span class="nav-text">运输层攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.1.</span> <span class="nav-text">端口扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%A8%E8%BF%9E%E6%8E%A5%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.1.0.1.</span> <span class="nav-text">全连接扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#SYN%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.1.0.2.</span> <span class="nav-text">SYN扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#FIN%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.1.0.3.</span> <span class="nav-text">FIN扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#UDP-ICMP%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.1.0.4.</span> <span class="nav-text">UDP ICMP扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-9"><span class="nav-number">1.3.1.0.5.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP%E5%88%9D%E5%A7%8B%E5%BA%8F%E5%8F%B7%E9%A2%84%E6%B5%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">TCP初始序号预测</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-10"><span class="nav-number">1.3.2.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#TCP%E5%BA%8F%E5%88%97%E5%8F%B7%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.2.0.2.</span> <span class="nav-text">TCP序列号生成算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP%E6%AC%BA%E9%AA%97"><span class="nav-number">1.3.3.</span> <span class="nav-text">TCP欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-11"><span class="nav-number">1.3.3.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-10"><span class="nav-number">1.3.3.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP%E4%BC%9A%E8%AF%9D%E5%8A%AB%E6%8C%81"><span class="nav-number">1.3.4.</span> <span class="nav-text">TCP会话劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-12"><span class="nav-number">1.3.4.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-11"><span class="nav-number">1.3.4.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SYN-flooding"><span class="nav-number">1.3.5.</span> <span class="nav-text">SYN flooding</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-13"><span class="nav-number">1.3.5.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-12"><span class="nav-number">1.3.5.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Land%E6%94%BB%E5%87%BB"><span class="nav-number">1.3.6.</span> <span class="nav-text">Land攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-14"><span class="nav-number">1.3.6.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-13"><span class="nav-number">1.3.6.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RES%E5%92%8CFIN%E6%94%BB%E5%87%BB"><span class="nav-number">1.3.7.</span> <span class="nav-text">RES和FIN攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-15"><span class="nav-number">1.3.7.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-14"><span class="nav-number">1.3.7.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#winnuke"><span class="nav-number">1.3.8.</span> <span class="nav-text">winnuke</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-16"><span class="nav-number">1.3.8.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-15"><span class="nav-number">1.3.8.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP-flooding"><span class="nav-number">1.3.9.</span> <span class="nav-text">UDP flooding</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-17"><span class="nav-number">1.3.9.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-16"><span class="nav-number">1.3.9.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.</span> <span class="nav-text">应用层攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.1.</span> <span class="nav-text">DNS攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#DNS%E5%8A%AB%E6%8C%81"><span class="nav-number">1.4.1.0.1.</span> <span class="nav-text">DNS劫持</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#DNS%E6%AC%BA%E9%AA%97"><span class="nav-number">1.4.1.0.2.</span> <span class="nav-text">DNS欺骗</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-17"><span class="nav-number">1.4.1.0.3.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Finger"><span class="nav-number">1.4.2.</span> <span class="nav-text">Finger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#http%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.3.</span> <span class="nav-text">http服务攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Unicode%E8%A7%A3%E7%A0%81%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.4.3.0.1.</span> <span class="nav-text">Unicode解码漏洞利用</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-18"><span class="nav-number">1.4.3.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.4.</span> <span class="nav-text">Web重放攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-18"><span class="nav-number">1.4.4.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-19"><span class="nav-number">1.4.4.0.2.</span> <span class="nav-text">防范</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB"><span class="nav-number">1.5.</span> <span class="nav-text">其他网络攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB"><span class="nav-number">1.5.1.</span> <span class="nav-text">缓冲区溢出攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-19"><span class="nav-number">1.5.1.0.1.</span> <span class="nav-text">原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dos%E5%92%8CDDos%E6%94%BB%E5%87%BB"><span class="nav-number">1.5.2.</span> <span class="nav-text">Dos和DDos攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-20"><span class="nav-number">1.5.2.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%98%B2%E8%8C%83-20"><span class="nav-number">1.5.2.0.2.</span> <span class="nav-text">防范</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#SYN-flooding%E9%98%B2%E8%8C%83"><span class="nav-number">1.5.2.0.3.</span> <span class="nav-text">SYN flooding防范</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#TCP%E5%85%A8%E8%BF%9E%E6%8E%A5%E9%98%B2%E8%8C%83"><span class="nav-number">1.5.2.0.4.</span> <span class="nav-text">TCP全连接防范</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E7%AD%96%E7%95%A5"><span class="nav-number">1.6.</span> <span class="nav-text">网络安全防护策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E5%B1%82%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.6.1.</span> <span class="nav-text">链路层安全性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.6.2.</span> <span class="nav-text">网络层安全性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.6.3.</span> <span class="nav-text">传输层安全性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.6.4.</span> <span class="nav-text">应用层安全性</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cata1ysts"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Cata1ysts</p>
+  <div class="site-description" itemprop="description">努力学习crypto并希望有一个web大手子浇浇的pwn萌新</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cata1ysts</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":250},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
